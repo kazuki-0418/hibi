@@ -3,12 +3,14 @@ Personal AI Newspaper — Phase 1 Minimum Viable Version
 Fetches recent YouTube videos → summarizes with Claude → sends Gmail.
 """
 
+import html as html_lib
 import os
 import base64
 import sys
 from email.mime.text import MIMEText
 from datetime import datetime, timezone
 
+import yaml
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from youtube_transcript_api import YouTubeTranscriptApi
@@ -18,17 +20,35 @@ from anthropic import Anthropic
 # ============================================================
 # CONFIG
 # ============================================================
-YOUTUBE_CHANNELS = [
-    ("Theo - t3.gg", "UCbRP3c757lWg9M-U7TyEkXA"),
-    ("AI Explained", "UCNJ1Ymd5yFuUPtn21xtRbbw"),
-    ("Fireship", "UCsBjURrPoezykLs9EqgamOA"),
-]
-
 VIDEOS_PER_CHANNEL = 3
 CLAUDE_MODEL = "claude-sonnet-4-6"
 TRANSCRIPT_CHAR_LIMIT = 15000  # コスト制御
 
-RECIPIENT_EMAIL = os.environ.get("RECIPIENT_EMAIL")
+REQUIRED_ENV_VARS = [
+    "YOUTUBE_API_KEY",
+    "ANTHROPIC_API_KEY",
+    "GMAIL_CLIENT_ID",
+    "GMAIL_CLIENT_SECRET",
+    "GMAIL_REFRESH_TOKEN",
+    "RECIPIENT_EMAIL",
+]
+
+
+def _check_env() -> None:
+    missing = [k for k in REQUIRED_ENV_VARS if not os.environ.get(k)]
+    if missing:
+        print(f"❌ Missing env vars: {', '.join(missing)}")
+        sys.exit(1)
+
+
+def _load_channels(path: str = "channels.yaml") -> list[tuple[str, str]]:
+    with open(path) as f:
+        config = yaml.safe_load(f)
+    return [
+        (c["name"], c["channel_id"])
+        for c in config["channels"]
+        if c.get("enabled", True)
+    ]
 
 
 # ============================================================
@@ -67,13 +87,12 @@ def fetch_recent_videos(youtube, channel_id: str, max_results: int = 3):
 # ============================================================
 # 2. Transcript fetch (free, via scraping)
 # ============================================================
-def get_transcript(video_id: str) -> str | None:
+def get_transcript(ytt_api: YouTubeTranscriptApi, video_id: str) -> str | None:
     """Returns None if transcript unavailable."""
     try:
-        ytt_api = YouTubeTranscriptApi()
         fetched = ytt_api.fetch(video_id, languages=["en", "ja"])
         # fetched は FetchedTranscript オブジェクト。snippets 属性に各行
-        return " ".join([snippet.text for snippet in fetched.snippets])
+        return " ".join(snippet.text for snippet in fetched.snippets)
     except Exception as e:
         print(f"    [skip] transcript unavailable: {type(e).__name__}: {e}")
         return None
@@ -115,13 +134,16 @@ def build_email_html(sections: list[dict]) -> str:
 <p style="color:#888;margin:0 0 24px 0;">{today}</p>
 """
     for section in sections:
-        html += f'<h2 style="border-bottom:2px solid #333;padding-bottom:4px;margin-top:32px;">{section["channel"]}</h2>'
+        channel = html_lib.escape(section["channel"])
+        html += f'<h2 style="border-bottom:2px solid #333;padding-bottom:4px;margin-top:32px;">{channel}</h2>'
         for v in section["videos"]:
-            summary_html = v["summary"].replace("\n", "<br>")
+            title = html_lib.escape(v["title"])
+            url = html_lib.escape(v["url"])
+            summary_html = html_lib.escape(v["summary"]).replace("\n", "<br>")
             html += f"""
 <div style="margin:16px 0;padding:12px 16px;background:#f7f7f7;border-radius:8px;">
   <h3 style="margin:0 0 8px 0;font-size:16px;">
-    <a href="{v['url']}" style="color:#1a73e8;text-decoration:none;">{v['title']}</a>
+    <a href="{url}" style="color:#1a73e8;text-decoration:none;">{title}</a>
   </h3>
   <div style="color:#444;line-height:1.6;font-size:14px;">{summary_html}</div>
 </div>
@@ -157,22 +179,24 @@ def send_email(subject: str, html_body: str, to: str):
 # MAIN
 # ============================================================
 def main():
-    if not RECIPIENT_EMAIL:
-        print("❌ RECIPIENT_EMAIL env var not set")
-        sys.exit(1)
+    _check_env()
+
+    channels = _load_channels()
+    recipient = os.environ["RECIPIENT_EMAIL"]
 
     youtube = build("youtube", "v3", developerKey=os.environ["YOUTUBE_API_KEY"])
     claude = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    ytt_api = YouTubeTranscriptApi()
 
     sections = []
-    for channel_name, channel_id in YOUTUBE_CHANNELS:
+    for channel_name, channel_id in channels:
         print(f"\n📺 {channel_name}")
         videos = fetch_recent_videos(youtube, channel_id, VIDEOS_PER_CHANNEL)
 
         processed = []
         for v in videos:
             print(f"  • {v['title'][:70]}")
-            transcript = get_transcript(v["video_id"])
+            transcript = get_transcript(ytt_api, v["video_id"])
             if not transcript:
                 continue
             summary = summarize(claude, v["title"], transcript)
@@ -196,7 +220,7 @@ def main():
     send_email(
         subject=f"📰 Daily News — {today}",
         html_body=html,
-        to=RECIPIENT_EMAIL,
+        to=recipient,
     )
 
 
