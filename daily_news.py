@@ -9,6 +9,7 @@ import sys
 from email.mime.text import MIMEText
 from datetime import datetime, timezone
 
+import yaml
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from youtube_transcript_api import YouTubeTranscriptApi
@@ -18,11 +19,17 @@ from anthropic import Anthropic
 # ============================================================
 # CONFIG
 # ============================================================
-YOUTUBE_CHANNELS = [
-    ("Theo - t3.gg", "UCbRP3c757lWg9M-U7TyEkXA"),
-    ("AI Explained", "UCNJ1Ymd5yFuUPtn21xtRbbw"),
-    ("Fireship", "UCsBjURrPoezykLs9EqgamOA"),
-]
+def _load_channels(path: str = "channels.yaml") -> list[tuple[str, str]]:
+    with open(path) as f:
+        config = yaml.safe_load(f)
+    return [
+        (c["name"], c["channel_id"])
+        for c in config["channels"]
+        if c.get("enabled", True)
+    ]
+
+
+YOUTUBE_CHANNELS = _load_channels()
 
 VIDEOS_PER_CHANNEL = 3
 CLAUDE_MODEL = "claude-sonnet-4-6"
