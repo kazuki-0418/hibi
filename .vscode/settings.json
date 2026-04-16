@@ -1,0 +1,23 @@
+{
+    "workbench.colorCustomizations": {
+      "titleBar.activeBackground": "#2b2118",
+      "titleBar.activeForeground": "#e8ddc7",
+      "titleBar.inactiveBackground": "#1f1810",
+      "titleBar.inactiveForeground": "#8a7f6d",
+      "titleBar.border": "#c9622c",
+  
+      "activityBar.background": "#2b2118",
+      "activityBar.foreground": "#e8ddc7",
+      "activityBarBadge.background": "#c9622c",
+      "activityBarBadge.foreground": "#ffffff",
+  
+      "statusBar.background": "#3d2f22",
+      "statusBar.foreground": "#e8ddc7",
+      "statusBar.noFolderBackground": "#3d2f22",
+      "statusBar.debuggingBackground": "#c9622c",
+  
+      "editorGroup.border": "#3d2f22",
+      "panel.border": "#3d2f22"
+    },
+    "window.title": "📰 AI Newspaper — ${activeEditorShort}${separator}${rootName}"
+  }
