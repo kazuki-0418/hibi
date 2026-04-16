@@ -12,3 +12,6 @@ venv/
 *.log
 credentials.json
 token.json
+articles.json
+enriched_articles.json
+summaries.json
