@@ -1,0 +1,18 @@
+sources:
+  hackernews:
+    top_n: 10
+  reddit:
+    subreddits:
+      - LocalLLaMA
+      - nextjs
+      - machinelearning
+    top_n: 5
+  itmedia:
+    feed_url: "https://rss.itmedia.co.jp/rss/2.0/news_bursts.xml"
+    top_n: 10
+  product_hunt:
+    feed_url: "https://www.producthunt.com/feed"
+    top_n: 5
+
+email:
+  subject: "Daily Tech News - {date}"
