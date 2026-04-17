@@ -4,3 +4,4 @@ google-auth>=2.23.0
 google-auth-oauthlib>=1.1.0
 youtube-transcript-api>=0.6.2
 pyyaml>=6.0
+psycopg[binary]>=3.2

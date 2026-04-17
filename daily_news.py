@@ -17,6 +17,8 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.proxies import WebshareProxyConfig
 from anthropic import Anthropic
 
+from db import is_already_sent, save_article
+
 # ============================================================
 # CONFIG
 # ============================================================
@@ -33,6 +35,7 @@ REQUIRED_ENV_VARS = [
     "GMAIL_CLIENT_SECRET",
     "GMAIL_REFRESH_TOKEN",
     "RECIPIENT_EMAIL",
+    "DATABASE_URL",
 ]
 
 
@@ -207,6 +210,11 @@ def main():
         processed = []
         for v in videos:
             print(f"  • {v['title'][:70]}")
+
+            if is_already_sent(v["video_id"]):
+                print(f"    ⏭️  skip (already sent)")
+                continue
+
             transcript = get_transcript(ytt_api, v["video_id"])
 
             if transcript:
@@ -221,11 +229,24 @@ def main():
             summary = summarize(
                 claude, v["title"], content, is_description=is_description
             )
+            url = f"https://www.youtube.com/watch?v={v['video_id']}"
             processed.append(
                 {
                     "title": v["title"],
                     "summary": summary,
-                    "url": f"https://www.youtube.com/watch?v={v['video_id']}",
+                    "url": url,
+                }
+            )
+
+            # 送信失敗時に再送できるよう、保存は送信前に行う
+            save_article(
+                {
+                    "source_type": "youtube",
+                    "source_name": channel_name,
+                    "content_id": v["video_id"],
+                    "title": v["title"],
+                    "url": url,
+                    "summary": summary,
                 }
             )
 

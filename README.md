@@ -44,6 +44,7 @@ pip install -r requirements.txt
 | `GMAIL_CLIENT_SECRET` | Google OAuth2 クライアントシークレット |
 | `GMAIL_REFRESH_TOKEN` | Gmail 送信用 refresh token |
 | `RECIPIENT_EMAIL` | 配信先メールアドレス |
+| `DATABASE_URL` | Neon PostgreSQL の pooled connection string |
 
 > **Gmail OAuth2 の取得:** Google Cloud Console で Gmail API を有効化し、OAuth2 認証フローで refresh_token を取得。
 
@@ -59,6 +60,23 @@ python daily_news.py
 1. リポジトリの **Settings → Secrets and variables → Actions** に上記6変数を登録
 2. `.github/workflows/daily_news.yml` が毎朝 UTC 13:00 に自動実行
 3. **Actions タブ → Daily News → Run workflow** で手動実行も可能
+
+## Neon PostgreSQL セットアップ
+
+記事の重複排除のため Neon を使用しています。
+
+1. https://console.neon.tech でプロジェクト作成
+2. リージョン: `AWS us-west-2 (Oregon)` 推奨
+3. SQL Editor で `migrations/001_init.sql` を実行
+4. **Pooled connection string** をコピー（`-pooler` が URL に含まれるもの）
+5. `.env` に `DATABASE_URL` を追加
+6. GitHub Secrets に `DATABASE_URL` を追加
+
+### 接続テスト
+
+```bash
+python scripts/test_neon_connection.py
+```
 
 ## コスト
 
