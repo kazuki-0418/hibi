@@ -8,7 +8,7 @@ import os
 import base64
 import sys
 from email.mime.text import MIMEText
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import yaml
 from googleapiclient.discovery import build
@@ -23,6 +23,8 @@ from db import is_already_sent, save_article
 # CONFIG
 # ============================================================
 VIDEOS_PER_CHANNEL = 3
+FETCH_CANDIDATES_PER_CHANNEL = 30  # 重複分の穴埋め用にプールを広げる
+MAX_LOOKBACK_DAYS = 14  # 2週間より古い動画は配信対象外
 CLAUDE_MODEL = "claude-sonnet-4-6"
 TRANSCRIPT_CHAR_LIMIT = 15000  # コスト制御
 
@@ -44,6 +46,12 @@ def _check_env() -> None:
     if missing:
         print(f"❌ Missing env vars: {', '.join(missing)}")
         sys.exit(1)
+
+
+def _is_within_lookback(published_at_iso: str) -> bool:
+    ts = datetime.fromisoformat(published_at_iso.replace("Z", "+00:00"))
+    cutoff = datetime.now(timezone.utc) - timedelta(days=MAX_LOOKBACK_DAYS)
+    return ts >= cutoff
 
 
 def _load_channels(path: str = "channels.yaml") -> list[tuple[str, str]]:
@@ -205,10 +213,15 @@ def main():
     sections = []
     for channel_name, channel_id in channels:
         print(f"\n📺 {channel_name}")
-        videos = fetch_recent_videos(youtube, channel_id, VIDEOS_PER_CHANNEL)
+        candidates = fetch_recent_videos(
+            youtube, channel_id, FETCH_CANDIDATES_PER_CHANNEL
+        )
+        candidates = [v for v in candidates if _is_within_lookback(v["published_at"])]
 
         processed = []
-        for v in videos:
+        for v in candidates:
+            if len(processed) >= VIDEOS_PER_CHANNEL:
+                break
             print(f"  • {v['title'][:70]}")
 
             if is_already_sent(v["video_id"]):
