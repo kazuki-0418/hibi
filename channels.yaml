@@ -1,12 +1,202 @@
 channels:
-  - name: Theo - t3.gg
-    channel_id: UCbRP3c757lWg9M-U7TyEkXA
+  - name: NetworkChuck
+    channel_id: UC9x0AN7BWHpCDHSm9NiJFJQ
     enabled: true
+    category: tech
+    language: en
+    subscribers: 5220000
+    recent_activity: 4
+    why: ITインフラ、Linux、Dockerなどバックエンド・ネットワーク系の実用解説が豊富。
+    url: https://www.youtube.com/channel/UC9x0AN7BWHpCDHSm9NiJFJQ
 
-  - name: AI Explained
-    channel_id: UCNJ1Ymd5yFuUPtn21xtRbbw
+  - name: Web Dev Simplified
+    channel_id: UCFbNIlppjAuEX4znoulh0Cw
     enabled: true
+    category: tech
+    language: en
+    subscribers: 1760000
+    recent_activity: 8
+    why: React、JavaScriptのモダンな書き方や設計思想を短時間で解説。
+    url: https://www.youtube.com/channel/UCFbNIlppjAuEX4znoulh0Cw
 
-  - name: Fireship
-    channel_id: UCsBjURrPoezykLs9EqgamOA
+  - name: Y Combinator
+    channel_id: UCcefcZRL2oaA_uBNeo5UOWg
     enabled: true
+    category: startup
+    language: en
+    subscribers: 2220000
+    recent_activity: 10
+    why: スタートアップの0->1、ピボット、資金調達など世界最高峰の知見。
+    url: https://www.youtube.com/channel/UCcefcZRL2oaA_uBNeo5UOWg
+
+  - name: This Week in Startups
+    channel_id: UCkkhmBWfS7pILYIk0izkc3A
+    enabled: true
+    category: startup
+    language: en
+    subscribers: 350000
+    recent_activity: 15
+    why: 最新のテックニュースと起業家インタビューの頻度が非常に高い。
+    url: https://www.youtube.com/channel/UCkkhmBWfS7pILYIk0izkc3A
+
+  - name: Jack Herrington
+    channel_id: UC6vRUjYqDuoUsYsku86Lrsw
+    enabled: true
+    category: dev-for-startup
+    language: en
+    subscribers: 211000
+    recent_activity: 4
+    why: スタートアップで採用されるモダンWeb技術（Next.js等）の深い実装解説。
+    url: https://www.youtube.com/channel/UC6vRUjYqDuoUsYsku86Lrsw
+
+  - name: Hussein Nasser
+    channel_id: UC_ML5xP23TOWKUcc-oAE_Eg
+    enabled: true
+    category: dev-for-startup
+    language: en
+    subscribers: 490000
+    recent_activity: 6
+    why: データベース、プロキシ、アーキテクチャの本質的な理解に最適。
+    url: https://www.youtube.com/channel/UC_ML5xP23TOWKUcc-oAE_Eg
+
+  - name: Ahrefs
+    channel_id: UCWquNQV8Y0_defMKnGKrFOQ
+    enabled: true
+    category: marketing
+    language: en
+    subscribers: 664000
+    recent_activity: 4
+    why: SEOの基礎から応用まで、データに基づいた網羅的なマーケティング解説。
+    url: https://www.youtube.com/channel/UCWquNQV8Y0_defMKnGKrFOQ
+
+  - name: Mayuko
+    channel_id: UCEDkO7wshcDZ7UZo17rPkzQ
+    enabled: true
+    category: career
+    language: en
+    subscribers: 537000
+    recent_activity: 2
+    why: 元シニアエンジニアの視点から、キャリア形成やメンタルヘルスを共有。
+    url: https://www.youtube.com/channel/UCEDkO7wshcDZ7UZo17rPkzQ
+
+  - name: Engineering with Utsav
+    channel_id: UC4HiUdMwzyZhBUoNKXenO-A
+    enabled: true
+    category: career
+    language: en
+    subscribers: 259000
+    recent_activity: 4
+    why: 元FAANGエンジニア視点でのシステム設計、キャリア構築、エンジニアの解像度を上げる解説。
+    url: https://www.youtube.com/channel/UC4HiUdMwzyZhBUoNKXenO-A
+
+  # 旧名 "Continuous Delivery"。現在は "Modern Software Engineering" に改名
+  - name: Modern Software Engineering
+    channel_id: UCCfqyGl3nq_V0bo64CjZh8g
+    enabled: true
+    category: senior-engineer
+    language: en
+    subscribers: 260000
+    recent_activity: 4
+    why: ソフトウェア工学の原則、TDD、デプロイ戦略に関する世界的権威（Dave Farley）。
+    url: https://www.youtube.com/channel/UCCfqyGl3nq_V0bo64CjZh8g
+
+  - name: ArjanCodes
+    channel_id: UCVhQ2NnY5Rskt6UjCUkJ_DA
+    enabled: true
+    category: senior-engineer
+    language: en
+    subscribers: 324000
+    recent_activity: 4
+    why: コードのリファクタリング、デザインパターン、クリーンコードの実践。
+    url: https://www.youtube.com/channel/UCVhQ2NnY5Rskt6UjCUkJ_DA
+
+  - name: Dave2D
+    channel_id: UCVYamHliCI9rw1tHR1xbkfw
+    enabled: true
+    category: gadget
+    language: en
+    subscribers: 3690000
+    recent_activity: 5
+    why: ラップトップや周辺機器を機能美と実用性の観点からレビュー。
+    url: https://www.youtube.com/channel/UCVYamHliCI9rw1tHR1xbkfw
+
+  - name: ShortCircuit
+    channel_id: UCdBK94H6oZT2Q7l0-b0xmMg
+    enabled: true
+    category: gadget
+    language: en
+    subscribers: 2530000
+    recent_activity: 12
+    why: 多様なガジェットの開封と速報レビュー。トレンド把握に最適。
+    url: https://www.youtube.com/channel/UCdBK94H6oZT2Q7l0-b0xmMg
+
+  # 登録者数は少ないが、B2B SaaS 領域での一次情報源として保持
+  - name: MicroConf
+    channel_id: UCroeMSea_O-xfgDvgbJGVQA
+    enabled: true
+    category: indie-hacker
+    language: en
+    subscribers: 539
+    recent_activity: 6
+    why: 非VC調達（ブートストラップ）でのSaaS運営ノウハウが凝縮。
+    url: https://www.youtube.com/channel/UCroeMSea_O-xfgDvgbJGVQA
+
+  - name: Rob Walling
+    channel_id: UCHoBKQDRkJcOY2BO47q5Ruw
+    enabled: true
+    category: indie-hacker
+    language: en
+    subscribers: 117000
+    recent_activity: 2
+    why: MicroConf 創設者。『The SaaS Playbook』著者。Bootstrap 起業の具体戦略。
+    url: https://www.youtube.com/channel/UCHoBKQDRkJcOY2BO47q5Ruw
+
+  - name: Marc Lou
+    channel_id: UC12JO2IPlEViR-o6SLXKx1A
+    enabled: true
+    category: indie-hacker
+    language: en
+    subscribers: 141000
+    recent_activity: 4
+    why: 開発速度を重視したShip（リリース）文化と個人開発のリアルを公開。
+    url: https://www.youtube.com/channel/UC12JO2IPlEViR-o6SLXKx1A
+
+  - name: Ali Abdaal
+    channel_id: UCoOae5nYA7VqaXzerajD0lg
+    enabled: true
+    category: productivity
+    language: en
+    subscribers: 6580000
+    recent_activity: 5
+    why: 生産性と幸福度を両立させる仕組み作り、読書術、時間管理。
+    url: https://www.youtube.com/channel/UCoOae5nYA7VqaXzerajD0lg
+
+  - name: Thomas Frank
+    channel_id: UCG-KntY7aVnIGXYEBQvmBAQ
+    enabled: true
+    category: productivity
+    language: en
+    subscribers: 3010000
+    recent_activity: 2
+    why: Notion等のツールを駆使した高度な自動化、タスク管理術。
+    url: https://www.youtube.com/channel/UCG-KntY7aVnIGXYEBQvmBAQ
+
+  - name: Lex Fridman
+    channel_id: UCSHZKyawb77ixDdsGog4iWA
+    enabled: true
+    category: podcast
+    language: en
+    subscribers: 4970000
+    recent_activity: 6
+    why: AI研究者や技術リーダーとの深層対談。技術の未来予測に。
+    url: https://www.youtube.com/channel/UCSHZKyawb77ixDdsGog4iWA
+
+  - name: Lenny's Podcast
+    channel_id: UC6t1O76G0jYXOAoYCm153dA
+    enabled: true
+    category: podcast
+    language: en
+    subscribers: 580000
+    recent_activity: 8
+    why: プロダクトグロース、組織設計、リーダーシップの世界的定番番組。
+    url: https://www.youtube.com/channel/UC6t1O76G0jYXOAoYCm153dA
