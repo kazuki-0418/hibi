@@ -6,9 +6,10 @@ Fetches recent YouTube videos → summarizes with Claude → sends Gmail.
 import html as html_lib
 import os
 import base64
+import random
 import sys
 from email.mime.text import MIMEText
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import yaml
 from googleapiclient.discovery import build
@@ -22,7 +23,9 @@ from db import is_already_sent, save_article
 # ============================================================
 # CONFIG
 # ============================================================
-VIDEOS_PER_CHANNEL = 3
+METADATA_PER_CHANNEL = 15  # Stage A で取得するメタデータ件数
+MAX_LOOKBACK_DAYS = 14  # 2週間より古い動画は配信対象外
+MAX_VIDEOS_PER_RUN = 10  # ランダム抽出後、実際に要約・送信する最大本数
 CLAUDE_MODEL = "claude-sonnet-4-6"
 TRANSCRIPT_CHAR_LIMIT = 15000  # コスト制御
 
@@ -44,6 +47,12 @@ def _check_env() -> None:
     if missing:
         print(f"❌ Missing env vars: {', '.join(missing)}")
         sys.exit(1)
+
+
+def _is_within_lookback(published_at_iso: str) -> bool:
+    ts = datetime.fromisoformat(published_at_iso.replace("Z", "+00:00"))
+    cutoff = datetime.now(timezone.utc) - timedelta(days=MAX_LOOKBACK_DAYS)
+    return ts >= cutoff
 
 
 def _load_channels(path: str = "channels.yaml") -> list[tuple[str, str]]:
@@ -202,56 +211,71 @@ def main():
         )
     )
 
-    sections = []
+    # Stage A: 全チャンネルからメタデータのみ取得（transcript/要約なし）
+    print("🔎 Gathering candidates (metadata only)...")
+    candidates = []
     for channel_name, channel_id in channels:
-        print(f"\n📺 {channel_name}")
-        videos = fetch_recent_videos(youtube, channel_id, VIDEOS_PER_CHANNEL)
+        videos = fetch_recent_videos(youtube, channel_id, METADATA_PER_CHANNEL)
+        fresh = [v for v in videos if _is_within_lookback(v["published_at"])]
+        unsent = [v for v in fresh if not is_already_sent(v["video_id"])]
+        for v in unsent:
+            candidates.append({**v, "channel_name": channel_name})
+        print(
+            f"  📺 {channel_name}: {len(videos)} fetched, "
+            f"{len(fresh)} within {MAX_LOOKBACK_DAYS}d, {len(unsent)} unsent"
+        )
 
-        processed = []
-        for v in videos:
-            print(f"  • {v['title'][:70]}")
+    print(f"\n📊 Total unsent candidates: {len(candidates)}")
 
-            if is_already_sent(v["video_id"]):
-                print(f"    ⏭️  skip (already sent)")
-                continue
+    # Stage B: ランダム抽出（最大 MAX_VIDEOS_PER_RUN 本）
+    sample = random.sample(candidates, min(MAX_VIDEOS_PER_RUN, len(candidates)))
+    print(f"🎲 Sampled {len(sample)} videos for this run")
 
-            transcript = get_transcript(ytt_api, v["video_id"])
+    if not sample:
+        print("\n⚠️  No content to send today.")
+        return
 
-            if transcript:
-                content, is_description = transcript, False
-            elif v.get("description", "").strip():
-                print(f"    → transcript blocked, falling back to description")
-                content, is_description = v["description"], True
-            else:
-                print(f"    → no transcript or description, skipping")
-                continue
+    # Stage C: サンプル分だけ transcript + Claude 要約 + Neon 保存
+    processed_by_channel: dict[str, list[dict]] = {}
+    for v in sample:
+        print(f"\n  • [{v['channel_name']}] {v['title'][:70]}")
+        transcript = get_transcript(ytt_api, v["video_id"])
 
-            summary = summarize(
-                claude, v["title"], content, is_description=is_description
-            )
-            url = f"https://www.youtube.com/watch?v={v['video_id']}"
-            processed.append(
-                {
-                    "title": v["title"],
-                    "summary": summary,
-                    "url": url,
-                }
-            )
+        if transcript:
+            content, is_description = transcript, False
+        elif v.get("description", "").strip():
+            print(f"    → transcript blocked, falling back to description")
+            content, is_description = v["description"], True
+        else:
+            print(f"    → no transcript or description, skipping")
+            continue
 
-            # 送信失敗時に再送できるよう、保存は送信前に行う
-            save_article(
-                {
-                    "source_type": "youtube",
-                    "source_name": channel_name,
-                    "content_id": v["video_id"],
-                    "title": v["title"],
-                    "url": url,
-                    "summary": summary,
-                }
-            )
+        summary = summarize(
+            claude, v["title"], content, is_description=is_description
+        )
+        url = f"https://www.youtube.com/watch?v={v['video_id']}"
+        processed_by_channel.setdefault(v["channel_name"], []).append(
+            {"title": v["title"], "summary": summary, "url": url}
+        )
 
-        if processed:
-            sections.append({"channel": channel_name, "videos": processed})
+        # 送信失敗時に再送できるよう、保存は送信前に行う
+        save_article(
+            {
+                "source_type": "youtube",
+                "source_name": v["channel_name"],
+                "content_id": v["video_id"],
+                "title": v["title"],
+                "url": url,
+                "summary": summary,
+            }
+        )
+
+    # channels.yaml の順序で section を組み立てる
+    sections = [
+        {"channel": name, "videos": processed_by_channel[name]}
+        for name, _ in channels
+        if name in processed_by_channel
+    ]
 
     if not sections:
         print("\n⚠️  No content to send today.")
