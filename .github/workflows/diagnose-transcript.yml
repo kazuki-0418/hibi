@@ -1,0 +1,27 @@
+name: Diagnose Transcript
+
+# Issue #18: WebShare proxy 疎通 + transcript 取得成功率の実測。
+# 手動実行のみ。WebShare 無料枠を消費するため、必要時のみ run。
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - run: pip install -r requirements.txt
+
+      - run: python scripts/diagnose_transcript.py
+        env:
+          WEBSHARE_USERNAME: ${{ secrets.WEBSHARE_USERNAME }}
+          WEBSHARE_PASSWORD: ${{ secrets.WEBSHARE_PASSWORD }}
