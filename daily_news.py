@@ -12,11 +12,16 @@ from email.mime.text import MIMEText
 from datetime import datetime, timedelta, timezone
 
 import yaml
+from dotenv import load_dotenv
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.proxies import WebshareProxyConfig
 from anthropic import Anthropic
+
+# ローカル実行用に .env を読み込む。Actions 上では .env が無く no-op。
+# 既存の環境変数（Actions の secrets 含む）は上書きしない。
+load_dotenv()
 
 from db import is_already_sent, save_article
 from fetchers import rss as rss_fetcher
