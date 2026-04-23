@@ -260,6 +260,7 @@ def main():
                 "title": item["title"],
                 "url": item["url"],
                 "summary": summary,
+                "category": item.get("category"),
             }
         )
 
