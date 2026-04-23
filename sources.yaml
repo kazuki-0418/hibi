@@ -4,6 +4,7 @@ sources:
     channel_id: UC9x0AN7BWHpCDHSm9NiJFJQ
     enabled: true
     category: tech
+    priority: 2
     language: en
     subscribers: 5220000
     recent_activity: 4
@@ -15,6 +16,7 @@ sources:
     channel_id: UCFbNIlppjAuEX4znoulh0Cw
     enabled: true
     category: tech
+    priority: 2
     language: en
     subscribers: 1760000
     recent_activity: 8
@@ -26,6 +28,7 @@ sources:
     channel_id: UCcefcZRL2oaA_uBNeo5UOWg
     enabled: true
     category: startup
+    priority: 2
     language: en
     subscribers: 2220000
     recent_activity: 10
@@ -37,6 +40,7 @@ sources:
     channel_id: UCkkhmBWfS7pILYIk0izkc3A
     enabled: true
     category: startup
+    priority: 2
     language: en
     subscribers: 350000
     recent_activity: 15
@@ -48,6 +52,7 @@ sources:
     channel_id: UC6vRUjYqDuoUsYsku86Lrsw
     enabled: true
     category: dev-for-startup
+    priority: 3
     language: en
     subscribers: 211000
     recent_activity: 4
@@ -59,6 +64,7 @@ sources:
     channel_id: UC_ML5xP23TOWKUcc-oAE_Eg
     enabled: true
     category: dev-for-startup
+    priority: 3
     language: en
     subscribers: 490000
     recent_activity: 6
@@ -70,6 +76,7 @@ sources:
     channel_id: UCWquNQV8Y0_defMKnGKrFOQ
     enabled: true
     category: marketing
+    priority: 1
     language: en
     subscribers: 664000
     recent_activity: 4
@@ -81,6 +88,7 @@ sources:
     channel_id: UCEDkO7wshcDZ7UZo17rPkzQ
     enabled: true
     category: career
+    priority: 2
     language: en
     subscribers: 537000
     recent_activity: 2
@@ -92,6 +100,7 @@ sources:
     channel_id: UC4HiUdMwzyZhBUoNKXenO-A
     enabled: true
     category: career
+    priority: 2
     language: en
     subscribers: 259000
     recent_activity: 4
@@ -104,6 +113,7 @@ sources:
     channel_id: UCCfqyGl3nq_V0bo64CjZh8g
     enabled: true
     category: senior-engineer
+    priority: 3
     language: en
     subscribers: 260000
     recent_activity: 4
@@ -115,6 +125,7 @@ sources:
     channel_id: UCVhQ2NnY5Rskt6UjCUkJ_DA
     enabled: true
     category: senior-engineer
+    priority: 3
     language: en
     subscribers: 324000
     recent_activity: 4
@@ -126,6 +137,7 @@ sources:
     channel_id: UCVYamHliCI9rw1tHR1xbkfw
     enabled: true
     category: gadget
+    priority: 1
     language: en
     subscribers: 3690000
     recent_activity: 5
@@ -137,6 +149,7 @@ sources:
     channel_id: UCdBK94H6oZT2Q7l0-b0xmMg
     enabled: true
     category: gadget
+    priority: 1
     language: en
     subscribers: 2530000
     recent_activity: 12
@@ -149,6 +162,7 @@ sources:
     channel_id: UCroeMSea_O-xfgDvgbJGVQA
     enabled: true
     category: indie-hacker
+    priority: 3
     language: en
     subscribers: 539
     recent_activity: 6
@@ -160,6 +174,7 @@ sources:
     channel_id: UCHoBKQDRkJcOY2BO47q5Ruw
     enabled: true
     category: indie-hacker
+    priority: 3
     language: en
     subscribers: 117000
     recent_activity: 2
@@ -171,6 +186,7 @@ sources:
     channel_id: UC12JO2IPlEViR-o6SLXKx1A
     enabled: true
     category: indie-hacker
+    priority: 3
     language: en
     subscribers: 141000
     recent_activity: 4
@@ -182,6 +198,7 @@ sources:
     channel_id: UCoOae5nYA7VqaXzerajD0lg
     enabled: true
     category: productivity
+    priority: 2
     language: en
     subscribers: 6580000
     recent_activity: 5
@@ -193,6 +210,7 @@ sources:
     channel_id: UCG-KntY7aVnIGXYEBQvmBAQ
     enabled: true
     category: productivity
+    priority: 2
     language: en
     subscribers: 3010000
     recent_activity: 2
@@ -204,6 +222,7 @@ sources:
     channel_id: UCSHZKyawb77ixDdsGog4iWA
     enabled: true
     category: podcast
+    priority: 2
     language: en
     subscribers: 4970000
     recent_activity: 6
@@ -215,6 +234,7 @@ sources:
     channel_id: UC6t1O76G0jYXOAoYCm153dA
     enabled: true
     category: podcast
+    priority: 2
     language: en
     subscribers: 580000
     recent_activity: 8
@@ -228,6 +248,7 @@ sources:
     type: rss
     enabled: true
     category: tech-news
+    priority: 3
     feed_url: https://www.eff.org/rss/updates.xml
     why: プライバシー・デジタル権利に関する一次情報源。
     url: https://www.eff.org
@@ -236,6 +257,7 @@ sources:
     type: rss
     enabled: true
     category: tech-news
+    priority: 3
     feed_url: https://hnrss.org/frontpage
     why: テック業界のリアルタイム話題集約。
     url: https://news.ycombinator.com
