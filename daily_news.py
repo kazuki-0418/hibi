@@ -36,6 +36,7 @@ MIN_CONTENT_CHARS = 500  # transcript/記事本文がこれ未満なら失敗扱
 MIN_SUMMARY_CHARS = 10  # Claude が防御プロンプトに従って空を返したケースを弾く閾値
 CLAUDE_MODEL = "claude-sonnet-4-6"
 CONTENT_CHAR_LIMIT = 15000  # Claude に渡す本文の上限（コスト制御）
+EMBEDDING_MODEL = "text-embedding-3-small"  # OpenAI; 1536 dim。差し替える時は 003 migration も見直す
 
 REQUIRED_ENV_VARS = [
     "WEBSHARE_USERNAME",
@@ -90,6 +91,38 @@ def _fetch_content(item: dict, ytt_api: YouTubeTranscriptApi) -> str | None:
     if stype == "rss":
         return rss_fetcher.get_content_text(item)
     return None
+
+
+# ============================================================
+# OpenAI embedding
+# ============================================================
+# 本文ではなく title + summary で埋め込む。理由: 配信時に既に圧縮済みの内容で
+# 「読みたい」と判断しているので、クリック→類似ランキングの学習信号としては
+# title+summary の方が人間の判断面に近い。本文で埋めると「読まなかった部分」
+# も学習信号に混じる。
+def _get_openai_client():
+    """OPENAI_API_KEY が未設定の環境では None を返す（embedding 無効化）。"""
+    if not os.environ.get("OPENAI_API_KEY"):
+        return None
+    try:
+        from openai import OpenAI
+    except ImportError:
+        return None
+    return OpenAI()
+
+
+def embed_article(openai_client, title: str, summary: str) -> list[float] | None:
+    if openai_client is None:
+        return None
+    try:
+        resp = openai_client.embeddings.create(
+            model=EMBEDDING_MODEL,
+            input=f"{title}\n\n{summary}",
+        )
+        return resp.data[0].embedding
+    except Exception as e:
+        print(f"  ⚠️ embedding failed: {e}")
+        return None
 
 
 # ============================================================
@@ -214,6 +247,9 @@ def main():
         "youtube", "v3", developerKey=os.environ["YOUTUBE_API_KEY"]
     )
     claude = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    openai_client = _get_openai_client()
+    if openai_client is None:
+        print("⚠️  OPENAI_API_KEY not set — saving articles without embeddings")
     ytt_api = YouTubeTranscriptApi(
         proxy_config=WebshareProxyConfig(
             proxy_username=os.environ["WEBSHARE_USERNAME"],
@@ -282,6 +318,7 @@ def main():
 
         # 送信失敗時に再送できるよう、保存は送信前に行う。
         # article_id はクリック追跡 URL (/r/{id}) の生成に使う。
+        embedding = embed_article(openai_client, item["title"], summary)
         article_id = save_article(
             {
                 "source_type": item["source_type"],
@@ -291,6 +328,8 @@ def main():
                 "url": item["url"],
                 "summary": summary,
                 "category": item.get("category"),
+                "embedding": embedding,
+                "embedding_model": EMBEDDING_MODEL if embedding is not None else None,
             }
         )
 

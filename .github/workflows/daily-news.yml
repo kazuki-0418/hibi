@@ -35,3 +35,6 @@ jobs:
           # silently falls back to the original URL in email links).
           CLICK_SIGNING_SECRET: ${{ secrets.CLICK_SIGNING_SECRET }}
           PUBLIC_BASE_URL: ${{ secrets.PUBLIC_BASE_URL }}
+          # Embeddings for similarity ranking (optional — if unset, articles
+          # are saved with embedding = NULL; backfill later).
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
