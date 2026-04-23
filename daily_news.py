@@ -25,7 +25,10 @@ from db import is_already_sent, save_article
 # ============================================================
 METADATA_PER_CHANNEL = 15  # Stage A で取得するメタデータ件数
 MAX_LOOKBACK_DAYS = 14  # 2週間より古い動画は配信対象外
-MAX_VIDEOS_PER_RUN = 10  # ランダム抽出後、実際に要約・送信する最大本数
+MAX_VIDEOS_PER_RUN = 5  # 1回の配信で要約・送信する最大本数（目標値）
+MAX_ATTEMPTS = 30  # 1回の実行で試行する最大候補数（無限試行防止）
+MIN_TRANSCRIPT_CHARS = 500  # これ未満は transcript 失敗扱い
+MIN_SUMMARY_CHARS = 10  # Claude が防御プロンプトに従って空を返したケースを弾く閾値
 CLAUDE_MODEL = "claude-sonnet-4-6"
 TRANSCRIPT_CHAR_LIMIT = 15000  # コスト制御
 
@@ -116,18 +119,17 @@ def get_transcript(ytt_api: YouTubeTranscriptApi, video_id: str) -> str | None:
 # ============================================================
 # 3. Claude summarize
 # ============================================================
-def summarize(
-    client: Anthropic, title: str, content: str, is_description: bool = False
-) -> str:
-    source_label = "動画説明文" if is_description else "字幕"
+def summarize(client: Anthropic, title: str, transcript: str) -> str:
     prompt = f"""以下のYouTube動画を日本語で3行に要約してください。
 技術的な要点、実装のヒント、開発者にとっての示唆を優先してください。
 各行は1文で、「・」で始めてください。
 
+重要: 字幕が断片的・不十分・要約困難な場合でも、謝罪文・「情報が不足」等の注釈・推測による補完は絶対に禁止。その場合は何も出力せず空文字列のみ返してください。
+
 タイトル: {title}
 
-{source_label}:
-{content[:TRANSCRIPT_CHAR_LIMIT]}
+字幕:
+{transcript[:TRANSCRIPT_CHAR_LIMIT]}
 
 出力形式:
 ・(1行目)
@@ -227,32 +229,44 @@ def main():
 
     print(f"\n📊 Total unsent candidates: {len(candidates)}")
 
-    # Stage B: ランダム抽出（最大 MAX_VIDEOS_PER_RUN 本）
-    sample = random.sample(candidates, min(MAX_VIDEOS_PER_RUN, len(candidates)))
-    print(f"🎲 Sampled {len(sample)} videos for this run")
+    # Stage B: 全候補をシャッフルし、先頭から MAX_ATTEMPTS 本を試行プールに
+    random.shuffle(candidates)
+    attempt_pool = candidates[:MAX_ATTEMPTS]
+    print(
+        f"🎲 Attempt pool: {len(attempt_pool)} videos "
+        f"(target: {MAX_VIDEOS_PER_RUN} summaries, cap: {MAX_ATTEMPTS} attempts)"
+    )
 
-    if not sample:
+    if not attempt_pool:
         print("\n⚠️  No content to send today.")
         return
 
-    # Stage C: サンプル分だけ transcript + Claude 要約 + Neon 保存
+    # Stage C: 試行プールを順に処理。MAX_VIDEOS_PER_RUN 本揃ったら break
     processed_by_channel: dict[str, list[dict]] = {}
-    for v in sample:
-        print(f"\n  • [{v['channel_name']}] {v['title'][:70]}")
-        transcript = get_transcript(ytt_api, v["video_id"])
+    summarized_count = 0
+    skipped_count = 0
 
-        if transcript:
-            content, is_description = transcript, False
-        elif v.get("description", "").strip():
-            print(f"    → transcript blocked, falling back to description")
-            content, is_description = v["description"], True
-        else:
-            print(f"    → no transcript or description, skipping")
+    for idx, v in enumerate(attempt_pool, 1):
+        print(f"\n[{idx}/{len(attempt_pool)}] [{v['channel_name']}] {v['title'][:70]}")
+
+        transcript = get_transcript(ytt_api, v["video_id"])
+        if not transcript or len(transcript) < MIN_TRANSCRIPT_CHARS:
+            char_count = len(transcript) if transcript else 0
+            print(
+                f"  → skip (transcript unavailable or too short: {char_count} chars)"
+            )
+            skipped_count += 1
             continue
 
-        summary = summarize(
-            claude, v["title"], content, is_description=is_description
-        )
+        summary = summarize(claude, v["title"], transcript)
+        if not summary or len(summary) < MIN_SUMMARY_CHARS:
+            print("  → skip (summary empty: Claude defended against insufficient transcript)")
+            skipped_count += 1
+            continue
+
+        summarized_count += 1
+        print(f"  ✅ summarized ({summarized_count}/{MAX_VIDEOS_PER_RUN})")
+
         url = f"https://www.youtube.com/watch?v={v['video_id']}"
         processed_by_channel.setdefault(v["channel_name"], []).append(
             {"title": v["title"], "summary": summary, "url": url}
@@ -268,6 +282,16 @@ def main():
                 "url": url,
                 "summary": summary,
             }
+        )
+
+        if summarized_count >= MAX_VIDEOS_PER_RUN:
+            break
+
+    print(f"\n📈 Result: {summarized_count} summarized, {skipped_count} skipped")
+    if summarized_count < MAX_VIDEOS_PER_RUN:
+        print(
+            f"⚠️  Target was {MAX_VIDEOS_PER_RUN}, got {summarized_count}. "
+            "Likely cause: transcript blocking or low candidate pool."
         )
 
     # channels.yaml の順序で section を組み立てる
