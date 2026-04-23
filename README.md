@@ -1,26 +1,26 @@
 # Personal AI Newspaper
 
-毎朝 YouTube の技術チャンネルから最新動画を取得し、Claude が日本語で要約して Gmail に配信するパーソナルニュースレター。
+毎朝 YouTube の技術チャンネルと RSS フィードから最新コンテンツを取得し、Claude が日本語で要約して Gmail に配信するパーソナルニュースレター。
 
 ## フロー
 
 ```
 GitHub Actions（毎朝 UTC 13:00 = Vancouver 6:00 AM PDT）
   └─ daily_news.py
-       ├─ YouTube Data API v3（playlistItems.list）
-       │    └─ 対象3チャンネル × 最新3本 = 最大9動画
-       ├─ youtube-transcript-api（字幕取得・無料）
-       ├─ Claude Sonnet 4.6（日本語3行要約）
-       └─ Gmail API（OAuth2）→ 受信トレイへ配信
+       ├─ sources.yaml で定義した全ソースから並列にメタデータを取得
+       │    ├─ YouTube: YouTube Data API v3 → playlistItems.list（2 units/channel）
+       │    └─ RSS: feedparser
+       ├─ 候補をシャッフル → 先頭 MAX_ATTEMPTS 本を試行プール化
+       ├─ 本文取得
+       │    ├─ YouTube: youtube-transcript-api（WebShare proxy 経由）
+       │    └─ RSS: trafilatura（本文抽出 + robots.txt 尊重）
+       ├─ Claude Sonnet 4.6（日本語3行要約、要約不能時は空文字返却）
+       └─ Gmail API（OAuth2）→ 受信トレイへ配信（目標 5 本）
 ```
 
-## 対象チャンネル
+## ソース設定
 
-| チャンネル | ID |
-|---|---|
-| Theo - t3.gg | UCbRP3c757lWg9M-U7TyEkXA |
-| AI Explained | UCNJ1Ymd5yFuUPtn21xtRbbw |
-| Fireship | UCsBjURrPoezykLs9EqgamOA |
+`sources.yaml` でソースを追加・削除できます。`type: youtube` と `type: rss` の 2 種類をサポート。
 
 ## セットアップ
 

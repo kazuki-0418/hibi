@@ -1,6 +1,6 @@
 """
-Personal AI Newspaper — Phase 1 Minimum Viable Version
-Fetches recent YouTube videos → summarizes with Claude → sends Gmail.
+Personal AI Newspaper — Phase 2 multi-source edition.
+Fetches YouTube uploads + RSS articles → summarizes with Claude → sends Gmail.
 """
 
 import html as html_lib
@@ -19,18 +19,20 @@ from youtube_transcript_api.proxies import WebshareProxyConfig
 from anthropic import Anthropic
 
 from db import is_already_sent, save_article
+from fetchers import rss as rss_fetcher
+from fetchers import youtube as youtube_fetcher
 
 # ============================================================
 # CONFIG
 # ============================================================
-METADATA_PER_CHANNEL = 15  # Stage A で取得するメタデータ件数
-MAX_LOOKBACK_DAYS = 14  # 2週間より古い動画は配信対象外
+METADATA_PER_SOURCE = 15  # Stage A で各ソースから取得するメタデータ件数
+MAX_LOOKBACK_DAYS = 14  # 2週間より古いアイテムは配信対象外
 MAX_VIDEOS_PER_RUN = 5  # 1回の配信で要約・送信する最大本数（目標値）
 MAX_ATTEMPTS = 30  # 1回の実行で試行する最大候補数（無限試行防止）
-MIN_TRANSCRIPT_CHARS = 500  # これ未満は transcript 失敗扱い
+MIN_CONTENT_CHARS = 500  # transcript/記事本文がこれ未満なら失敗扱い
 MIN_SUMMARY_CHARS = 10  # Claude が防御プロンプトに従って空を返したケースを弾く閾値
 CLAUDE_MODEL = "claude-sonnet-4-6"
-TRANSCRIPT_CHAR_LIMIT = 15000  # コスト制御
+CONTENT_CHAR_LIMIT = 15000  # Claude に渡す本文の上限（コスト制御）
 
 REQUIRED_ENV_VARS = [
     "WEBSHARE_USERNAME",
@@ -58,78 +60,49 @@ def _is_within_lookback(published_at_iso: str) -> bool:
     return ts >= cutoff
 
 
-def _load_channels(path: str = "channels.yaml") -> list[tuple[str, str]]:
+def _load_sources(path: str = "sources.yaml") -> list[dict]:
     with open(path) as f:
         config = yaml.safe_load(f)
-    return [
-        (c["name"], c["channel_id"])
-        for c in config["channels"]
-        if c.get("enabled", True)
-    ]
+    return [s for s in config["sources"] if s.get("enabled", True)]
 
 
-# ============================================================
-# 1. YouTube fetch (uses 2 units per channel, not 100)
-# ============================================================
-def fetch_recent_videos(youtube, channel_id: str, max_results: int = 3):
-    """Get recent videos via uploads playlist. Costs 2 units/channel."""
-    ch = youtube.channels().list(part="contentDetails", id=channel_id).execute()
-    if not ch.get("items"):
-        print(f"  ⚠️  Channel not found: {channel_id}")
-        return []
-
-    uploads_playlist = ch["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
-    pl = (
-        youtube.playlistItems()
-        .list(
-            part="snippet,contentDetails",
-            playlistId=uploads_playlist,
-            maxResults=max_results,
+def _fetch_items(
+    source: dict, youtube_client, max_results: int
+) -> list[dict]:
+    stype = source["type"]
+    if stype == "youtube":
+        return youtube_fetcher.fetch_recent_items(
+            youtube_client, source, max_results
         )
-        .execute()
-    )
-
-    videos = []
-    for item in pl.get("items", []):
-        videos.append(
-            {
-                "video_id": item["contentDetails"]["videoId"],
-                "title": item["snippet"]["title"],
-                "published_at": item["contentDetails"]["videoPublishedAt"],
-                "description": item["snippet"].get("description", ""),
-            }
-        )
-    return videos
+    if stype == "rss":
+        return rss_fetcher.fetch_recent_items(source, max_results)
+    print(f"  ⚠️  Unknown source type '{stype}' ({source['name']}), skipping")
+    return []
 
 
-# ============================================================
-# 2. Transcript fetch (free, via scraping)
-# ============================================================
-def get_transcript(ytt_api: YouTubeTranscriptApi, video_id: str) -> str | None:
-    """Returns None if transcript unavailable."""
-    try:
-        fetched = ytt_api.fetch(video_id, languages=["en", "ja"])
-        # fetched は FetchedTranscript オブジェクト。snippets 属性に各行
-        return " ".join(snippet.text for snippet in fetched.snippets)
-    except Exception as e:
-        print(f"    [skip] transcript unavailable: {type(e).__name__}: {e}")
-        return None
+def _fetch_content(item: dict, ytt_api: YouTubeTranscriptApi) -> str | None:
+    stype = item["source_type"]
+    if stype == "youtube":
+        return youtube_fetcher.get_content_text(ytt_api, item)
+    if stype == "rss":
+        return rss_fetcher.get_content_text(item)
+    return None
 
 
 # ============================================================
-# 3. Claude summarize
+# Claude summarize
 # ============================================================
-def summarize(client: Anthropic, title: str, transcript: str) -> str:
-    prompt = f"""以下のYouTube動画を日本語で3行に要約してください。
+def summarize(client: Anthropic, title: str, content: str) -> str:
+    prompt = f"""以下の記事/動画を日本語で3行に要約してください。
 技術的な要点、実装のヒント、開発者にとっての示唆を優先してください。
 各行は1文で、「・」で始めてください。
 
-重要: 字幕が断片的・不十分・要約困難な場合でも、謝罪文・「情報が不足」等の注釈・推測による補完は絶対に禁止。その場合は何も出力せず空文字列のみ返してください。
+重要: 本文が断片的・不十分・要約困難な場合でも、謝罪文・「情報が不足」等の注釈・推測による補完は絶対に禁止。その場合は何も出力せず空文字列のみ返してください。
 
 タイトル: {title}
 
-字幕:
-{transcript[:TRANSCRIPT_CHAR_LIMIT]}
+本文:
+{content[:CONTENT_CHAR_LIMIT]}
 
 出力形式:
 ・(1行目)
@@ -145,7 +118,7 @@ def summarize(client: Anthropic, title: str, transcript: str) -> str:
 
 
 # ============================================================
-# 4. Build HTML email
+# Build HTML email
 # ============================================================
 def build_email_html(sections: list[dict]) -> str:
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -154,12 +127,12 @@ def build_email_html(sections: list[dict]) -> str:
 <p style="color:#888;margin:0 0 24px 0;">{today}</p>
 """
     for section in sections:
-        channel = html_lib.escape(section["channel"])
-        html += f'<h2 style="border-bottom:2px solid #333;padding-bottom:4px;margin-top:32px;">{channel}</h2>'
-        for v in section["videos"]:
-            title = html_lib.escape(v["title"])
-            url = html_lib.escape(v["url"])
-            summary_html = html_lib.escape(v["summary"]).replace("\n", "<br>")
+        source_name = html_lib.escape(section["source_name"])
+        html += f'<h2 style="border-bottom:2px solid #333;padding-bottom:4px;margin-top:32px;">{source_name}</h2>'
+        for item in section["items"]:
+            title = html_lib.escape(item["title"])
+            url = html_lib.escape(item["url"])
+            summary_html = html_lib.escape(item["summary"]).replace("\n", "<br>")
             html += f"""
 <div style="margin:16px 0;padding:12px 16px;background:#f7f7f7;border-radius:8px;">
   <h3 style="margin:0 0 8px 0;font-size:16px;">
@@ -173,7 +146,7 @@ def build_email_html(sections: list[dict]) -> str:
 
 
 # ============================================================
-# 5. Gmail send
+# Gmail send
 # ============================================================
 def send_email(subject: str, html_body: str, to: str):
     creds = Credentials(
@@ -201,29 +174,30 @@ def send_email(subject: str, html_body: str, to: str):
 def main():
     _check_env()
 
-    channels = _load_channels()
+    sources = _load_sources()
     recipient = os.environ["RECIPIENT_EMAIL"]
 
-    youtube = build("youtube", "v3", developerKey=os.environ["YOUTUBE_API_KEY"])
+    youtube_client = build(
+        "youtube", "v3", developerKey=os.environ["YOUTUBE_API_KEY"]
+    )
     claude = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     ytt_api = YouTubeTranscriptApi(
         proxy_config=WebshareProxyConfig(
-            proxy_username=os.environ["WEBSHARE_USERNAME"],  # WebShare のユーザー名
-            proxy_password=os.environ["WEBSHARE_PASSWORD"],  # WebShare のパスワード
+            proxy_username=os.environ["WEBSHARE_USERNAME"],
+            proxy_password=os.environ["WEBSHARE_PASSWORD"],
         )
     )
 
-    # Stage A: 全チャンネルからメタデータのみ取得（transcript/要約なし）
+    # Stage A: 全ソースからメタデータのみ取得（本文/要約なし）
     print("🔎 Gathering candidates (metadata only)...")
-    candidates = []
-    for channel_name, channel_id in channels:
-        videos = fetch_recent_videos(youtube, channel_id, METADATA_PER_CHANNEL)
-        fresh = [v for v in videos if _is_within_lookback(v["published_at"])]
-        unsent = [v for v in fresh if not is_already_sent(v["video_id"])]
-        for v in unsent:
-            candidates.append({**v, "channel_name": channel_name})
+    candidates: list[dict] = []
+    for source in sources:
+        items = _fetch_items(source, youtube_client, METADATA_PER_SOURCE)
+        fresh = [i for i in items if _is_within_lookback(i["published_at"])]
+        unsent = [i for i in fresh if not is_already_sent(i["content_id"])]
+        candidates.extend(unsent)
         print(
-            f"  📺 {channel_name}: {len(videos)} fetched, "
+            f"  📡 [{source['type']}] {source['name']}: {len(items)} fetched, "
             f"{len(fresh)} within {MAX_LOOKBACK_DAYS}d, {len(unsent)} unsent"
         )
 
@@ -233,7 +207,7 @@ def main():
     random.shuffle(candidates)
     attempt_pool = candidates[:MAX_ATTEMPTS]
     print(
-        f"🎲 Attempt pool: {len(attempt_pool)} videos "
+        f"🎲 Attempt pool: {len(attempt_pool)} items "
         f"(target: {MAX_VIDEOS_PER_RUN} summaries, cap: {MAX_ATTEMPTS} attempts)"
     )
 
@@ -242,44 +216,49 @@ def main():
         return
 
     # Stage C: 試行プールを順に処理。MAX_VIDEOS_PER_RUN 本揃ったら break
-    processed_by_channel: dict[str, list[dict]] = {}
+    processed_by_source: dict[str, list[dict]] = {}
     summarized_count = 0
     skipped_count = 0
 
-    for idx, v in enumerate(attempt_pool, 1):
-        print(f"\n[{idx}/{len(attempt_pool)}] [{v['channel_name']}] {v['title'][:70]}")
+    for idx, item in enumerate(attempt_pool, 1):
+        print(
+            f"\n[{idx}/{len(attempt_pool)}] "
+            f"[{item['source_type']}:{item['source_name']}] "
+            f"{item['title'][:70]}"
+        )
 
-        transcript = get_transcript(ytt_api, v["video_id"])
-        if not transcript or len(transcript) < MIN_TRANSCRIPT_CHARS:
-            char_count = len(transcript) if transcript else 0
+        content = _fetch_content(item, ytt_api)
+        if not content or len(content) < MIN_CONTENT_CHARS:
+            char_count = len(content) if content else 0
             print(
-                f"  → skip (transcript unavailable or too short: {char_count} chars)"
+                f"  → skip (content unavailable or too short: {char_count} chars)"
             )
             skipped_count += 1
             continue
 
-        summary = summarize(claude, v["title"], transcript)
+        summary = summarize(claude, item["title"], content)
         if not summary or len(summary) < MIN_SUMMARY_CHARS:
-            print("  → skip (summary empty: Claude defended against insufficient transcript)")
+            print(
+                "  → skip (summary empty: Claude defended against insufficient content)"
+            )
             skipped_count += 1
             continue
 
         summarized_count += 1
         print(f"  ✅ summarized ({summarized_count}/{MAX_VIDEOS_PER_RUN})")
 
-        url = f"https://www.youtube.com/watch?v={v['video_id']}"
-        processed_by_channel.setdefault(v["channel_name"], []).append(
-            {"title": v["title"], "summary": summary, "url": url}
+        processed_by_source.setdefault(item["source_name"], []).append(
+            {"title": item["title"], "summary": summary, "url": item["url"]}
         )
 
         # 送信失敗時に再送できるよう、保存は送信前に行う
         save_article(
             {
-                "source_type": "youtube",
-                "source_name": v["channel_name"],
-                "content_id": v["video_id"],
-                "title": v["title"],
-                "url": url,
+                "source_type": item["source_type"],
+                "source_name": item["source_name"],
+                "content_id": item["content_id"],
+                "title": item["title"],
+                "url": item["url"],
                 "summary": summary,
             }
         )
@@ -291,14 +270,14 @@ def main():
     if summarized_count < MAX_VIDEOS_PER_RUN:
         print(
             f"⚠️  Target was {MAX_VIDEOS_PER_RUN}, got {summarized_count}. "
-            "Likely cause: transcript blocking or low candidate pool."
+            "Likely cause: content blocking or low candidate pool."
         )
 
-    # channels.yaml の順序で section を組み立てる
+    # sources.yaml の順序で section を組み立てる
     sections = [
-        {"channel": name, "videos": processed_by_channel[name]}
-        for name, _ in channels
-        if name in processed_by_channel
+        {"source_name": s["name"], "items": processed_by_source[s["name"]]}
+        for s in sources
+        if s["name"] in processed_by_source
     ]
 
     if not sections:
