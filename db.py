@@ -44,17 +44,19 @@ def save_article(article: dict) -> None:
             - title: str
             - url: str
             - summary: str | None
+            - category: str | None  (optional; source_metrics_30d の GROUP BY に使う)
     """
+    params = {**article, "category": article.get("category")}
     with get_conn() as conn:
         conn.execute(
             """
             insert into articles
-              (source_type, source_name, content_id, title, url, summary, sent_at)
+              (source_type, source_name, content_id, title, url, summary, category, sent_at)
             values
               (%(source_type)s, %(source_name)s, %(content_id)s,
-               %(title)s, %(url)s, %(summary)s, now())
+               %(title)s, %(url)s, %(summary)s, %(category)s, now())
             on conflict (content_id) do nothing
             """,
-            article,
+            params,
         )
         conn.commit()
