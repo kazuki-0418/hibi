@@ -1,0 +1,17 @@
+sequenceDiagram
+    actor U as User
+    participant G as Gmail
+    participant API as FastAPI
+    participant DB as Neon
+    participant B as Next batch
+
+    G->>API: GET /c?a=ID&sig=HMAC
+    API->>API: verify HMAC + UA
+    alt valid
+        API->>DB: INSERT clicks
+        API->>U: 302 redirect
+    else invalid
+        API->>U: 302 redirect only
+    end
+    B->>DB: compute centroid
+    B->>B: rank by similarity

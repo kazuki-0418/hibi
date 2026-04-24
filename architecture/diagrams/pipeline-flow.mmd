@@ -1,0 +1,13 @@
+flowchart TB
+    A[sources.yaml]
+    B[Stage A<br/>fetch metadata]
+    C[Stage B<br/>filter + rank]
+    D[Stage C<br/>summarize]
+    E[Gmail delivery]
+    F[click endpoint<br/>HMAC verify]
+    G[clicks table]
+
+    A --> B --> C --> D --> E
+    E -.signed links.-> F
+    F --> G
+    G -.centroid.-> C

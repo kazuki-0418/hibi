@@ -1,0 +1,29 @@
+erDiagram
+    articles ||--o{ clicks : "tracked by"
+    sources ||--o{ articles : "produces"
+
+    articles {
+        uuid id PK
+        text content_id UK
+        text source_id FK
+        text title
+        text summary
+        vector embedding
+        bool is_sent
+        timestamp published_at
+    }
+
+    clicks {
+        uuid id PK
+        uuid article_id FK
+        uuid user_id
+        text user_agent
+        timestamp clicked_at
+    }
+
+    sources {
+        text id PK
+        text type
+        text category
+        int priority
+    }
