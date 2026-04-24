@@ -11,7 +11,9 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  # 命名規則 <project>-<component>
+  # hibi-worker, hibi-frontend, hibi-apiのようにimage 名自体に意味を持たせる
+  IMAGE_NAME: ${{ github.repository_owner }}/hibi-api
 
 jobs:
   build-and-push:
