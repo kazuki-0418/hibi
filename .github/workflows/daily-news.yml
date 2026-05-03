@@ -2,9 +2,11 @@ name: Daily News
 
 on:
   schedule:
-    - cron: "0 13 * * *"
+    - cron: "17 13 * * *"
   workflow_dispatch:
-
+  repository_dispatch:
+    # 外部から API で叩ける
+    types: [ daily-news ]
 jobs:
   send:
     runs-on: ubuntu-latest
