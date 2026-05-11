@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 160" width="480" height="160">
+  
+  <text x="0" y="115" class="jp" font-size="120" fill="#1A1A1A">日々</text>
+  <text x="220" y="60" class="en" font-size="14" fill="#9B9894">日 — Daily</text>
+  <text x="220" y="86" class="en" font-size="14" fill="#9B9894">No. 0001</text>
+  <line x1="220" y1="100" x2="468" y2="100" stroke="#E8E6E1" stroke-width="1"></line>
+  <text x="220" y="128" class="jp" font-size="14" fill="#5C5A57">日々の小さな知らせ</text>
+</svg>

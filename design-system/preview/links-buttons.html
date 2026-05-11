@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>Links & buttons</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:36px 40px;background:var(--bg-primary);font-family:var(--font-jp);}
+  .lab{font-family:var(--font-en);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;}
+  .row{display:flex;flex-wrap:wrap;gap:32px;align-items:center;margin-bottom:28px;}
+  a.text{color:var(--text-primary);border-bottom:1px solid var(--text-primary);padding-bottom:1px;font-size:16px;text-decoration:none;}
+  a.arrow{font-family:var(--font-en);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-primary);border-bottom:none;}
+  a.arrow::after{content:" →";}
+  .btn{display:inline-block;background:var(--text-primary);color:#fff;font-family:var(--font-en);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;padding:14px 24px;border:none;cursor:pointer;}
+  .btn-ghost{background:#fff;color:var(--text-primary);border:1px solid var(--text-primary);padding:13px 23px;}
+</style></head>
+<body>
+  <div class="lab">Links</div>
+  <div class="row">
+    <a class="text" href="#">記事を読む</a>
+    <a class="arrow" href="#">Read source</a>
+    <a class="text" href="#">Subscribe</a>
+  </div>
+  <div class="lab">Buttons — rare</div>
+  <div class="row">
+    <button class="btn">購読する</button>
+    <button class="btn btn-ghost">アーカイブ</button>
+  </div>
+</body></html>

@@ -1,0 +1,185 @@
+/* Email-safe styles. Imports tokens, then overrides the few that need
+   email-specific treatment (system-font fallbacks, fixed width).        */
+@import url('../../colors_and_type.css');
+
+body { background: #FAFAF7; padding: 32px 16px; }
+.mail {
+  max-width: 680px;
+  margin: 0 auto;
+  background: #FFFFFF;
+  padding: 0;
+}
+.gut { padding-left: 48px; padding-right: 48px; }
+
+/* Masthead */
+.masthead {
+  border-top: 2px solid #1A1A1A;
+  border-bottom: 1px solid #E8E6E1;
+  padding: 32px 48px 28px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+}
+.masthead .lockup { display: flex; align-items: baseline; gap: 18px; }
+.masthead .mark {
+  font-family: var(--font-jp-serif);
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #1A1A1A;
+}
+.masthead .lockup .meta {
+  font-family: var(--font-en);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #5C5A57;
+  border-left: 1px solid #E8E6E1;
+  padding-left: 16px;
+  line-height: 1.5;
+}
+.masthead .lockup .meta strong { color: #1A1A1A; font-weight: 500; }
+.masthead .date {
+  font-family: var(--font-en);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.2em;
+  font-size: 13px;
+  color: #1A1A1A;
+  text-align: right;
+  line-height: 1.5;
+}
+.masthead .date .small {
+  font-size: 10px; color: #9B9894; letter-spacing: 0.25em; text-transform: uppercase;
+}
+
+/* Standfirst — single editorial line */
+.standfirst {
+  padding: 28px 48px 24px;
+  border-bottom: 1px solid #E8E6E1;
+  font-family: var(--font-jp);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #5C5A57;
+  text-wrap: balance;
+}
+.standfirst em {
+  font-style: normal;
+  color: #1A1A1A;
+  font-weight: 500;
+}
+
+/* Story */
+.story {
+  padding: 28px 48px;
+  border-bottom: 1px solid #E8E6E1;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  column-gap: 24px;
+}
+.story:last-of-type { border-bottom: none; }
+.story .num {
+  font-family: var(--font-en);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  font-size: 32px;
+  color: #1A1A1A;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.story .meta {
+  font-family: var(--font-en);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #9B9894;
+  margin-bottom: 10px;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+.story .meta .sep { color: #E8E6E1; }
+.story .meta .cat { color: #1A1A1A; font-weight: 500; }
+.story h2 {
+  font-family: var(--font-jp);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #1A1A1A;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.story p {
+  font-family: var(--font-jp);
+  font-size: 15px;
+  line-height: 1.75;
+  color: #5C5A57;
+  margin: 0 0 6px;
+}
+.story .src {
+  margin-top: 14px;
+  font-family: var(--font-en);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #9B9894;
+}
+.story .src a {
+  color: #1A1A1A;
+  border-bottom: 1px solid #1A1A1A;
+  padding-bottom: 1px;
+  text-decoration: none;
+}
+.story .src a:hover { opacity: 0.55; }
+
+/* Sources block */
+.sources {
+  padding: 32px 48px;
+  border-top: 1px solid #1A1A1A;
+  background: #FAFAF7;
+}
+.sources .label {
+  font-family: var(--font-en);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #9B9894;
+  margin-bottom: 14px;
+}
+.sources ul {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px;
+}
+.sources li {
+  font-family: var(--font-en);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: #1A1A1A;
+  display: flex; justify-content: space-between; gap: 12px;
+  border-bottom: 1px solid #E8E6E1;
+  padding: 6px 0;
+}
+.sources li .kind { color: #9B9894; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
+
+/* Colophon */
+.colophon {
+  padding: 32px 48px 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  background: #FAFAF7;
+  border-top: 1px solid #E8E6E1;
+}
+.colophon .seal img { display: block; }
+.colophon .meta {
+  font-family: var(--font-en);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: #9B9894;
+  text-align: right;
+  line-height: 1.7;
+}
+.colophon .meta .jp { font-family: var(--font-jp); letter-spacing: 0; font-size: 12px; }
+.colophon .meta a { color: #1A1A1A; border-bottom: 1px solid #1A1A1A; }

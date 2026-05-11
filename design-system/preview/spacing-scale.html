@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>Spacing scale</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:32px 40px;background:var(--bg-primary);}
+  .row{display:grid;grid-template-columns:90px 1fr 60px;align-items:center;column-gap:20px;padding:10px 0;border-bottom:1px solid var(--border);}
+  .row:first-child{border-top:1px solid var(--border);}
+  .tok{font-family:var(--font-en);font-variant-numeric:tabular-nums;font-size:11px;letter-spacing:0.1em;color:var(--text-muted);text-transform:uppercase;}
+  .bar{height:14px;background:var(--text-primary);}
+  .px{font-family:var(--font-en);font-variant-numeric:tabular-nums;font-size:13px;color:var(--text-primary);text-align:right;}
+</style></head>
+<body>
+  <div class="row"><div class="tok">space-1</div><div><div class="bar" style="width:4px"></div></div><div class="px">4</div></div>
+  <div class="row"><div class="tok">space-2</div><div><div class="bar" style="width:8px"></div></div><div class="px">8</div></div>
+  <div class="row"><div class="tok">space-3</div><div><div class="bar" style="width:16px"></div></div><div class="px">16</div></div>
+  <div class="row"><div class="tok">space-4</div><div><div class="bar" style="width:24px"></div></div><div class="px">24</div></div>
+  <div class="row"><div class="tok">space-5</div><div><div class="bar" style="width:32px"></div></div><div class="px">32</div></div>
+  <div class="row"><div class="tok">space-6</div><div><div class="bar" style="width:48px"></div></div><div class="px">48</div></div>
+  <div class="row"><div class="tok">space-7</div><div><div class="bar" style="width:64px"></div></div><div class="px">64</div></div>
+  <div class="row"><div class="tok">space-8</div><div><div class="bar" style="width:96px"></div></div><div class="px">96</div></div>
+  <div class="row"><div class="tok">space-9</div><div><div class="bar" style="width:128px"></div></div><div class="px">128</div></div>
+  <div class="row"><div class="tok">space-10</div><div><div class="bar" style="width:160px"></div></div><div class="px">160</div></div>
+</body></html>

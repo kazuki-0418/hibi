@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>Type scale</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:32px 40px;background:var(--bg-primary);}
+  .row{display:grid;grid-template-columns:80px 1fr;align-items:baseline;column-gap:24px;border-top:1px solid var(--border);padding:16px 0;}
+  .row:last-child{border-bottom:1px solid var(--border);}
+  .tok{font-family:var(--font-en);font-variant-numeric:tabular-nums;font-size:11px;letter-spacing:0.1em;color:var(--text-muted);text-transform:uppercase;}
+  .spec{font-family:var(--font-jp);color:var(--text-primary);line-height:1.1;}
+</style></head>
+<body>
+  <div class="row"><div class="tok">96 / display</div><div class="spec" style="font-size:96px;font-weight:700;letter-spacing:-0.02em;">日々</div></div>
+  <div class="row"><div class="tok">72 / h1</div><div class="spec" style="font-size:72px;font-weight:700;letter-spacing:-0.02em;">今朝の5本</div></div>
+  <div class="row"><div class="tok">48 / h2</div><div class="spec" style="font-size:48px;font-weight:700;letter-spacing:-0.02em;">背景と示唆</div></div>
+  <div class="row"><div class="tok">32 / h3</div><div class="spec" style="font-size:32px;font-weight:700;">記事タイトル</div></div>
+  <div class="row"><div class="tok">24 / h4</div><div class="spec" style="font-size:24px;font-weight:500;">セクション見出し</div></div>
+  <div class="row"><div class="tok">18 / body</div><div class="spec" style="font-size:18px;font-weight:400;line-height:1.7;">本文は十八ピクセル。日本語に十分な余白。</div></div>
+  <div class="row"><div class="tok">16 / small</div><div class="spec" style="font-size:16px;font-weight:400;color:var(--text-secondary);">補助情報や注釈。</div></div>
+  <div class="row"><div class="tok">14 / meta</div><div class="spec" style="font-size:14px;font-weight:400;color:var(--text-muted);">メタ情報、日付、出典。</div></div>
+</body></html>

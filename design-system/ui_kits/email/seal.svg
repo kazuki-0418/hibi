@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  
+  <rect x="0.5" y="0.5" width="95" height="95" fill="none" stroke="#1A1A1A" stroke-width="1"></rect>
+  <text x="48" y="50" class="jp" font-size="38" fill="#1A1A1A" text-anchor="middle">日々</text>
+  <line x1="20" y1="60" x2="76" y2="60" stroke="#1A1A1A" stroke-width="0.75"></line>
+  <text x="48" y="74" class="en" font-size="8" fill="#1A1A1A" text-anchor="middle">EST. 2026</text>
+  <text x="48" y="84" class="en" font-size="7" fill="#5C5A57" text-anchor="middle">HIBI · TOKYO</text>
+</svg>

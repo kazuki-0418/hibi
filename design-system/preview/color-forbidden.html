@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>Forbidden colors</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:32px;background:var(--bg-primary);}
+  .row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;}
+  .item{position:relative;border:1px solid var(--border);height:140px;display:flex;align-items:flex-end;padding:14px;}
+  .x{position:absolute;inset:0;}
+  .x::before,.x::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#1A1A1A;transform:rotate(8deg);transform-origin:center;}
+  .x::after{transform:rotate(-8deg);}
+  .label{font-family:var(--font-en);font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#fff;background:#1A1A1A;padding:3px 8px;position:relative;z-index:2;}
+  .grad-a{background:linear-gradient(135deg,#1a1a2e,#0f3460);}
+  .grad-b{background:linear-gradient(135deg,#6d28d9,#3b82f6);}
+  .neon{background:#39FF14;}
+  .pill-cloud{background:#fff;display:flex;align-items:center;justify-content:center;gap:6px;}
+  .pill{padding:2px 10px;border-radius:999px;font-size:10px;font-weight:700;}
+  .p1{background:#ede9fe;color:#6d28d9;}
+  .p2{background:#dbeafe;color:#1d4ed8;}
+  .p3{background:#dcfce7;color:#15803d;}
+  .p4{background:#fff7ed;color:#c2410c;}
+  .label-dark{color:#1A1A1A;background:#fff;border:1px solid #1A1A1A;}
+</style></head>
+<body><div class="row">
+  <div class="item grad-a"><div class="x"></div><div class="label">No gradients</div></div>
+  <div class="item grad-b"><div class="x"></div><div class="label">No blue–purple</div></div>
+  <div class="item neon"><div class="x"></div><div class="label label-dark">No neon</div></div>
+  <div class="item pill-cloud">
+    <div class="x"></div>
+    <span class="pill p1">AI</span><span class="pill p2">FE</span><span class="pill p3">ST</span><span class="pill p4">CA</span>
+  </div>
+</div></body></html>

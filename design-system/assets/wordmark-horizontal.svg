@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 80" width="360" height="80">
+  
+  <text x="0" y="58" class="jp" font-size="64" fill="#1A1A1A">日々</text>
+  <line x1="160" y1="20" x2="160" y2="60" stroke="#E8E6E1" stroke-width="1"></line>
+  <text x="178" y="40" class="en" font-size="11" fill="#1A1A1A">Hibi</text>
+  <text x="178" y="56" class="en" font-size="10" fill="#9B9894">Daily Briefing</text>
+</svg>

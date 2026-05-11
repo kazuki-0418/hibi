@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>Rules & frames</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:32px;background:var(--bg-primary);font-family:var(--font-jp);}
+  .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;}
+  .ex{display:flex;flex-direction:column;gap:10px;}
+  .lab{font-family:var(--font-en);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);}
+  .a{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0;}
+  .b{border-top:1px solid var(--text-primary);padding-top:14px;}
+  .c{position:relative;padding:14px 0;}
+  .c::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--text-primary);}
+  .c::after{content:"";position:absolute;left:0;width:48px;top:0;height:3px;background:var(--text-primary);}
+  .ttl{font-size:16px;font-weight:700;color:var(--text-primary);}
+  .meta{font-size:12px;color:var(--text-muted);margin-top:4px;font-family:var(--font-en);letter-spacing:0.15em;text-transform:uppercase;}
+</style></head>
+<body>
+<div class="grid">
+  <div class="ex">
+    <div class="lab">Hairline pair</div>
+    <div class="a"><div class="ttl">記事タイトル</div><div class="meta">02 · FE · 3 min</div></div>
+  </div>
+  <div class="ex">
+    <div class="lab">Section rule</div>
+    <div class="b"><div class="ttl">セクション</div><div class="meta">No. 0142</div></div>
+  </div>
+  <div class="ex">
+    <div class="lab">Tick + rule</div>
+    <div class="c"><div class="ttl" style="padding-top:6px">注目の一本</div><div class="meta">Featured</div></div>
+  </div>
+</div>
+</body></html>
