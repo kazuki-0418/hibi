@@ -124,6 +124,38 @@ def test_real_subagent_handles_non_zero_exit_non_transient(
     assert calls["n"] == 1, "non-transient failure should NOT retry"
 
 
+def test_real_subagent_extracts_cost_on_non_zero_exit(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """A failed claude-p can still report cost via the JSON envelope (e.g.
+    `error_max_budget_usd` burns the full budget then exits non-zero). The
+    SubagentResult.cost_usd must reflect that real spend so epic-level
+    accounting is honest.
+    """
+    failed_payload = json.dumps({
+        "type": "result",
+        "subtype": "error_max_budget_usd",
+        "is_error": True,
+        "result": "Reached maximum budget ($10)",
+        "total_cost_usd": 10.057,
+        "session_id": "burned-budget-session",
+    })
+
+    def fake_run(argv: Sequence[str], **kwargs: object) -> CommandResult:
+        return CommandResult(
+            exit_code=1, stdout=failed_payload, stderr="", elapsed_seconds=0.0
+        )
+
+    monkeypatch.setattr(sub_mod, "run", fake_run)
+    sub = RealSubagent(repo_root=tmp_path)
+    result = sub.invoke("/run-dev-loop", "x", budget_usd=10.0)
+    assert result.exit_code == 1, "failure surfaces as non-zero"
+    assert result.cost_usd == pytest.approx(10.057), (
+        "cost from JSON envelope must reach the caller even when claude-p failed; "
+        "otherwise epic accounting silently under-counts every budget-exhausted retry"
+    )
+
+
 def test_real_subagent_retries_on_transient_then_returns(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
