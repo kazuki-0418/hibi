@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>日々 · Subscribe</title>
+  <link rel="stylesheet" href="web.css">
+  <style>
+    .sub-hero {
+      padding: 160px 48px 96px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .sub-hero .mark-big {
+      font-family: var(--font-jp-serif);
+      font-weight: 700;
+      font-size: 160px;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      color: var(--text-primary);
+      margin: 0 0 48px;
+    }
+    .sub-hero .eyebrow {
+      font-family: var(--font-en);
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .sub-hero h1 {
+      font-family: var(--font-jp);
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin: 0 0 32px;
+      text-wrap: balance;
+    }
+    .sub-hero p {
+      font-family: var(--font-jp);
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin: 0 0 24px;
+      max-width: 600px;
+    }
+    .sub-form {
+      margin-top: 56px;
+      display: flex;
+      border-top: 1px solid var(--text-primary);
+      border-bottom: 1px solid var(--text-primary);
+      max-width: 520px;
+    }
+    .sub-form input {
+      flex: 1; border: 0; background: transparent;
+      font-family: var(--font-en); font-size: 16px;
+      padding: 20px 0; color: var(--text-primary); outline: none;
+    }
+    .sub-form input::placeholder { color: var(--text-muted); }
+    .sub-form button {
+      border: 0; background: var(--text-primary); color: var(--bg-primary);
+      font-family: var(--font-en); font-size: 13px; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      padding: 0 32px; cursor: pointer;
+    }
+    .sub-rules {
+      margin-top: 96px;
+      border-top: 1px solid var(--text-primary);
+      padding-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .sub-rules .rule .n {
+      font-family: var(--font-en);
+      font-variant-numeric: tabular-nums;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .sub-rules .rule h3 {
+      font-family: var(--font-jp);
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 8px;
+      color: var(--text-primary);
+    }
+    .sub-rules .rule p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="mark">日々</div>
+  <nav>
+    <a href="index.html">Archive</a>
+    <a href="edition.html">Today</a>
+    <a href="subscribe.html" class="active">Subscribe</a>
+    <a href="#">About</a>
+  </nav>
+  <div class="right">NO. 0142 · 2026.05.10</div>
+</header>
+
+<section class="sub-hero">
+  <div class="mark-big">日々</div>
+  <div class="eyebrow">Subscribe · Free · No ads</div>
+  <h1>毎朝六時、<br/>静かなニュースを。</h1>
+  <p>Hibi は技術系の YouTube と RSS から五本だけ選び、Claude が日本語で要約して届ける個人ニュースレターです。</p>
+  <p>無料。広告も追跡もありません。配信解除は最下部のリンクから一クリックで。</p>
+  <form class="sub-form">
+    <input type="email" placeholder="you@example.com">
+    <button>購読する</button>
+  </form>
+
+  <div class="sub-rules">
+    <div class="rule">
+      <div class="n">01</div>
+      <h3>五本だけ</h3>
+      <p>選別は厳しめ。読み終わるまで三分以内になるよう調整しています。</p>
+    </div>
+    <div class="rule">
+      <div class="n">02</div>
+      <h3>日本語で要約</h3>
+      <p>英語のソースも Claude が三行に要約。短く、結論から。</p>
+    </div>
+    <div class="rule">
+      <div class="n">03</div>
+      <h3>追跡なし</h3>
+      <p>開封トラッキングなし。クリック解析なし。普通のメールです。</p>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="left">
+    <img src="seal.svg" width="56" height="56" alt="seal">
+    <div class="jp">日々の小さな知らせ。<br/>Hibi · Daily · Tokyo</div>
+  </div>
+  <div class="right">
+    Made by <a href="#">kazuki</a><br/>
+    Powered by Claude Sonnet 4.6<br/>
+    <a href="#">Source</a> · <a href="#">RSS</a>
+  </div>
+</footer>
+
+</body>
+</html>

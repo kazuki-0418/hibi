@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>Color</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:32px;background:var(--bg-primary);}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .sw{padding:20px 16px 18px;border-right:1px solid var(--border);height:200px;display:flex;flex-direction:column;justify-content:flex-end;}
+  .sw:last-child{border-right:none;}
+  .chip{width:100%;height:80px;margin-bottom:14px;border:1px solid var(--border);}
+  .name{font-family:var(--font-en);font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-primary);}
+  .hex{font-family:var(--font-en);font-variant-numeric:tabular-nums;letter-spacing:0.1em;font-size:12px;color:var(--text-muted);margin-top:4px;}
+  .role{font-family:var(--font-jp);font-size:11px;color:var(--text-secondary);margin-top:10px;line-height:1.5;}
+</style></head>
+<body><div class="grid">
+  <div class="sw"><div class="chip" style="background:#FFFFFF"></div><div class="name">bg / primary</div><div class="hex">#FFFFFF</div><div class="role">紙白</div></div>
+  <div class="sw"><div class="chip" style="background:#FAFAF7"></div><div class="name">bg / subtle</div><div class="hex">#FAFAF7</div><div class="role">暖白</div></div>
+  <div class="sw"><div class="chip" style="background:#F2F1EC"></div><div class="name">bg / sunken</div><div class="hex">#F2F1EC</div><div class="role">沈み</div></div>
+  <div class="sw"><div class="chip" style="background:#E8E6E1"></div><div class="name">border</div><div class="hex">#E8E6E1</div><div class="role">罫線</div></div>
+  <div class="sw"><div class="chip" style="background:#9B9894"></div><div class="name">text / muted</div><div class="hex">#9B9894</div><div class="role">補助</div></div>
+  <div class="sw"><div class="chip" style="background:#5C5A57"></div><div class="name">text / secondary</div><div class="hex">#5C5A57</div><div class="role">副文</div></div>
+  <div class="sw"><div class="chip" style="background:#1A1A1A"></div><div class="name">text / primary</div><div class="hex">#1A1A1A</div><div class="role">本文</div></div>
+</div></body></html>

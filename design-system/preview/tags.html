@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>Category tags</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:32px 40px;background:var(--bg-primary);}
+  .lab{font-family:var(--font-en);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;}
+  .row{display:flex;flex-wrap:wrap;gap:24px;align-items:center;}
+  .tag{font-family:var(--font-en);font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-primary);display:inline-flex;align-items:baseline;gap:8px;}
+  .tag .n{font-variant-numeric:tabular-nums;color:var(--text-muted);}
+  .tag .d{width:18px;height:1px;background:var(--text-primary);align-self:center;}
+  .note{font-family:var(--font-jp);font-size:13px;color:var(--text-secondary);margin-top:22px;line-height:1.7;}
+</style></head>
+<body>
+  <div class="lab">Category — numeric prefix, never colored pills</div>
+  <div class="row">
+    <span class="tag"><span class="n">01</span><span class="d"></span>AI</span>
+    <span class="tag"><span class="n">02</span><span class="d"></span>Frontend</span>
+    <span class="tag"><span class="n">03</span><span class="d"></span>Startup</span>
+    <span class="tag"><span class="n">04</span><span class="d"></span>Career</span>
+    <span class="tag"><span class="n">05</span><span class="d"></span>Tooling</span>
+  </div>
+  <div class="note">分類は数字の接頭辞と英字の単語のみ。色で区別しない。</div>
+</body></html>

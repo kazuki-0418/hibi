@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><title>Layout grid</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body{margin:0;padding:32px;background:var(--bg-primary);}
+  .stage{position:relative;border:1px solid var(--border);height:240px;padding:24px;overflow:hidden;}
+  .cols{position:absolute;inset:24px;display:grid;grid-template-columns:repeat(12,1fr);gap:24px;}
+  .col{background:var(--bg-sunken);}
+  .reading{position:absolute;left:50%;top:24px;bottom:24px;width:720px;max-width:calc(100% - 48px);transform:translateX(-50%);border-left:1px solid var(--text-primary);border-right:1px solid var(--text-primary);}
+  .reading::before,.reading::after{content:"";position:absolute;left:-1px;right:-1px;height:1px;background:var(--text-primary);}
+  .reading::before{top:0;}.reading::after{bottom:0;}
+  .lab{position:absolute;font-family:var(--font-en);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-primary);background:var(--bg-primary);padding:0 6px;}
+  .lab-grid{top:18px;left:24px;}
+  .lab-read{top:18px;left:50%;transform:translateX(-50%);}
+  .num{position:absolute;bottom:18px;right:24px;font-family:var(--font-en);font-variant-numeric:tabular-nums;font-size:11px;letter-spacing:0.2em;color:var(--text-muted);background:var(--bg-primary);padding:0 6px;}
+</style></head>
+<body>
+<div class="stage">
+  <div class="cols">
+    <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+    <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+    <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+  </div>
+  <div class="reading"></div>
+  <div class="lab lab-grid">12 col · 24 gutter</div>
+  <div class="lab lab-read">720 reading</div>
+  <div class="num">CONTAINER 1280</div>
+</div>
+</body></html>

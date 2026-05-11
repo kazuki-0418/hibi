@@ -1,0 +1,172 @@
+/* =========================================================================
+   Hibi (日々) — Design Tokens
+   日々の小さな知らせ。 A daily AI newspaper.
+   Japanese minimalist · monochrome · generous whitespace
+   ========================================================================= */
+
+/* ── Webfonts ───────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&family=Inter:wght@400;500;700&display=swap');
+
+:root {
+  /* ── Color · grayscale only ────────────────────────────────────────────
+     Forbidden: blue-purple gradients, neon, saturated primaries.
+     The only "accent" is near-black; emphasis comes from weight + space. */
+  --bg-primary:    #FFFFFF;   /* paper white */
+  --bg-subtle:     #FAFAF7;   /* 極薄暖白 — warm off-white */
+  --bg-sunken:     #F2F1EC;   /* card-on-card, code blocks */
+  --text-primary:  #1A1A1A;   /* near-black */
+  --text-secondary:#5C5A57;   /* warm gray */
+  --text-muted:    #9B9894;   /* meta, labels, captions */
+  --border:        #E8E6E1;   /* hairline, warm */
+  --border-strong: #1A1A1A;   /* used at 1px for emphasis frames */
+  --accent:        #1A1A1A;   /* single accent = the text color itself */
+
+  /* ── Typography ─────────────────────────────────────────────────────── */
+  --font-jp:      "Noto Sans JP", system-ui, sans-serif;
+  --font-jp-serif:"Noto Serif JP", "Hiragino Mincho ProN", serif;
+  --font-en:      "Inter", system-ui, sans-serif;
+
+  /* Scale — px values, used directly so designers can match tokens 1:1 */
+  --size-xs:   14px;   /* meta, labels */
+  --size-sm:   16px;   /* body small */
+  --size-md:   18px;   /* body */
+  --size-lg:   24px;   /* lead, h4 */
+  --size-xl:   32px;   /* h3 */
+  --size-2xl:  48px;   /* h2 */
+  --size-3xl:  72px;   /* h1 */
+  --size-4xl:  96px;   /* display */
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-bold:    700;
+
+  --leading-tight: 1.15;  /* headings */
+  --leading-snug:  1.45;  /* lead paragraphs */
+  --leading-body:  1.7;   /* body — generous, Japanese-friendly */
+
+  --tracking-tight: -0.02em;  /* large display */
+  --tracking-normal: 0;
+  --tracking-wide:   0.08em;  /* eyebrow labels, English caps */
+  --tracking-wider:  0.2em;   /* numeric date stamps */
+
+  /* ── Spacing ────────────────────────────────────────────────────────── */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   16px;
+  --space-4:   24px;
+  --space-5:   32px;
+  --space-6:   48px;
+  --space-7:   64px;
+  --space-8:   96px;
+  --space-9:   128px;
+  --space-10:  160px;
+
+  --section-py-desktop: 128px;
+  --section-py-mobile:  64px;
+  --container-max:      1280px;
+  --content-max:        720px;   /* reading column */
+
+  /* ── Layout ─────────────────────────────────────────────────────────── */
+  --grid-cols: 12;
+  --gutter:    24px;
+  --bp-sm:     768px;
+  --bp-md:     1024px;
+  --bp-lg:     1280px;
+
+  /* ── Lines & shape ──────────────────────────────────────────────────── */
+  --hairline:   1px solid var(--border);
+  --rule:       1px solid var(--text-primary);
+
+  /* Hibi uses near-zero radii. Cards are rectangles, divided by rules. */
+  --radius-0:   0px;
+  --radius-1:   2px;   /* the only allowed soft corner */
+  --radius-pill: 999px; /* for date capsules only */
+
+  /* No drop shadows. Depth comes from value contrast + whitespace. */
+  --shadow-none: none;
+
+  /* ── Motion ─────────────────────────────────────────────────────────── */
+  --ease-out:    cubic-bezier(0.22, 0.61, 0.36, 1);    /* default */
+  --ease-quiet:  cubic-bezier(0.4, 0, 0.2, 1);          /* hover */
+  --dur-quick:   120ms;   /* hover, focus */
+  --dur-base:    240ms;   /* state changes */
+  --dur-slow:    480ms;   /* scene transitions, fades */
+}
+
+/* ── Semantic element styles ──────────────────────────────────────────── */
+html { font-size: 16px; }
+
+body {
+  font-family: var(--font-jp);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-md);
+  line-height: var(--leading-body);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-jp);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--size-3xl); letter-spacing: var(--tracking-tight); }
+h2 { font-size: var(--size-2xl); letter-spacing: var(--tracking-tight); }
+h3 { font-size: var(--size-xl); }
+h4 { font-size: var(--size-lg); }
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* Eyebrow labels — small caps English, wide-tracked.
+   Hibi pairs every JP heading with a tiny English label above. */
+.eyebrow {
+  font-family: var(--font-en);
+  font-size: var(--size-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Numeric date stamps — wide-tracked, monospace feel without mono font */
+.datestamp {
+  font-family: var(--font-en);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-wider);
+  color: var(--text-muted);
+}
+
+/* Meta line — secondary, small, separated by middots */
+.meta {
+  font-size: var(--size-xs);
+  color: var(--text-muted);
+  line-height: var(--leading-snug);
+}
+
+a {
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--text-primary);
+  padding-bottom: 1px;
+  transition: opacity var(--dur-quick) var(--ease-quiet);
+}
+a:hover { opacity: 0.55; }
+
+hr {
+  border: 0;
+  border-top: var(--hairline);
+  margin: var(--space-6) 0;
+}
+
+::selection {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
