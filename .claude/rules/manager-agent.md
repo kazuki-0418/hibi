@@ -12,8 +12,8 @@ Manager Agent (`manager/` パッケージ) の改修・テスト時に適用す�
 - subagent 出力のパーサ追加・変更時は `manager/tests/fixtures/*.md` にゴールデン入力を追加し、parser テストでカバーする
 - `Subagent` / `GitOps` / `Escalator` の Protocol を破らない。Real 実装と Dummy 実装は同 Protocol を満たす
 - `subprocess.run` 系は必ず `timeout=SUBAGENT_TIMEOUT_SECONDS` を渡し、`TimeoutExpired` をハンドルする
-- `claude -p` 起動時は `--bare`, `--no-session-persistence`, `--max-budget-usd`, `--session-id`, `--add-dir <repo_root>`, `--output-format json`, `--dangerously-skip-permissions` を必ず付ける
-  - `--bare` の理由: CLAUDE.md auto-discovery / hooks / MCP / `.env` の意図せぬ読み込みを完全停止する。`.env` に `ANTHROPIC_API_KEY` が残っていた場合、`--bare` 無しだと `claude -p` が auto-discovery で API key を拾い、**Claude Max plan ではなく API ($) 課金にサイレントに切り替わる**。Phase 3 live 1 回目で実際に発生した
+- `claude -p` 起動時は `--no-session-persistence`, `--max-budget-usd`, `--session-id`, `--add-dir <repo_root>`, `--output-format json`, `--dangerously-skip-permissions` を必ず付ける
+  - `--bare` は **付けない** (`RealSubagent.bare` default = `False`)。CLI v2.1+ で `--bare` が keychain/OAuth lookup も無効化する仕様になったため、`--bare` + `sanitized_env()` の `ANTHROPIC_*` 剥がしを併用すると認証経路が全部消えて "Not logged in" になる。Max plan 課金の防衛は `sanitized_env()` で `ANTHROPIC_*` を剥がす一段でカバー (`.env` から `ANTHROPIC_API_KEY` を削除済みの前提も維持する)
   - skip-permissions の理由: 非対話 `-p` モードで Edit/Write/Bash の許可ダイアログが起きると subagent が deadlock する。Manager 自身が kill-switch / cost limit / diff limit / NEEDS_HUMAN escalation で安全網を担っているため、内側の subagent は trusted モードで動かす
 - subprocess.run は env を `sanitized_env()` で明示渡し、`ANTHROPIC_*` を **除去** する。env 経由で API key が再混入することを物理的に防ぐ
 - 既知の Phase 4 まで残る制約: `/pr-creation` が `--base main` ハードコードのため子 PR は一旦 main に向く。`_handle_verify_pr` が `gh pr edit <url> --base <epic-branch>` で retarget する (soft-fail: retarget 失敗してもログのみ、PR 自体は残る)
