@@ -1,0 +1,49 @@
+{
+  "issue_no": 13,
+  "date": "2026-05-08",
+  "standfirst": null,
+  "daily_title": null,
+  "sources_scanned": null,
+  "articles": [
+    {
+      "title": "An everyday mechanical keyboard - Keychron K3 Ultra",
+      "url": "https://www.youtube.com/watch?v=d8ocjQydLDs",
+      "summary": "・Keychron K3シリーズには8kHzポーリングレート対応の「Ultra 8K」（$110）とホール効果（磁気）スイッチ搭載の「K3H」（$120）の2モデルがあり、どちらも75%レイアウト・ロープロファイル・ホットスワップ対応のワイヤレスメカニカルキーボードである。\n・K3Hの磁気スイッチはアナログ入力（キーの押し込み量で歩き/走りを制御）が可能だが、バッテリー持続時間が約55時間と短く、8K版の500時間超と比べて大幅に劣るため、トラベル用途では8K版を1,000Hzで運用する方が実用的と評価されている。\n・RGBはスイッチ内部の拡散が美しいものの付属キーキャップがシャインスルー非対応なため恩恵を受けにくく、カスタマイズ派はキーキャップ交換を検討すべきである。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "The GUARD Act Isn’t Targeting Dangerous AI—It’s Blocking Everyday Internet Use",
+      "url": "https://www.eff.org/deeplinks/2026/04/guard-act-isnt-targeting-dangerous-ai-its-blocking-everyday-internet-use",
+      "summary": "・GUARD法案は「AIコンパニオン」を広く定義しており、宿題支援ツールやカスタマーサービスチャットボットなど日常的なAIツールも規制対象に含まれる可能性がある。\n・18歳未満のユーザーへのサービス提供には政府発行IDや生体認証などによる「合理的な年齢確認」が全ユーザーに義務付けられ、プライバシーリスクと個人情報漏洩の危険を生む。\n・違反1件あたり最大10万ドルの罰則と曖昧な定義の組み合わせにより、企業は未成年者を全面ブロックする方向に動き、中小開発者は参入困難となって大手企業の寡占がさらに進む懸念がある。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "What Is AI Visibility? The 3 Types Every Marketer Needs to Know  | 1.3. AEO Course by Ahrefs",
+      "url": "https://www.youtube.com/watch?v=SIXVq28jTc4",
+      "summary": "・AIの可視性には「リンク付き引用」「リンクなし言及」「未掲載」の3種類があり、平均でAIの言及のうちリンクが付くのは約28%に過ぎず、プラットフォームによって大きく異なる（Perplexity約52%〜AI Overviews約11%）。\n・リンクなしの言及も無価値ではなく、ブランドのウェブ上での言及数はAI可視性との相関係数0.664と、バックリンクやドメイン評価など従来のSEO指標より強い相関を示すというデータがある。\n・Ahrefsの「Brand Radar」を活用して自社のAI上での言及・引用・インプレッションを競合と比較し、自社が言及されていないトピックのギャップを特定することがAEO戦略の起点となる。",
+      "category": "marketing",
+      "source": "Ahrefs",
+      "source_type": "youtube"
+    },
+    {
+      "title": "An Introduction to Meshtastic",
+      "url": "https://meshtastic.org/docs/introduction/",
+      "summary": "・MeshtasticはLoRa無線を使用した長距離オフグリッド通信プラットフォームで、331kmの通信記録を持ち、追加ライセンス不要で利用できるオープンソースプロジェクトである。\n・各デバイスはメッセージを再ブロードキャストしてメッシュネットワークを形成し、専用ルーター不要の分散型暗号化通信を実現、スマートフォンとのペアリングも可能だが1デバイスにつき同時接続は1ユーザーのみ対応している。\n・`meshtastic --listen`コマンドでメッセージ受信が可能なCLIツールが提供されており、GitHubやDiscordを通じたコミュニティ主導で開発・サポートが行われている。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "YC Paper Club",
+      "url": "https://www.youtube.com/watch?v=ClxjYoiEirw",
+      "summary": "・YCがAI研究者・エンジニア・創業者向けのコミュニティ「YC Paper Club」を立ち上げ、数週間ごとにMountain Viewオフィスで最新AI論文の発表・議論を行う。\n・各回は参加者が論文を発表してディスカッションを行い、その後ディナーで議論を継続する形式で、発表はオンライン公開されるがディナーはオフレコとなる。\n・対象は論文を読むビルダーや本番環境での問題に関心を持つ研究者で、初回は100人未満の規模で5月20日に開催予定、リンクから申し込み可能。",
+      "category": "startup",
+      "source": "Y Combinator",
+      "source_type": "youtube"
+    }
+  ]
+}
