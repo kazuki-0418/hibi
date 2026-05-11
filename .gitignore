@@ -16,3 +16,6 @@ token.json
 articles.json
 enriched_articles.json
 summaries.json
+.claude/STOP
+.claude/STOP_NOW
+
