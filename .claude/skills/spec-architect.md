@@ -73,7 +73,7 @@
 ## Hibi-Specific Guidance
 
 - 明示的な根拠なしに pipeline stage の境界を上書きしない（Stage A/B/C の責務を混ぜない）
-- 計画中の未実装機能（multi-tenant、Astro UI、評価UI、LangGraph）を現行動作として扱わない
+- 計画中の未実装機能（multi-tenant、評価UI、LangGraph）を現行動作として扱わない
 - API quota 関連の変更では以下への影響を確認する:
   - YouTube Data API（10,000 units/日上限）
   - OpenAI embedding API（月コスト試算）

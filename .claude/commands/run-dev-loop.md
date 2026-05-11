@@ -25,7 +25,7 @@
 - スコープを広げない
 - unrelated refactor をしない
 - 既存の pipeline stage 境界・HMAC 検証・clicks append-only 制約を破らない
-- 計画中の未実装機能（multi-tenant / Astro UI / 評価UI / LangGraph）を現行として扱わない
+- 計画中の未実装機能（multi-tenant / 評価UI / LangGraph）を現行として扱わない
 - 人間への確認なしに merge しない
 - main agent で最終レビューをしない（`/implementation-reviewer` を必ず呼ぶ）
 - レビュアーの判定が出る前に PR を作らない

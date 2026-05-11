@@ -83,11 +83,20 @@ Hibi の現行ドメイン事実を固定するスキル。
 
 ---
 
+## Web Frontend Constraints
+
+- Web archive ( edition page / archive / landing ) は **Astro** で実装。配置は `web/` ディレクトリ
+- Build target は `web/dist/`。**Cloudflare Pages** で `hibi-news.com` から配信
+- `design-system/colors_and_type.css` は SSoT。Astro 側で `<link>` で直接参照し、トークンを再宣言しない
+- データ取得は **build-time**。Python パイプライン (`daily_news.py` etc.) が `web/src/content/editions/*.json` に dump、Astro Content Collection で読む。Astro から DB へ実行時アクセスしない
+- 言語は TypeScript。`tsconfig.json` の strict は有効化する
+
+---
+
 ## Known Not-Implemented Areas
 
 以下は計画中。現行挙動として扱わない:
 
-- Astro UI（Phase 3 後半）
 - multi-tenant（`clicks.user_id` の動的化）
 - source mute 機能
 - 評価 UI（👍/👎、星評価）— 明示的に作らない方針
@@ -108,5 +117,4 @@ Hibi の現行ドメイン事実を固定するスキル。
 - ORM が入っていると仮定しない。psycopg 3.x + 生 SQL のみ
 - Alembic が入っていると仮定しない。手動 migration
 - LangGraph / multi-agent が現行で動いていると仮定しない
-- Astro UI が存在すると仮定しない（Phase 3 後半）
 - search.list で動的にチャンネルを取得していると仮定しない（quota 制約で playlistItems.list のみ）

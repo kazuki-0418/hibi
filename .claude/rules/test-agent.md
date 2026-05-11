@@ -10,7 +10,7 @@
 - style より behavior, contract, quota impact, state consistency を優先して確認する
 - Hibi では HMAC 署名検証, pipeline stage boundary, articles.is_sent 整合性, click append-only 制約に注意する
 - 外部 API（YouTube / Claude / OpenAI / Gmail / Neon）はモックする。実呼び出しテストを増やさない
-- planned-but-unwired features（multi-tenant, Astro UI, 評価UI）は現行仕様としてテストしない
+- planned-but-unwired features（multi-tenant, 評価UI）は現行仕様としてテストしない
 - モックは最小限にし、既存 fixture（`conftest.py`）に合わせる
 - 型ヒント必須。`Any` / `# type: ignore` で逃げない
 - DB テストは pytest-postgres または in-memory mock。本番 Neon を test target にしない

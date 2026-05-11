@@ -1,6 +1,6 @@
 # service
 
-Resident FastAPI for Personal AI Newspaper (click tracking + future Astro UI API).
+Resident FastAPI for Personal AI Newspaper (click tracking + Astro UI API).
 Runs independently of the `daily_news.py` batch; deployed as a container image
 pulled from GHCR.
 

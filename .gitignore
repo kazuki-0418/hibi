@@ -19,3 +19,5 @@ summaries.json
 .claude/STOP
 .claude/STOP_NOW
 
+
+.claude/worktrees/
