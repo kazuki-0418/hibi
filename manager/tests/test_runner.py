@@ -233,3 +233,76 @@ def test_artifacts_persisted(
     child_dir = runner.state_store.child_dir(1, 10)
     for name in ("issue.txt", "triage.md", "packet.yaml", "plan.md", "dev_loop.md"):
         assert (child_dir / name).exists(), f"missing artifact: {name}"
+
+
+def test_diff_cap_trip_lands_at_needs_human_without_keyerror(
+    state_root: Path, repo_root: Path, fixtures_dir: Path
+) -> None:
+    """`_guard_checkpoints` can transition status -> NEEDS_HUMAN (diff cap
+    trip). The `_run_child` loop must re-check status before the next
+    handler lookup, otherwise `_HANDLERS["NEEDS_HUMAN"]` raises KeyError
+    (NEEDS_HUMAN is terminal, has no handler).
+    """
+    runner, _esc, git_ops = _build(
+        state_root, repo_root, children=[10],
+        scripted={},  # subagent never called: diff trips before first stage
+    )
+    git_ops.diff_lines_value = 5000  # > MAX_DIFF_LINES_PER_CHILD (1500)
+
+    rc = runner.run_epic(1, slug="test")
+    assert rc == EXIT_NEEDS_HUMAN
+    child = runner.state_store.load_child(1, 10)
+    assert child["status"] == "NEEDS_HUMAN"
+    assert "diff" in (child["needs_human_reason"] or "").lower()
+
+
+def test_resume_checks_out_child_branch(
+    state_root: Path, repo_root: Path, fixtures_dir: Path
+) -> None:
+    """Resuming an existing child must re-invoke `create_child_branch` so the
+    working tree returns to the child branch. Without that, subsequent
+    git_ops calls (diff_lines, find_pr_url) measure from the wrong base.
+    """
+    calls: list[tuple[str, int]] = []
+
+    class _CountingGitOps(DummyGitOps):
+        def create_child_branch(self, epic_branch: str, child_issue: int) -> str:
+            calls.append((epic_branch, child_issue))
+            return super().create_child_branch(epic_branch, child_issue)
+
+    git_ops = _CountingGitOps(
+        child_listing={1: [10]},
+        pr_urls={"epic/1-test-child-10": "https://x/pr/10"},
+        issue_bodies={10: "body"},
+        failures={},
+    )
+    runner = Runner(
+        state_store=StateStore(state_root),
+        subagent=DummySubagent(_happy_scripted(fixtures_dir, 1)),
+        git_ops=git_ops,
+        escalator=DummyEscalator(),
+        repo_root=repo_root,
+    )
+    runner.run_epic(1, slug="test")
+    initial_calls = len(calls)
+    assert initial_calls >= 1, "first run must check out child branch"
+
+    # Reset child to a non-terminal status and re-run: the resume path must
+    # re-checkout. We park it at PLAN with retry counters cleared so the
+    # scripted subagent can drive it the rest of the way.
+    child = runner.state_store.load_child(1, 10)
+    child["status"] = "PLAN"
+    runner.state_store.save_child(1, child)
+    epic = runner.state_store.load_epic(1)
+    epic["children_done"] = []
+    epic["children_queue"] = [10]
+    epic["status"] = "RUNNING"
+    runner.state_store.save_epic(epic)
+
+    # Re-arm scripted responses for the stages the resumed child will run
+    runner.subagent = DummySubagent({
+        "/spec-architect": [make_result(_read(fixtures_dir, "plan_proceed.md"))],
+        "/run-dev-loop": [make_result(_read(fixtures_dir, "dev_loop_safe.md"))],
+    })
+    runner.run_epic(1, slug="test")
+    assert len(calls) > initial_calls, "resume path must call create_child_branch again"

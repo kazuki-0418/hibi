@@ -38,7 +38,7 @@ from .parsers.packet import parse_packet
 from .parsers.plan import parse_plan
 from .parsers.triage import parse_triage
 from .state_store import StateStore
-from .states import is_legal
+from .states import TERMINAL_STATES, is_legal
 from .subagent import Subagent, SubagentResult
 from .types import (
     ChildState,
@@ -149,8 +149,25 @@ class Runner:
 
     def _run_child(self, epic: EpicState, child_issue: int) -> ChildStatus:
         epic_n = epic["epic_issue_number"]
-        if self.state_store.child_path(epic_n, child_issue).exists():
+        is_resume = self.state_store.child_path(epic_n, child_issue).exists()
+
+        if is_resume:
             child = self.state_store.load_child(epic_n, child_issue)
+            # Resume must re-checkout the child branch. Without this, every git
+            # operation in this run (including `diff_lines` inside
+            # `_guard_checkpoints`) measures from whatever branch the working
+            # tree happens to be on — e.g. after manual state surgery or a
+            # branch switch between Manager invocations — producing a phantom
+            # diff that trips MAX_DIFF_LINES_PER_CHILD on the first iteration.
+            # `create_child_branch` is idempotent: if the branch already
+            # exists it just checks it out.
+            if child["status"] not in TERMINAL_STATES:
+                try:
+                    self.git_ops.create_child_branch(epic["epic_branch"], child_issue)
+                except GitOpsError as exc:
+                    child["needs_human_reason"] = f"resume checkout failed: {exc}"
+                    self.transition(epic, child, "NEEDS_HUMAN")
+                    return "NEEDS_HUMAN"
         else:
             try:
                 branch = self.git_ops.create_child_branch(epic["epic_branch"], child_issue)
@@ -164,8 +181,14 @@ class Runner:
         if child["status"] == "INIT":
             self.transition(epic, child, "TRIAGE")
 
-        while child["status"] not in {"DONE", "SKIPPED", "NEEDS_HUMAN"}:
+        while child["status"] not in TERMINAL_STATES:
             self._guard_checkpoints(epic, child)
+            # _guard_checkpoints can transition status to NEEDS_HUMAN (diff cap
+            # trip). Re-check before the handler lookup — without this, the
+            # next line raises KeyError on `_HANDLERS["NEEDS_HUMAN"]` because
+            # terminal states have no handler.
+            if child["status"] in TERMINAL_STATES:
+                break
             handler = _HANDLERS[child["status"]]
             handler(self, epic, child)
 
