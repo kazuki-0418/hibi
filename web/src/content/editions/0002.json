@@ -1,0 +1,89 @@
+{
+  "issue_no": 2,
+  "date": "2026-04-19",
+  "standfirst": null,
+  "daily_title": null,
+  "sources_scanned": null,
+  "articles": [
+    {
+      "title": "Only Bieber could pull off watching YouTube on stage at Coachella.",
+      "url": "https://www.youtube.com/watch?v=isnhu6_jRzs",
+      "summary": "・ビーバーがコーチェラのステージ上でYouTube動画を再生するという異色のパフォーマンスを披露し、一部では「手抜き」との批判もあった。\n・このパフォーマンスが成立するのは、ビーバーがYouTube出身のオリジナルクリエイターであるという背景があるからこそだとJasonは分析している。\n・ステージ全体が彼のキャリアへのメタ的なコメンタリーとなっており、ファンにとってはノスタルジックな体験として機能した。",
+      "category": null,
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Nothing Headphone (a) are almost perfect...",
+      "url": "https://www.youtube.com/watch?v=a5bFJPwCmKs",
+      "summary": "・Nothing の Headphone (a) はフルパラメトリック EQ を搭載しており、ユーザーが音質を細かくカスタマイズできる点が技術的な強みとなっている。\n・物理ボタンを採用することでタッチ操作の誤作動を排除し、ハードウェア設計として実用性を重視したアプローチが取られている。\n・「ほぼ完璧」というタイトルの示す通り、音質面でわずかな課題が残るものの、価格帯を考慮すれば競争力の高いコストパフォーマンスを持つデバイスと評価されている。",
+      "category": null,
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Bittensor’s (alleged) $10M rug pull (feat. Mark Jeffrey) | E2275",
+      "url": "https://www.youtube.com/watch?v=sdhuUZbx5Sk",
+      "summary": "・BittensorのサブネットオペレーターであるCovenant AIの創設者が約1,000万ドル相当のTAOトークンを売却して離脱したとされる「ラグプル疑惑」が発生し、エコシステム全体の信頼性と統治構造に深刻な問題を投げかけた。\n・BitMindやMacroCosmos等の実際に稼働するサブネット運営者の事例から、トークンvs.エクイティの投資設計やサブネットオーナーシップの在り方など、Bittensorエコシステムにおける実装・資金調達モデルの具体的な考え方が議論された。\n・開発者・投資家へのインプリケーションとして、サブネットオーナーへの権限集中リスクを軽減するガバナンス改善（ロックアップ期間の設定や意思決定の分散化等）が急務であり、エコシステムへの参加には技術的実績とトークノミクス設計の両立が不可欠であることが示された。",
+      "category": null,
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    },
+    {
+      "title": "How To Learn AI In A Weekend",
+      "url": "https://www.youtube.com/watch?v=qLMYOhaKcZs",
+      "summary": "・Claude Codeを中心とした「AIフライホイール」として、AIに自分の業務をインタビューさせ→作るべきツールを特定し→実際に構築しながら学ぶという学習サイクルを紹介している。\n・コーディング経験不要でClaude Codeをインストールし、YouTube APIキーの取得やVercel・GitHubと連携しながらYouTube競合トラッカーのダッシュボードを実際に構築する具体的な手順をデモしている。\n・ZapierやMake.com、N8N、MCPサーバーなどの自動化ツールと組み合わせることで、開発者でなくても実務に直結するAIツールを週末レベルの時間投資で構築・運用できることを示唆している。",
+      "category": null,
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Root Cause, Two Decades of Backend Bugs",
+      "url": "https://www.youtube.com/watch?v=Jx_4kfrQsiA",
+      "summary": "・著者Hussein Nasserが20年のバックエンドエンジニアリング経験をもとに、パフォーマンスボトルネック・競合状態・データ不整合など実際の本番バグ事例を15章にまとめた書籍「Root Cause」を出版した。\n・本書はネットワークプロトコルからデータベースエンジン内部・OSカーネルのデータ構造に至るまで、リクエストの全経路を深く追跡することでバグの根本原因を解明するアプローチを解説している。\n・中〜上級のバックエンド開発者がソースコード非公開の環境でも本番システムのデバッグ力を高めるための実践的な知識・思考法を身につけるのに適した一冊である。",
+      "category": null,
+      "source": "Hussein Nasser",
+      "source_type": "youtube"
+    },
+    {
+      "title": "100% Test Coverage is a LIE, Here’s Why...",
+      "url": "https://www.youtube.com/watch?v=p1xZ-Ni2t8Q",
+      "summary": "・テストカバレッジ100%は品質を保証しない——銀行システムの実例として、カバレッジ100%でもアサーションがゼロであれば欠陥を検出できないという「100%の罠」が存在する。\n・カバレッジはコードの実行行数を追跡する指標に過ぎず、ミューテーションテストやプロパティベーステストなどの高度な手法を組み合わせることで初めて実質的な品質担保が可能になる。\n・開発者はカバレッジを厳格な達成目標ではなくトレンド指標として活用し、高速なフィードバックループを最優先に設計することが現代のソフトウェアエンジニアリングにおける本質的な戦略である。",
+      "category": null,
+      "source": "Modern Software Engineering",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Oh Snap, Snapdragon Can Game Now - ASUS Zenbook A16",
+      "url": "https://www.youtube.com/watch?v=-8uDibZjHJI",
+      "summary": "・ASUS Zenbook A16はSnapdragon X2 Elite Extremeを搭載した約16インチの超薄型・軽量ノートPCで、バッテリー駆動時間と性能の両立を目指したARM系Windowsデバイスである。\n・ゲーミング性能や生産性ベンチマークが検証されており、Snapdragon XシリーズのARMアーキテクチャによるx86アプリのエミュレーション互換性（Compatibility）が依然として開発者にとって重要な課題として取り上げられている。\n・ARM向けネイティブビルドへの対応やエミュレーション層での動作確認が求められるため、Windowsアプリ・ゲーム開発者はSnapdragon X世代を視野に入れたARM64ネイティブ対応を優先すべき段階に来ている。",
+      "category": null,
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "My God, the Colors… - Lenovo Yoga Slim 7i Aura Edition",
+      "url": "https://www.youtube.com/watch?v=GWexV8ii2mQ",
+      "summary": "・Lenovo Yoga Slim 7i Aura Editionは、IntelのPanther Lake CPUを搭載した日常業務向けラップトップで、優れたディスプレイと高いコストパフォーマンスを特徴としている。\n・LTT Labsのテスト結果やウェブカメラ性能も検証されており、実用的なスペックの裏付けがデータとともに示されている。\n・価格対性能比を重視する開発者や一般ユーザーにとって有力な選択肢となり得る製品として紹介されている。",
+      "category": null,
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Do we still need PMs?",
+      "url": "https://www.youtube.com/watch?v=Vr5DvEp8sDI",
+      "summary": "申し訳ありませんが、提供いただいた情報はYouTube動画のタイトルとハッシュタグのみであり、動画の実際のコンテンツ（トランスクリプトや詳細な説明文）にはアクセスできないため、正確な要約をお届けすることができません。\n\nもし要約をご希望の場合は、以下をご提供いただけますでしょうか：\n\n1. **動画のトランスクリプト（字幕テキスト）**\n2. **動画の詳細な説明文**\n3. **動画の主要な内容のメモ**\n\nそれらをもとに、技術的な要点を中心とした3行要約を作成いたします。",
+      "category": null,
+      "source": "Lenny's Podcast",
+      "source_type": "youtube"
+    },
+    {
+      "title": "UBI isn’t the solution to AI job loss",
+      "url": "https://www.youtube.com/watch?v=7iNK_VedSWc",
+      "summary": "・AIによる雇用喪失への対策としてUBI（ユニバーサル・ベーシック・インカム）が議論されているが、仕事は単なる収入源ではなくアイデンティティや目的意識の源泉でもあるため、金銭的補償だけでは不十分である。\n・産業革命の歴史が示すように、技術変化後の労働市場の姿を正確に予測することは極めて困難であり、開発者はAI実装の社会的影響を謙虚に見積もる必要がある。\n・AIシステムを設計・開発する際には、人間の仕事を単純に代替するのではなく、人々の目的意識や社会的役割を維持・拡張できるような設計思想を優先することが重要な示唆となる。",
+      "category": null,
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    }
+  ]
+}

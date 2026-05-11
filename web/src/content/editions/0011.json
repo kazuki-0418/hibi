@@ -1,0 +1,49 @@
+{
+  "issue_no": 11,
+  "date": "2026-05-06",
+  "standfirst": null,
+  "daily_title": null,
+  "sources_scanned": null,
+  "articles": [
+    {
+      "title": "Shut Down Turnkey Totalitarianism",
+      "url": "https://www.eff.org/deeplinks/2026/04/claw-back",
+      "summary": "・EFF（電子フロンティア財団）は、NSA内部告発者が警告した「ターンキー全体主義国家」に対抗するため、無令状のナンバープレート追跡訴訟やオープンソースの監視機器検出ツール「Rayhunter」のリリースなど具体的な技術的施策を展開している。\n・現在、米国議会で大規模国際監視プログラム「Section 702」の更新が審議されており、EFFは一般市民がこの監視体制を阻止できるよう政治的働きかけを強化している。\n・開発者向けには、ウェブ上の追跡スクリプトやCookieをブロックするフリーツール「Privacy Badger」が提供されており、オープンソースの監視対策ツール開発への参加・支援が呼びかけられている。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "Open Records Laws Reveal ALPRs’ Sprawling Surveillance. Now States Want to Block What the Public Sees.",
+      "url": "https://www.eff.org/deeplinks/2026/04/open-records-laws-reveal-alprs-sprawling-surveillance-now-states-want-block-what",
+      "summary": "・米国の複数州（コネチカット、アリゾナ、ワシントン、イリノイ、ジョージアなど）でALPR（自動ナンバープレート読み取り装置）データを公開記録法の対象外とする立法が相次いでおり、EFFはこの傾向を「監視技術への市民監視を阻害する」として強く反対している。\n・EFFは完全な情報公開も完全な非公開も支持せず、個人を特定できる生データは保護しつつ、集計・匿名化されたデータ（スキャン件数、エラー率、データ共有状況など）は公開すべきという「プライバシーと透明性のバランス型アプローチ」を提唱している。\n・開発者・政策立案者向けの示唆として、公開記録法にはケースバイケースのプライバシー衡量規定を設け、個人識別情報はリダクション（墨消し）で保護しながら非個人情報は開示可能にする設計が技術的・法的に最善とされている。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "Google's Algorithm Crushed This Business",
+      "url": "https://www.youtube.com/watch?v=BRN-LnrSdG0",
+      "summary": "・GoogleにクリエイターSuccess Storyとして紹介された翌日、2023年9月の「Helpful Content Update」によりサイトトラフィックが75〜80%激減し、収益も同率で消失した。\n・トラフィック喪失はデジタル製品販売・ブランドスポンサー契約など収益源全体に連鎖的ダメージを与え、「分散化されたビジネス」という認識が実態と乖離していたことが露呈した。\n・AI Overviewsや検索結果の多様化により青リンクへの到達が困難になった現状は、Google検索への依存度が高いサイト運営者にとってトラフィック回復が構造的に困難であることを示唆している。",
+      "category": "marketing",
+      "source": "Ahrefs",
+      "source_type": "youtube"
+    },
+    {
+      "title": "3 Paths to a Rich Retirement",
+      "url": "https://www.youtube.com/watch?v=Or6yvefovGU",
+      "summary": "・50代以降の充実した退職後の生活には「心の成長」「身体の健康」「社会への貢献」の3つの柱が重要とされている。\n・身体面ではハイキングやピックルボール・セーリングなど、頭脳面では新しいスキル習得など、具体的な活動への参加が推奨されている。\n・貢献欲求を満たす手段として、ビジネス起業・ワークショップ開催・SNS発信・書籍執筆など多様な選択肢が示されており、金銭的必要がなくても取り組む価値がある。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "SaaS Challengers",
+      "url": "https://www.youtube.com/watch?v=DhYJ1GENLoQ",
+      "summary": "・AIによるソフトウェア開発コストの100倍以上の削減により、数十年かけて構築された大規模コードベースという既存SaaSの護城河（モート）が消滅しつつある。\n・既存製品の低価格クローン、AIネイティブ製品、複数SaaSの統合スイート、OSSへの置き換えとサービス収益化など、複数の攻略アプローチが有効とされている。\n・ERPやチップ設計ソフト、産業制御システムなど従来「難攻不落」とされてきた巨大レガシーSaaSこそを狙うべきであり、クラウドがオンプレを置き換えたように次世代はAIネイティブがレガシーSaaSを置き換える。",
+      "category": "startup",
+      "source": "Y Combinator",
+      "source_type": "youtube"
+    }
+  ]
+}

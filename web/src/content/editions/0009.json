@@ -1,0 +1,49 @@
+{
+  "issue_no": 9,
+  "date": "2026-05-04",
+  "standfirst": null,
+  "daily_title": null,
+  "sources_scanned": null,
+  "articles": [
+    {
+      "title": "The Open Social Web Needs Section 230 to Survive",
+      "url": "https://www.eff.org/deeplinks/2026/04/open-social-web-needs-section-230-survive",
+      "summary": "・セクション230は「コンテンツの発信者はホスト側ではなくユーザー自身」という原則を定めた法律で、小規模なサーバー運営者を法的リスクから守る重要な盾となっている。\n・MastodonやBlueskyなどの分散型オープンソーシャルウェブは多数の小規模ホストが協調して成立するアーキテクチャであり、セクション230が弱体化すれば訴訟リスクに耐えられる大企業だけが生き残る構造になる。\n・投稿のブースト・共有といったユーザー行為もセクション230の保護対象であるため、開発者・運営者だけでなくユーザーレベルでもこの法的保護の維持が分散型SNS存続の前提条件となる。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "Talking to 35 Strangers at the Gym",
+      "url": "https://thienantran.com/talking-to-35-strangers-at-the-gym/",
+      "summary": "・著者は大学卒業後の孤独を解消するため、1ヶ月間ジムで35人の見知らぬ人に話しかけるという実験を行い、最初の数日は逃げ出しそうになったが「素早くアプローチする」ことで恐怖を克服した。\n・会話の開始フレーズは最初「よく見かけますね、すごく強いですね、どんなトレーニングをしていますか？」と統一していたが、後に相手の特徴（帽子・外見など）に合わせてカスタマイズする方が効果的だった。\n・Week4以降は新規開拓より既存の5〜6人との関係を深める戦略に切り替え、結果として一緒に食事や映画鑑賞をする友人を複数獲得し、「大学後の友達作り」という問題を実験的アプローチで解決した。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Partial Page Caching Using React Server Components",
+      "url": "https://www.youtube.com/watch?v=t9xB8xvySyo",
+      "summary": "・TanStack StartのRSCサポートを活用し、CDNキャッシュをページ単位ではなくコンポーネント単位（トレンド欄など更新頻度の異なる部分）で制御する「部分的ページキャッシュ」を実装できる。\n・`renderServerComponent`というLow Level APIを使ってRSCのflightデータをGETリクエストのサーバー関数として返すことで、CDNがそのRSCペイロードをキャッシュ・キャッシュバストできる仕組みを構築している。\n・JSONをクライアントでレンダリングする従来手法と比べ、RSCはVDOMが事前構築済みで高速なうえ、`use client`指定のインタラクティブコンポーネントのJSコードも必要時のみ動的ロードされるため、バンドルサイズの肥大化を防げる。",
+      "category": "dev-for-startup",
+      "source": "Jack Herrington",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Google Doesn't Care About Quality Content",
+      "url": "https://www.youtube.com/watch?v=fKd1zHxZryI",
+      "summary": "・Googleが評価するのは「コンテンツの質」そのものではなく、検索ユーザーが求める体験（UX）を満たしているかどうかである。\n・「ベストジムシューズ」のような検索では、1〜2択しか示さないレビューより、複数の選択肢を提示するページの方がユーザーニーズに合致していると評価される。\n・価格・カラー・サイズ・在庫情報をAPIで一元表示するアフィリエイトサイトのようなエンドツーエンドのショッピング体験が、SEO上も技術実装の観点からも有効な戦略となる。",
+      "category": "marketing",
+      "source": "Ahrefs",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Affiliate Programs for SaaS: Build a Referral Engine That Grows With Your Product",
+      "url": "https://www.youtube.com/watch?v=4Qb9bElIymo",
+      "summary": "・アフィリエイトプログラムは「販売チャネル」ではなく、ブランド認知・見込み客獲得・紹介売上の3つの価値を生む「借りたオーディエンス活用戦略」として捉えるべきである。\n・効果的なパートナーには大手補完的プレイヤー（Keystoneパートナー）と既存顧客群（Pollinatorパートナー）の2種類があり、特にKeystoneパートナーとは無料ウェビナー＋デモ形式のコンテンツ提供が高いROIをもたらす（ConvertKitが$1M→$10M ARRに活用した実績あり）。\n・実装の鍵は「パートナーが簡単に動けるようにすること」で、ランディングページや招待メール3〜5本を事前に用意し、リスト共有・フォローアップ・コミッション支払い・次回予約までを一連のフライホイールとして仕組み化することが重要である。",
+      "category": "indie-hacker",
+      "source": "MicroConf",
+      "source_type": "youtube"
+    }
+  ]
+}

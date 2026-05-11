@@ -1,0 +1,49 @@
+{
+  "issue_no": 16,
+  "date": "2026-05-11",
+  "standfirst": null,
+  "daily_title": null,
+  "sources_scanned": null,
+  "articles": [
+    {
+      "title": "Milestone 1.0.0 Release of APK Downloader `apkeep` Powers Research on Android Apps",
+      "url": "https://www.eff.org/deeplinks/2026/05/milestone-100-release-apk-downloader-apkeep-powers-research-android-apps",
+      "summary": "・`apkeep` v1.0.0では、Google Play StoreのCloud Profile付きdexメタデータのダウンロード、Aurora Storeトークンによる匿名ログイン、カスタムデバイスプロファイルの指定など、研究・解析用途に有用な機能が追加された。\n・macOS向けHomebrewへの収録も実現し、Linux・Windows・Androidに加えてクロスプラットフォーム対応がさらに強化されている。\n・Exodus PrivacyやAndroidマルウェア研究（2万1千件超のAPP解析）など実際の研究ワークフローで活用されており、今後はF-Droid以外のストアへの対応拡充とコントリビューター募集が予定されている。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "How to Run a Brand Gap Analysis | 2.1. AEO Course by Ahrefs",
+      "url": "https://www.youtube.com/watch?v=E0VFNbZtZKM",
+      "summary": "・ブランドギャップ分析では「可視性・ナラティブ・トピック・フォーマット・Webメンション・需要」の6次元でブランドの露出状況を評価する。\n・AhrefsのBrand Radarを使い、AIプラットフォームでのメンション数・引用数・インプレッション・AIシェアオブボイスを計測し、競合と自社の差分を洗い出す。\n・特定したギャップは「Fix（既存コンテンツ改善）・Build（新規コンテンツ作成）・Influence（外部サイトへのアウトリーチ）」の3アクションに分類して優先順位付けし、AIへの引用獲得戦略へ繋げる。",
+      "category": "marketing",
+      "source": "Ahrefs",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Congress Narrowed the GUARD Act, But Serious Problems Remain",
+      "url": "https://www.eff.org/deeplinks/2026/05/congress-narrowed-guard-act-serious-problems-remain",
+      "summary": "・修正版GUARD法はAIコンパニオン（感情的・対人的なやり取りを模擬する会話システム）に対象を絞ったが、金融記録やアプリストアのアカウントなど実世界の本人確認と紐づいた年齢認証の義務は依然として残っている。\n・「AIコンパニオン」の定義が曖昧なまま罰則が1件あたり最大25万ドルに引き上げられたため、小規模開発者は未成年ユーザーの全ブロックや会話機能の無効化など過剰な制限に走るインセンティブが生まれる。\n・EFFは、プライバシーを侵害する年齢認証よりも悪質なアクターへの標的型執行と包括的なプライバシー法で対処すべきと主張しており、スピーチ・プライバシー・セキュリティ上の根本的問題は解決されていないと指摘している。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "How Ranking in Google AI Overviews, ChatGPT, and Perplexity are Different | 1.2 AEO Course by Ahrefs",
+      "url": "https://www.youtube.com/watch?v=LXdtraYM1dg",
+      "summary": "・Google AI Overviews・ChatGPT・Perplexityの上位引用ドメインの重複はわずか14%であり、各プラットフォームが異なるソースを優先するため、一律の最適化戦略では可視性を損なう可能性がある。\n・Google AI OverviewsはYouTube・Redditなど権威あるサイトを、ChatGPTはDR90以上の高権威パブリッシャーを、PerplexityはGoogleトップ10ランキングページを約28.6%引用するなど、各プラットフォームで最適化の方向性が異なる。\n・実装の優先順位としては、まずトラフィックシェアの大きいGoogleとChatGPTを狙い、ChatGPT向けにはForbesなど高権威編集サイトへの言及獲得、AI Overviews向けにはYouTubeとRedditへの露出強化が効果的である。",
+      "category": "marketing",
+      "source": "Ahrefs",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Getting Digital Fairness Right: EFF's Recommendations for the EU's Digital Fairness Act",
+      "url": "https://www.eff.org/deeplinks/2026/04/dos-and-donts-eus-digital-fairness-act-effs-recommendation-regulating-digital",
+      "summary": "・EUのデジタル公正法（DFA）はダークパターンの明確な禁止と強制力のある執行規則の導入により、ユーザーの自律的な意思決定を妨げるインターフェース設計を規制すべきとEFFは提言している。\n・監視型ビジネスモデルへの対処として、DFAはプライバシー信号（ブラウザやOSによるトラッキング拒否シグナル）の法的認定を支持し、それを無効化するバナーやUI設計を不公正行為とみなす仕組みを導入すべきである。\n・ユーザー主権の強化のため、DFAは購入後のリモートロックアウトや一方的な機能制限などの不公正な利用制限を規制し、相互運用性とサードパーティアプリへのアクセスを保証することでロックイン解消を目指すべきである。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    }
+  ]
+}
