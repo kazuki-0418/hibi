@@ -117,12 +117,16 @@ class RealSubagent:
 
     Defaults are tuned to keep cost on the Claude Code OAuth (Max plan) path:
 
-    - `--bare`: skip CLAUDE.md auto-discovery, hooks, MCP, attribution. With
-      `--bare` set AND `ANTHROPIC_API_KEY` removed from env, claude must use
-      the keychain OAuth credential — nothing else is consulted.
     - `env=sanitized_env()`: strip `ANTHROPIC_*` from the spawned env so a
       stray `.env` line or parent injection can't silently switch billing to
-      API credit.
+      API credit. This is the primary defense — Max plan stays in effect
+      because keychain OAuth is the only remaining auth path.
+    - `bare=False` (default): in CLI v2.1+ `--bare` *disables* keychain/OAuth
+      reads (only API key / apiKeyHelper auth survives). Combined with
+      `sanitized_env()` stripping `ANTHROPIC_*`, `--bare` leaves no usable
+      auth path → spawned `claude -p` exits with "Not logged in". We keep
+      the flag as a knob (for setups that intentionally pass an API key via
+      `--settings`), but default it off so keychain works.
     - `--dangerously-skip-permissions`: required because non-interactive `-p`
       mode can't surface a tool-permission prompt. Manager's own kill-switch /
       cost / diff limit / NEEDS_HUMAN escalation is the safety net.
@@ -136,7 +140,7 @@ class RealSubagent:
     timeout: int = SUBAGENT_TIMEOUT_SECONDS
     extra_add_dirs: tuple[Path, ...] = ()
     dangerously_skip_permissions: bool = True
-    bare: bool = True
+    bare: bool = False
 
     def invoke(self, slash: str, args_text: str, budget_usd: float) -> SubagentResult:
         session_id = str(uuid.uuid4())

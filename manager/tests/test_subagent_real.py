@@ -56,7 +56,10 @@ def test_real_subagent_constructs_expected_command(
     assert "--output-format" in argv and argv[argv.index("--output-format") + 1] == "json"
     assert "--no-session-persistence" in argv
     assert "--max-budget-usd" in argv and argv[argv.index("--max-budget-usd") + 1] == "1.0"
-    assert "--bare" in argv, "must use --bare to keep auth strictly env/keychain"
+    assert "--bare" not in argv, (
+        "default must NOT pass --bare: in CLI v2.1+ --bare disables keychain/OAuth "
+        "and sanitized_env() strips ANTHROPIC_*, leaving no auth path"
+    )
     assert "--dangerously-skip-permissions" in argv
     assert "--add-dir" in argv and str(tmp_path) in argv
     # session-id is a uuid we generated
