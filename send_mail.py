@@ -16,6 +16,14 @@ from mailer import send
 load_dotenv()
 
 
+def format_subject(date_str: str, count: int) -> str:
+    """Build the daily subject line.
+
+    Format: ``YYYY.MM.DD — 今朝のN本`` (half-width period + em-dash, no emoji).
+    """
+    return f"{date_str} — 今朝の{count}本"
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--subject", default=None, help="Email subject (default: auto-generated)")
@@ -23,11 +31,12 @@ def main():
     parser.add_argument("--date", default=None, help="Date string shown in email header (default: today)")
     args = parser.parse_args()
 
-    date_str = args.date or date.today().strftime("%Y-%m-%d")
-    subject = args.subject or f"Daily Tech News - {date_str}"
+    date_str = args.date or date.today().strftime("%Y.%m.%d")
 
     with open(args.from_enriched, encoding="utf-8") as f:
         articles = json.load(f)
+
+    subject = args.subject or format_subject(date_str, count=len(articles))
 
     gmail_address = os.environ["GMAIL_ADDRESS"]
     gmail_password = os.environ["GMAIL_APP_PASSWORD"]

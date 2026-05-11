@@ -1,184 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Personal AI Newspaper</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      background: #f0f2f5;
-      color: #1a1a2e;
-      padding: 24px 16px;
-    }
-
-    .wrapper {
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    /* ── Header ── */
-    .header {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
-      border-radius: 12px 12px 0 0;
-      padding: 32px 36px 28px;
-      color: white;
-    }
-    .header-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #94a3b8;
-      margin-bottom: 8px;
-    }
-    .header-title {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-    .header-meta {
-      display: flex;
-      gap: 20px;
-      font-size: 13px;
-      color: #94a3b8;
-    }
-    .header-meta span { display: flex; align-items: center; gap: 5px; }
-
-    /* ── Body ── */
-    .body {
-      background: white;
-      padding: 28px 36px;
-    }
-
-    /* ── Article card ── */
-    .article {
-      border: 1px solid #e8ecf0;
-      border-radius: 10px;
-      padding: 20px 22px;
-      margin-bottom: 16px;
-      transition: box-shadow 0.15s;
-    }
-    .article:last-child { margin-bottom: 0; }
-
-    .article-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-
-    /* Category pill */
-    .pill {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.4px;
-      white-space: nowrap;
-    }
-    .pill-ai    { background: #ede9fe; color: #6d28d9; }
-    .pill-fe    { background: #dbeafe; color: #1d4ed8; }
-    .pill-st    { background: #dcfce7; color: #15803d; }
-    .pill-ca    { background: #fff7ed; color: #c2410c; }
-    .pill-tn    { background: #f3f4f6; color: #374151; }
-
-    /* Importance stars */
-    .stars {
-      font-size: 13px;
-      letter-spacing: 1px;
-      color: #f59e0b;
-      margin-left: auto;
-    }
-
-    .article-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #111827;
-      margin-bottom: 14px;
-      line-height: 1.4;
-    }
-
-    /* Fields */
-    .field { margin-bottom: 10px; }
-    .field:last-child { margin-bottom: 0; }
-    .field-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: #9ca3af;
-      margin-bottom: 3px;
-    }
-    .field-body {
-      font-size: 13.5px;
-      line-height: 1.65;
-      color: #374151;
-    }
-
-    .source-link {
-      display: inline-block;
-      margin-top: 12px;
-      font-size: 12px;
-      color: #6366f1;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .source-link:hover { text-decoration: underline; }
-
-    /* Divider between importance groups */
-    .group-heading {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: #9ca3af;
-      padding: 16px 0 10px;
-      border-top: 1px solid #f3f4f6;
-      margin-top: 8px;
-    }
-    .group-heading:first-child { border-top: none; padding-top: 0; margin-top: 0; }
-
-    /* ── Footer ── */
-    .footer {
-      background: #f8fafc;
-      border-top: 1px solid #e8ecf0;
-      border-radius: 0 0 12px 12px;
-      padding: 20px 36px;
-      text-align: center;
-      font-size: 12px;
-      color: #9ca3af;
-    }
-    .footer strong { color: #6b7280; }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>日々 — $date</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div class="wrapper">
+<body style="margin:0;padding:32px 16px;background:#FAFAF7;font-family:'Noto Sans JP',system-ui,-apple-system,'Yu Gothic','Hiragino Kaku Gothic ProN',sans-serif;color:#1A1A1A;-webkit-font-smoothing:antialiased;">
+<div style="max-width:680px;margin:0 auto;background:#FFFFFF;">
 
-    <!-- Header -->
-    <div class="header">
-      <div class="header-label">Daily Intelligence Briefing</div>
-      <div class="header-title">Personal AI Newspaper</div>
-      <div class="header-meta">
-        <span>📅 $date</span>
-        <span>📰 $article_count 記事</span>
-      </div>
-    </div>
+  <header style="border-top:2px solid #1A1A1A;border-bottom:1px solid #E8E6E1;padding:32px 48px 28px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+      <tr>
+        <td valign="bottom" style="vertical-align:baseline;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+            <td style="font-family:'Noto Serif JP','Hiragino Mincho ProN',serif;font-weight:700;font-size:56px;line-height:1;letter-spacing:-0.02em;color:#1A1A1A;padding-right:18px;">日々</td>
+            <td style="font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#5C5A57;border-left:1px solid #E8E6E1;padding-left:16px;line-height:1.5;">
+              <strong style="color:#1A1A1A;font-weight:500;">HIBI</strong><br>
+              DAILY · TOKYO
+            </td>
+          </tr></table>
+        </td>
+        <td align="right" valign="bottom" style="vertical-align:baseline;font-family:'Inter',system-ui,-apple-system,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:0.2em;font-size:13px;color:#1A1A1A;text-align:right;line-height:1.5;">
+          $date
+          <div style="font-size:10px;color:#9B9894;letter-spacing:0.25em;text-transform:uppercase;">$article_count STORIES</div>
+        </td>
+      </tr>
+    </table>
+  </header>
 
-    <!-- Articles -->
-    <div class="body">
-      $articles_html
-    </div>
+  <section style="padding:28px 48px 24px;border-bottom:1px solid #E8E6E1;font-family:'Noto Sans JP',system-ui,-apple-system,'Yu Gothic','Hiragino Kaku Gothic ProN',sans-serif;font-size:18px;font-weight:400;line-height:1.6;color:#5C5A57;">
+    <em style="font-style:normal;color:#1A1A1A;font-weight:500;">今朝の$article_count本。</em>静かな朝の読みもの。
+  </section>
 
-    <!-- Footer -->
-    <div class="footer">
-      <strong>$source_count sources</strong> &nbsp;·&nbsp; Generated by Personal AI Newspaper
-    </div>
+  $articles_html
 
-  </div>
+  <section style="padding:32px 48px;border-top:1px solid #1A1A1A;background:#FAFAF7;">
+    <div style="font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#9B9894;margin-bottom:14px;">Sources scanned this morning</div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+      $sources_html
+    </table>
+  </section>
+
+  <footer style="padding:32px 48px 40px;background:#FAFAF7;border-top:1px solid #E8E6E1;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+      <tr>
+        <td valign="top" style="vertical-align:top;">
+          <img src="https://raw.githubusercontent.com/kazuki-0418/Personal-Daily-News/main/design-system/ui_kits/email/seal.svg" width="72" height="72" alt="日々 seal" style="display:block;border:0;">
+        </td>
+        <td align="right" valign="top" style="vertical-align:top;font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:0.15em;color:#9B9894;text-align:right;line-height:1.7;">
+          <div style="font-family:'Noto Sans JP',system-ui,-apple-system,'Yu Gothic','Hiragino Kaku Gothic ProN',sans-serif;letter-spacing:0;font-size:12px;color:#9B9894;">日々の小さな知らせ。</div>
+          Generated $date JST<br>
+          $source_count sources scanned
+        </td>
+      </tr>
+    </table>
+  </footer>
+
+</div>
 </body>
 </html>

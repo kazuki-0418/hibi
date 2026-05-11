@@ -6,7 +6,6 @@ Fetches YouTube uploads + RSS articles → summarizes with Claude → sends Gmai
 import base64
 import hashlib
 import hmac
-import html as html_lib
 import os
 import random
 import sys
@@ -24,7 +23,9 @@ from anthropic import Anthropic
 from db import get_conn, is_already_sent, save_article
 from fetchers import rss as rss_fetcher
 from fetchers import youtube as youtube_fetcher
+from mailer import build_html as build_hibi_html
 from ranking import compute_interest_centroid, cosine_similarity, count_recent_clicks
+from send_mail import format_subject
 
 # ============================================================
 # CONFIG
@@ -212,31 +213,27 @@ def _redirect_url(article_id: str | None, original_url: str) -> str:
 
 
 # ============================================================
-# Build HTML email
+# Build HTML email (Hibi design-system; see `mailer.build_html`)
 # ============================================================
-def build_email_html(sections: list[dict]) -> str:
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    html = f"""<html><body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:640px;margin:0 auto;padding:16px;color:#222;">
-<h1 style="margin:0 0 4px 0;">📰 Personal AI Newspaper</h1>
-<p style="color:#888;margin:0 0 24px 0;">{today}</p>
-"""
+def _sections_to_articles(sections: list[dict]) -> list[dict]:
+    """Flatten `sections` (grouped by source) into the flat `articles` shape
+    `mailer.build_html` expects, applying the click-tracking redirect to
+    each URL so signed `/r/<id>` links survive the new template.
+    """
+    articles: list[dict] = []
     for section in sections:
-        source_name = html_lib.escape(section["source_name"])
-        html += f'<h2 style="border-bottom:2px solid #333;padding-bottom:4px;margin-top:32px;">{source_name}</h2>'
+        source_name = section["source_name"]
         for item in section["items"]:
-            title = html_lib.escape(item["title"])
-            link_url = html_lib.escape(_redirect_url(item.get("article_id"), item["url"]))
-            summary_html = html_lib.escape(item["summary"]).replace("\n", "<br>")
-            html += f"""
-<div style="margin:16px 0;padding:12px 16px;background:#f7f7f7;border-radius:8px;">
-  <h3 style="margin:0 0 8px 0;font-size:16px;">
-    <a href="{link_url}" style="color:#1a73e8;text-decoration:none;">{title}</a>
-  </h3>
-  <div style="color:#444;line-height:1.6;font-size:14px;">{summary_html}</div>
-</div>
-"""
-    html += "</body></html>"
-    return html
+            articles.append({
+                "title": item["title"],
+                "url": _redirect_url(item.get("article_id"), item["url"]),
+                "summary": item["summary"],
+                "source": source_name,
+                # category / source_type / learning / practical_application:
+                # not surfaced by daily_news pipeline yet; `_story_html`
+                # handles their absence gracefully.
+            })
+    return articles
 
 
 # ============================================================
@@ -464,10 +461,11 @@ def main():
         print("\n⚠️  No content to send today.")
         return
 
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    html = build_email_html(sections)
+    date_str = datetime.now(timezone.utc).strftime("%Y.%m.%d")
+    articles = _sections_to_articles(sections)
+    html = build_hibi_html(articles, date_str)
     send_email(
-        subject=f"📰 Daily News — {today}",
+        subject=format_subject(date_str, count=len(articles)),
         html_body=html,
         to=recipient,
     )
