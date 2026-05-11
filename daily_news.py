@@ -20,7 +20,13 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.proxies import WebshareProxyConfig
 from anthropic import Anthropic
 
-from db import get_conn, is_already_sent, save_article
+from db import (
+    get_conn,
+    get_or_create_edition_for_today,
+    is_already_sent,
+    save_article,
+    update_edition_sources_scanned,
+)
 from fetchers import rss as rss_fetcher
 from fetchers import youtube as youtube_fetcher
 from mailer import build_html as build_hibi_html
@@ -354,18 +360,51 @@ def main():
         )
     )
 
+    # 今朝の edition 行を確保。articles.edition_id が NOT NULL (migration 005)
+    # なので save_article 呼び出し前に必ず取る。再実行された場合は同じ
+    # issue_no を再利用する (editions.date UNIQUE)。
+    edition_issue_no = get_or_create_edition_for_today()
+    print(f"📰 Edition: issue_no={edition_issue_no}")
+
     # Stage A: 全ソースからメタデータのみ取得（本文/要約なし）
+    # `sources_scanned` は #52 で editions に保存。fetched_count は取得試行数
+    # (14日窓 / unsent フィルタ前)。fetch 自体が例外で落ちた場合は error 文字列
+    # を 200 文字で打ち切って残す。
     print("🔎 Gathering candidates (metadata only)...")
     candidates: list[dict] = []
+    sources_scanned: list[dict] = []
     for source in sources:
-        items = _fetch_items(source, youtube_client, METADATA_PER_SOURCE)
+        source_name = source["name"]
+        source_kind = "YouTube" if source["type"] == "youtube" else "RSS"
+        try:
+            items = _fetch_items(source, youtube_client, METADATA_PER_SOURCE)
+            entry: dict = {
+                "name": source_name,
+                "kind": source_kind,
+                "fetched_count": len(items),
+            }
+        except Exception as exc:
+            items = []
+            entry = {
+                "name": source_name,
+                "kind": source_kind,
+                "fetched_count": 0,
+                "error": str(exc)[:200],
+            }
+        sources_scanned.append(entry)
+
         fresh = [i for i in items if _is_within_lookback(i["published_at"])]
         unsent = [i for i in fresh if not is_already_sent(i["content_id"])]
         candidates.extend(unsent)
+        suffix = f", error: {entry['error']}" if entry.get("error") else ""
         print(
-            f"  📡 [{source['type']}] {source['name']}: {len(items)} fetched, "
-            f"{len(fresh)} within {MAX_LOOKBACK_DAYS}d, {len(unsent)} unsent"
+            f"  📡 [{source['type']}] {source_name}: {len(items)} fetched, "
+            f"{len(fresh)} within {MAX_LOOKBACK_DAYS}d, {len(unsent)} unsent{suffix}"
         )
+
+    # Stage A 完了時点で sources_scanned は確定するので editions に書き戻す。
+    # 配信が後段で失敗しても透明性ログは残る (= 何をスキャンしたかの記録)。
+    update_edition_sources_scanned(edition_issue_no, sources_scanned)
 
     print(f"\n📊 Total unsent candidates: {len(candidates)}")
 
@@ -428,7 +467,8 @@ def main():
                 "category": item.get("category"),
                 "embedding": embedding,
                 "embedding_model": EMBEDDING_MODEL if embedding is not None else None,
-            }
+            },
+            edition_id=edition_issue_no,
         )
 
         processed_by_source.setdefault(item["source_name"], []).append(
