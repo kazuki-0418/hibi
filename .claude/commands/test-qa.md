@@ -24,7 +24,7 @@
 
 - コードを実装しない
 - テストファイルを編集しない（観点の列挙のみ）
-- 計画中の未実装機能（multi-tenant / Astro UI / 評価UI / LangGraph）を現行仕様としてテストしない
+- 計画中の未実装機能（multi-tenant / 評価UI / LangGraph）を現行仕様としてテストしない
 - 表面的なアサーション（`assert called` だけで終わる類）を推奨しない
 - 過度なモック戦略を新規に発明しない（既存 `conftest.py` パターンを再利用する）
 - `Any` や `# type: ignore` を前提にした観点を書かない

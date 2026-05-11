@@ -24,7 +24,7 @@ Issue を最小限・実装指向の実行パケットに整形する。受け�
 - 長い説明文を書かない
 - スコープを広げない
 - 未承認の新規機能を追加しない
-- 計画中の未実装機能（multi-tenant / Astro UI / 評価UI / LangGraph）を現行仕様として扱わない
+- 計画中の未実装機能（multi-tenant / 評価UI / LangGraph）を現行仕様として扱わない
 
 ## Core Behavior
 

@@ -103,7 +103,7 @@ Lint・フォーマット・naming は、壊れた挙動・壊れた契約・壊
 
 #### Planned-but-unwired features
 
-multi-tenant / Astro UI / 評価UI / LangGraph は計画中としてのみ扱う。
+multi-tenant / 評価UI / LangGraph は計画中としてのみ扱う。Astro web frontend は採用済 (`web/` ディレクトリ、build target `web/dist/`、Cloudflare Pages 配信)。
 
 ### Verdict Labels
 
