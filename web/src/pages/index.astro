@@ -1,24 +1,53 @@
 ---
-// Scaffold placeholder. Replaced by the real archive index (#42) once
-// the build-time data flow (Python → web/src/content/editions/*.json
-// → Astro Content Collection) is wired up.
-const title = "日々 (Hibi) — scaffold";
+// Minimal archive landing. The real archive index (with masthead, latest
+// edition feature, full chronological listing, etc.) lands in #42.
+//
+// For #41's verification: just list every edition by issue_no so you can
+// click through to each generated /edition/NNNN/ page.
+
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+const editions = (await getCollection("editions")).sort(
+  (a, b) => b.data.issue_no - a.data.issue_no,
+);
 ---
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main>
-      <h1>{title}</h1>
-      <p>
-        Astro is installed. The real layout pulls
-        <code>design-system/colors_and_type.css</code> via
-        <code>&lt;link&gt;</code> once #41 lands.
-      </p>
-    </main>
-  </body>
-</html>
+
+<Layout title="日々 (Hibi) — Archive">
+  <header class="topbar">
+    <div class="mark">日々</div>
+    <nav>
+      <a href="/" class="active">Archive</a>
+      <a href="#">Subscribe</a>
+      <a href="#">About</a>
+    </nav>
+    <div class="right">{editions.length} editions</div>
+  </header>
+
+  <section class="edition-page">
+    <h1>Archive</h1>
+    {
+      editions.length === 0 ? (
+        <p>
+          No editions yet. Run <code>python scripts/dump_editions_to_json.py --apply</code>
+          to populate <code>web/src/content/editions/</code> from the database.
+        </p>
+      ) : (
+        <ul>
+          {editions.map((entry) => {
+            const issueNoDisplay = String(entry.data.issue_no).padStart(4, "0");
+            const dateDisplay = entry.data.date.replace(/-/g, ".");
+            return (
+              <li>
+                <a href={`/edition/${issueNoDisplay}/`}>
+                  No. {issueNoDisplay} · {dateDisplay}
+                </a>{" "}
+                — {entry.data.articles.length} stories
+              </li>
+            );
+          })}
+        </ul>
+      )
+    }
+  </section>
+</Layout>

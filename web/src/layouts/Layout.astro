@@ -1,0 +1,37 @@
+---
+// Shared layout. Pulls design-system tokens (colors_and_type.css) and
+// web-kit layout styles (web.css) from the design-system SSoT — copied
+// into public/design-system/ at build time by the prebuild npm script.
+//
+// Astro must NOT redeclare colors / typography here. Page-level styling
+// belongs in the page's own <style is:global> if needed, but the goal
+// is to reuse the existing kit classes.
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&family=Inter:wght@400;500;700&display=swap"
+    />
+    <!-- SSoT: tokens come from design-system/, copied to public/ by prebuild. -->
+    <link rel="stylesheet" href="/design-system/colors_and_type.css" />
+    <link rel="stylesheet" href="/design-system/ui_kits/web/web.css" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -3,3 +3,7 @@ dist/
 .astro/
 .env
 .env.production
+
+# Synced from ../design-system by scripts/sync-design-system.mjs at predev/prebuild.
+# Source of truth lives in design-system/ at the repo root.
+public/design-system/

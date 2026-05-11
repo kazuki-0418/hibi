@@ -5,6 +5,8 @@
   "private": true,
   "description": "Static archive site for the Hibi daily newspaper. Built with Astro, deployed to Cloudflare Pages at hibi-news.com.",
   "scripts": {
+    "predev": "node scripts/sync-design-system.mjs",
+    "prebuild": "node scripts/sync-design-system.mjs",
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
