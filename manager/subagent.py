@@ -156,11 +156,18 @@ class RealSubagent:
                 session_id=session_id,
             )
         if result.exit_code != 0:
+            # A failed subagent (exit != 0) can still have spent real tokens —
+            # e.g. `claude -p` exits non-zero with `subtype=error_max_budget_usd`
+            # after burning the entire per-stage budget. Parse cost out of the
+            # JSON envelope even on failure so the epic-level accounting is
+            # honest; `_decode_claude_json` returns 0.0 if the body isn't a
+            # valid claude-p result envelope, which is the right fallback.
+            _, failed_cost, _ = _decode_claude_json(result.stdout)
             return SubagentResult(
                 exit_code=result.exit_code,
                 raw_stdout=result.stdout,
                 raw_stderr=result.stderr,
-                cost_usd=0.0,
+                cost_usd=failed_cost,
                 session_id=session_id,
             )
         text, cost, returned_session = _decode_claude_json(result.stdout)

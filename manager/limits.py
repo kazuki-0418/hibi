@@ -28,7 +28,23 @@ SUBAGENT_TIMEOUT_SECONDS: int = 900
 # stays inside one 5-hour Max plan window (~$140 on 5x, ~$200+ on 20x)
 # so a runaway gets stopped before exhausting the window.
 EPIC_BUDGET_USD: float = 80.0
-PER_STAGE_BUDGET_USD: float = 1.0
+
+# PER_STAGE_BUDGET_USD is passed to `claude -p --max-budget-usd` per subagent
+# call as a soft cap. If the call exceeds it, claude returns
+# `subtype=error_max_budget_usd, is_error=true` and exits non-zero — the
+# work in progress is aborted mid-turn.
+#
+# At $1 the heaviest stage (`/run-dev-loop`) couldn't complete: a real
+# IMPLEMENT involves reading project context + design-system + writing
+# code + invoking implementation-reviewer/test-qa internally, easily
+# 30–50 turns. Empirically a single /run-dev-loop call hit $1 after only
+# 21 turns and bailed before finishing.
+#
+# At $10 cheap stages (TRIAGE ~$0.2–$0.3, PACKETIZE ~$0.3) stay nowhere
+# near the cap; PLAN ~$0.5–$1.5 has comfortable headroom; IMPLEMENT can
+# burn its full ~$5–$8 budget without truncation. The EPIC_BUDGET_USD
+# cap above is still the real safety net against runaways.
+PER_STAGE_BUDGET_USD: float = 10.0
 
 MAX_DIFF_LINES_PER_CHILD: int = 1500
 
