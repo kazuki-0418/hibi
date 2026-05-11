@@ -1,9 +1,12 @@
 ---
-// Minimal archive landing. The real archive index (with masthead, latest
-// edition feature, full chronological listing, etc.) lands in #42.
+// Archive landing (#42). Mirrors design-system/ui_kits/web/index.html:
+//   - .masthead-web with wordmark + lede + stats
+//   - "今日の号" feature block (latest edition)
+//   - "過去の号" edition-row list (newest first)
 //
-// For #41's verification: just list every edition by issue_no so you can
-// click through to each generated /edition/NNNN/ page.
+// All copy / classes come from web.css (linked via Layout.astro). No
+// month/year grouping yet — 16 editions in one month doesn't need it.
+// Add when the archive grows.
 
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
@@ -11,43 +14,132 @@ import Layout from "../layouts/Layout.astro";
 const editions = (await getCollection("editions")).sort(
   (a, b) => b.data.issue_no - a.data.issue_no,
 );
+
+const totalEditions = editions.length;
+const totalStories = editions.reduce((sum, e) => sum + e.data.articles.length, 0);
+const totalSources = new Set(
+  editions.flatMap((e) => e.data.articles.map((a) => a.source)),
+).size;
+
+// Feature block uses the latest edition (highest issue_no).
+const latest = editions[0];
+const olderEditions = editions.slice(1);
+
+const issueNoStr = (n: number) => String(n).padStart(4, "0");
+const dateBig = (iso: string) => iso.replace(/-/g, ".");
+const dateShort = (iso: string) => {
+  const [, m, d] = iso.split("-");
+  return `${m}.${d}`;
+};
+
+// One-line summary fallback when daily_title (#53) isn't generated yet.
+const summarize = (entry: typeof editions[number]) => {
+  if (entry.data.daily_title) return entry.data.daily_title;
+  const first = entry.data.articles[0]?.title;
+  return first ? `${first}、ほか${entry.data.articles.length - 1}本。` : `${entry.data.articles.length} stories.`;
+};
+
+// Categories per edition: unique, joined " · ". Fall back to "" if none.
+const categoriesOf = (entry: typeof editions[number]) => {
+  const cats = entry.data.articles
+    .map((a) => a.category)
+    .filter((c): c is string => Boolean(c));
+  return Array.from(new Set(cats)).join(" · ");
+};
 ---
 
-<Layout title="日々 (Hibi) — Archive">
+<Layout title="日々 (Hibi) — Archive" description="毎朝六時、技術系チャンネルとフィードから五本だけ選び、Claude が日本語で要約して届ける。">
   <header class="topbar">
     <div class="mark">日々</div>
     <nav>
       <a href="/" class="active">Archive</a>
+      {latest && (
+        <a href={`/edition/${issueNoStr(latest.data.issue_no)}/`}>Today</a>
+      )}
       <a href="#">Subscribe</a>
       <a href="#">About</a>
     </nav>
-    <div class="right">{editions.length} editions</div>
+    {latest && (
+      <div class="right">
+        NO. {issueNoStr(latest.data.issue_no)} · {dateBig(latest.data.date)}
+      </div>
+    )}
   </header>
 
-  <section class="edition-page">
-    <h1>Archive</h1>
-    {
-      editions.length === 0 ? (
-        <p>
-          No editions yet. Run <code>python scripts/dump_editions_to_json.py --apply</code>
-          to populate <code>web/src/content/editions/</code> from the database.
-        </p>
-      ) : (
-        <ul>
-          {editions.map((entry) => {
-            const issueNoDisplay = String(entry.data.issue_no).padStart(4, "0");
-            const dateDisplay = entry.data.date.replace(/-/g, ".");
-            return (
+  <section class="masthead-web">
+    <h1 class="big">日々</h1>
+    <div class="side">
+      <div class="eyebrow">Daily AI Newspaper · Tokyo</div>
+      <p class="lede">
+        毎朝六時、技術系チャンネルとフィードから五本だけ選び、Claude
+        が日本語で要約して届ける。読み終わるまで三分。
+      </p>
+      <div class="stats">
+        <div><div class="n">{totalEditions}</div><div class="l">Editions</div></div>
+        <div><div class="n">{totalStories}</div><div class="l">Stories</div></div>
+        <div><div class="n">{totalSources}</div><div class="l">Sources</div></div>
+      </div>
+    </div>
+  </section>
+
+  {latest && (
+    <section class="section">
+      <div class="section-head">
+        <h2>今日の号</h2>
+        <div class="eyebrow">Today · {dateBig(latest.data.date)}</div>
+      </div>
+
+      <a href={`/edition/${issueNoStr(latest.data.issue_no)}/`} class="feature">
+        <div class="left">
+          <div class="eyebrow">No. {issueNoStr(latest.data.issue_no)}</div>
+          <h3>{summarize(latest)}</h3>
+          <div class="meta">
+            {latest.data.articles.length} STORIES ·{" "}
+            {new Set(latest.data.articles.map((a) => a.source)).size} SOURCES
+          </div>
+        </div>
+        <div class="right">
+          <ol>
+            {latest.data.articles.slice(0, 5).map((a) => (
               <li>
-                <a href={`/edition/${issueNoDisplay}/`}>
-                  No. {issueNoDisplay} · {dateDisplay}
-                </a>{" "}
-                — {entry.data.articles.length} stories
+                <span class="t">{a.title}</span>
+                <span class="c">{a.category ?? "News"}</span>
               </li>
-            );
-          })}
-        </ul>
-      )
-    }
+            ))}
+          </ol>
+        </div>
+      </a>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="section-head">
+      <h2>過去の号</h2>
+      <div class="eyebrow">Archive · {olderEditions.length} editions</div>
+    </div>
+
+    <div class="editions">
+      {olderEditions.map((entry) => (
+        <a href={`/edition/${issueNoStr(entry.data.issue_no)}/`} class="edition-row">
+          <div class="no">NO. {issueNoStr(entry.data.issue_no)}</div>
+          <div class="date">{dateShort(entry.data.date)}</div>
+          <div class="title">{summarize(entry)}</div>
+          <div class="cats">{categoriesOf(entry)}</div>
+          <div class="arr">→</div>
+        </a>
+      ))}
+    </div>
   </section>
 </Layout>
+
+<style>
+  /* The kit designed .feature and .edition-row as static blocks. We make
+     each one a link for better a11y / mobile tap targets. Only neutralize
+     the default <a> styling — grid layout, padding, borders are owned by
+     web.css and inherited unchanged. */
+  a.feature,
+  a.edition-row {
+    color: inherit;
+    text-decoration: none;
+  }
+</style>
