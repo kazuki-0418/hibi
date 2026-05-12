@@ -87,30 +87,30 @@ def _story_html(index: int, article: dict, is_last: bool) -> str:
 
     body_parts: list[str] = []
     if summary:
-        body_parts.append(f'<p style="{P_STYLE}">{summary}</p>')
+        body_parts.append(f'<p class="hb-story-p" style="{P_STYLE}">{summary}</p>')
     if learning:
-        body_parts.append(f'<p style="{P_STYLE}">{learning}</p>')
+        body_parts.append(f'<p class="hb-story-p" style="{P_STYLE}">{learning}</p>')
     if practical:
-        body_parts.append(f'<p style="{P_STYLE}">{practical}</p>')
+        body_parts.append(f'<p class="hb-story-p" style="{P_STYLE}">{practical}</p>')
     body_html = "".join(body_parts)
 
     src_label = source_name or "Source"
     src_html = (
-        f'<div style="{SRC_STYLE}">'
+        f'<div class="hb-story-src" style="{SRC_STYLE}">'
         f'Source <a href="{url}" style="{SRC_LINK_STYLE}">{src_label}</a>'
         f"</div>"
     )
 
     wrapper = STORY_WRAPPER_LAST if is_last else STORY_WRAPPER
     return (
-        f'<article style="{wrapper}">'
+        f'<article class="hb-story" style="{wrapper}">'
         '<table role="presentation" width="100%" cellpadding="0" '
         'cellspacing="0" border="0" style="border-collapse:collapse;">'
         "<tr>"
-        f'<td style="{NUM_STYLE}">{index:02d}</td>'
+        f'<td class="hb-story-num" style="{NUM_STYLE}">{index:02d}</td>'
         "<td>"
         f'<div style="{META_STYLE}">{meta_html}</div>'
-        f'<h2 style="{H2_STYLE}">{title}</h2>'
+        f'<h2 class="hb-story-h2" style="{H2_STYLE}">{title}</h2>'
         f"{body_html}"
         f"{src_html}"
         "</td>"
