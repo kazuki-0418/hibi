@@ -210,12 +210,23 @@ def test_mailer_send_signature_unchanged() -> None:
 def test_build_html_returns_str_with_inline_styles_only() -> None:
     html = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10")
     assert isinstance(html, str) and len(html) > 0
-    # The design-system migration inlines tokens via style="…" attributes;
-    # no <style> block, no premailer/juice dependency.
-    assert "<style" not in html.lower()
-    # Token color literals from design-system/colors_and_type.css.
+    # Design tokens live inline on style="…" attributes (no premailer/juice).
+    # A <style> block is allowed only for responsive @media overrides — it
+    # must not carry token literals or non-media rules, which would signal a
+    # regression toward stylesheet-driven design.
     for token in ("#1A1A1A", "#5C5A57", "#9B9894", "#FAFAF7", "#E8E6E1"):
         assert token in html
+    lower = html.lower()
+    style_open = lower.find("<style")
+    if style_open != -1:
+        style_close = lower.find("</style>", style_open)
+        assert style_close != -1, "<style> opened without closing tag"
+        block = html[style_open:style_close]
+        assert "@media" in block, "<style> block must only carry @media rules"
+        for token in ("#1A1A1A", "#5C5A57", "#9B9894", "#FAFAF7", "#E8E6E1"):
+            assert token not in block, (
+                f"design token {token} leaked into <style>; tokens belong inline"
+            )
 
 
 # ── HTML escaping of user-controlled fields ────────────────────────────

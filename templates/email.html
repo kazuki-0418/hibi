@@ -7,50 +7,70 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    @media only screen and (max-width: 600px) {
+      .hb-body { padding: 16px 8px !important; }
+      .hb-mast { padding: 24px 22px 20px !important; }
+      .hb-mark { font-size: 40px !important; padding-right: 12px !important; }
+      .hb-mark-meta { padding-left: 12px !important; font-size: 9px !important; letter-spacing: 0.22em !important; }
+      .hb-date { font-size: 11px !important; letter-spacing: 0.16em !important; }
+      .hb-date-small { font-size: 9px !important; }
+      .hb-stand { padding: 22px 22px 20px !important; font-size: 15px !important; }
+      .hb-story { padding: 22px 22px !important; }
+      .hb-story-num { font-size: 22px !important; width: 36px !important; padding-right: 14px !important; }
+      .hb-story-h2 { font-size: 19px !important; margin-bottom: 10px !important; }
+      .hb-story-p { font-size: 14px !important; line-height: 1.7 !important; }
+      .hb-story-src { font-size: 10px !important; margin-top: 12px !important; }
+      .hb-srcs { padding: 24px 22px !important; }
+      .hb-colo { padding: 24px 22px 28px !important; }
+      .hb-seal { width: 56px !important; height: 56px !important; }
+      .hb-colo-meta { font-size: 10px !important; line-height: 1.65 !important; }
+    }
+  </style>
 </head>
-<body style="margin:0;padding:32px 16px;background:#FAFAF7;font-family:'Noto Sans JP',system-ui,-apple-system,'Yu Gothic','Hiragino Kaku Gothic ProN',sans-serif;color:#1A1A1A;-webkit-font-smoothing:antialiased;">
+<body class="hb-body" style="margin:0;padding:32px 16px;background:#FAFAF7;font-family:'Noto Sans JP',system-ui,-apple-system,'Yu Gothic','Hiragino Kaku Gothic ProN',sans-serif;color:#1A1A1A;-webkit-font-smoothing:antialiased;">
 <div style="max-width:680px;margin:0 auto;background:#FFFFFF;">
 
-  <header style="border-top:2px solid #1A1A1A;border-bottom:1px solid #E8E6E1;padding:32px 48px 28px;">
+  <header class="hb-mast" style="border-top:2px solid #1A1A1A;border-bottom:1px solid #E8E6E1;padding:32px 48px 28px;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
       <tr>
         <td valign="bottom" style="vertical-align:baseline;">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-            <td style="font-family:'Noto Serif JP','Hiragino Mincho ProN',serif;font-weight:700;font-size:56px;line-height:1;letter-spacing:-0.02em;color:#1A1A1A;padding-right:18px;">日々</td>
-            <td style="font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#5C5A57;border-left:1px solid #E8E6E1;padding-left:16px;line-height:1.5;">
+            <td class="hb-mark" style="font-family:'Noto Serif JP','Hiragino Mincho ProN',serif;font-weight:700;font-size:56px;line-height:1;letter-spacing:-0.02em;color:#1A1A1A;padding-right:18px;">日々</td>
+            <td class="hb-mark-meta" style="font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#5C5A57;border-left:1px solid #E8E6E1;padding-left:16px;line-height:1.5;">
               <strong style="color:#1A1A1A;font-weight:500;">HIBI</strong><br>
               DAILY · TOKYO
             </td>
           </tr></table>
         </td>
-        <td align="right" valign="bottom" style="vertical-align:baseline;font-family:'Inter',system-ui,-apple-system,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:0.2em;font-size:13px;color:#1A1A1A;text-align:right;line-height:1.5;">
+        <td class="hb-date" align="right" valign="bottom" style="vertical-align:baseline;font-family:'Inter',system-ui,-apple-system,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:0.2em;font-size:13px;color:#1A1A1A;text-align:right;line-height:1.5;">
           $date
-          <div style="font-size:10px;color:#9B9894;letter-spacing:0.25em;text-transform:uppercase;">$article_count STORIES</div>
+          <div class="hb-date-small" style="font-size:10px;color:#9B9894;letter-spacing:0.25em;text-transform:uppercase;">$article_count STORIES</div>
         </td>
       </tr>
     </table>
   </header>
 
-  <section style="padding:28px 48px 24px;border-bottom:1px solid #E8E6E1;font-family:'Noto Sans JP',system-ui,-apple-system,'Yu Gothic','Hiragino Kaku Gothic ProN',sans-serif;font-size:18px;font-weight:400;line-height:1.6;color:#5C5A57;">
+  <section class="hb-stand" style="padding:28px 48px 24px;border-bottom:1px solid #E8E6E1;font-family:'Noto Sans JP',system-ui,-apple-system,'Yu Gothic','Hiragino Kaku Gothic ProN',sans-serif;font-size:18px;font-weight:400;line-height:1.6;color:#5C5A57;">
     <em style="font-style:normal;color:#1A1A1A;font-weight:500;">今朝の$article_count本。</em>静かな朝の読みもの。
   </section>
 
   $articles_html
 
-  <section style="padding:32px 48px;border-top:1px solid #1A1A1A;background:#FAFAF7;">
+  <section class="hb-srcs" style="padding:32px 48px;border-top:1px solid #1A1A1A;background:#FAFAF7;">
     <div style="font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#9B9894;margin-bottom:14px;">Sources scanned this morning</div>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
       $sources_html
     </table>
   </section>
 
-  <footer style="padding:32px 48px 40px;background:#FAFAF7;border-top:1px solid #E8E6E1;">
+  <footer class="hb-colo" style="padding:32px 48px 40px;background:#FAFAF7;border-top:1px solid #E8E6E1;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
       <tr>
         <td valign="top" style="vertical-align:top;">
-          <img src="https://raw.githubusercontent.com/kazuki-0418/Personal-Daily-News/main/design-system/ui_kits/email/seal.svg" width="72" height="72" alt="日々 seal" style="display:block;border:0;">
+          <img class="hb-seal" src="https://raw.githubusercontent.com/kazuki-0418/Personal-Daily-News/main/design-system/ui_kits/email/seal.svg" width="72" height="72" alt="日々 seal" style="display:block;border:0;">
         </td>
-        <td align="right" valign="top" style="vertical-align:top;font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:0.15em;color:#9B9894;text-align:right;line-height:1.7;">
+        <td class="hb-colo-meta" align="right" valign="top" style="vertical-align:top;font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:11px;letter-spacing:0.15em;color:#9B9894;text-align:right;line-height:1.7;">
           <div style="font-family:'Noto Sans JP',system-ui,-apple-system,'Yu Gothic','Hiragino Kaku Gothic ProN',sans-serif;letter-spacing:0;font-size:12px;color:#9B9894;">日々の小さな知らせ。</div>
           Generated $date JST<br>
           $source_count sources scanned
