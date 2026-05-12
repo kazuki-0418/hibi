@@ -47,7 +47,7 @@ body { margin: 0; background: var(--bg-primary); }
 
 /* ── Masthead ───────────────────────────────────────────── */
 .masthead-web {
-  padding: 96px 48px 64px;
+  padding: 64px 48px 48px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 48px;
@@ -57,7 +57,7 @@ body { margin: 0; background: var(--bg-primary); }
 .masthead-web .big {
   font-family: var(--font-jp-serif);
   font-weight: 700;
-  font-size: 220px;
+  font-size: 96px;
   line-height: 0.9;
   letter-spacing: -0.04em;
   color: var(--text-primary);
@@ -109,7 +109,7 @@ body { margin: 0; background: var(--bg-primary); }
 }
 
 /* ── Section header ────────────────────────────────────── */
-.section { padding: 96px 48px; }
+.section { padding: 64px 48px; }
 .section-head {
   display: flex;
   align-items: baseline;
@@ -206,11 +206,11 @@ body { margin: 0; background: var(--bg-primary); }
 }
 .feature .left h3 {
   font-family: var(--font-jp);
-  font-size: 56px;
+  font-size: 36px;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.2;
   letter-spacing: -0.02em;
-  margin: 0 0 24px;
+  margin: 0 0 20px;
 }
 .feature .left .meta {
   font-family: var(--font-en);
@@ -412,7 +412,7 @@ body { margin: 0; background: var(--bg-primary); }
 .edition-page .ehead .date-big {
   font-family: var(--font-en);
   font-variant-numeric: tabular-nums;
-  font-size: 96px;
+  font-size: 56px;
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.04em;
