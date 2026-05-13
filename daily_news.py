@@ -6,6 +6,7 @@ Fetches YouTube uploads + RSS articles → summarizes with Claude → sends Gmai
 import base64
 import hashlib
 import hmac
+import logging
 import os
 import random
 import sys
@@ -34,6 +35,9 @@ from mailer import build_html as build_hibi_html
 from observability import init_sentry_from_env
 from ranking import compute_interest_centroid, cosine_similarity, count_recent_clicks
 from send_mail import format_subject
+from voice import check_voice_violations
+
+log = logging.getLogger(__name__)
 
 # ============================================================
 # CONFIG
@@ -166,7 +170,20 @@ def embed_batch(openai_client, texts: list[str]) -> list[list[float] | None]:
 # Claude summarize
 # ============================================================
 def summarize(client: Anthropic, title: str, content: str) -> str:
-    prompt = f"""以下の記事/動画を日本語で3行に要約してください。
+    # design-system/README.md "Content fundamentals → Voice" 由来。
+    # 具体的な禁止ワード列挙ではなく原則だけを 5-7 行で示し、
+    # post-processing (`check_voice_violations`) で観測する設計。
+    voice_rule = """あなたは新聞 Hibi の編集者として要約を書きます。文体ルール:
+- 三人称・観察的・宣言的に書く。新聞は報告するのであって売り込まない。
+- 一人称(「私」「僕」)も二人称呼びかけ(「あなた」「読者の皆様」)も使わない。
+- 賞賛は抑制する。「すごい」「最高」より「興味深い」「注目」。
+- 感嘆符(「!」「！」)、絵文字、絵文字的記号は使わない。
+- マーケティング的な煽り(「今すぐ」「お見逃しなく」「驚愕」「衝撃」)を避ける。
+- 句点「。」で終える事実の記述を基本とする。"""
+
+    prompt = f"""{voice_rule}
+
+以下の記事/動画を日本語で3行に要約してください。
 技術的な要点、実装のヒント、開発者にとっての示唆を優先してください。
 各行は1文で、「・」で始めてください。
 
@@ -187,7 +204,16 @@ def summarize(client: Anthropic, title: str, content: str) -> str:
         max_tokens=500,
         messages=[{"role": "user", "content": prompt}],
     )
-    return response.content[0].text.strip()
+    summary = response.content[0].text.strip()
+
+    # design-system voice & tone への準拠を観測する。違反があっても配信は
+    # 止めず warning ログのみ。意図は voice.py module docstring を参照。
+    if summary:
+        violations = check_voice_violations(summary)
+        if violations:
+            log.warning("voice violations in summary: %s", violations)
+
+    return summary
 
 
 # ============================================================
