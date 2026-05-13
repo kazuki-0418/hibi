@@ -1,13 +1,21 @@
 name: Build and Push Service Image
 
 on:
+  # Versioned releases publish images without auto-deploying — homelab
+  # operators decide when to roll forward by re-pointing HIBI_API_TAG.
   push:
-    branches: [main]
     tags: ["v*.*.*"]
-    paths:
-      - "service/**"
-      - ".github/workflows/build-and-push.yml"
+  # Manual rebuild when iterating on the workflow itself.
   workflow_dispatch:
+  # Reusable from the orchestrator (which adds deploy after build).
+  workflow_call:
+    outputs:
+      image_tag:
+        description: "Tag of the freshly-published image, e.g. sha-<long-sha>"
+        value: ${{ jobs.build-and-push.outputs.image_tag }}
+      image_ref:
+        description: "Fully-qualified image ref pinned to the SHA tag"
+        value: ${{ jobs.build-and-push.outputs.image_ref }}
 
 env:
   REGISTRY: ghcr.io
@@ -21,6 +29,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      image_tag: ${{ steps.pin.outputs.image_tag }}
+      image_ref: ${{ steps.pin.outputs.image_ref }}
 
     steps:
       - uses: actions/checkout@v4
@@ -56,3 +67,10 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Pin image to SHA tag for downstream deploy
+        id: pin
+        run: |
+          TAG="sha-${GITHUB_SHA}"
+          echo "image_tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "image_ref=${REGISTRY}/${IMAGE_NAME}:${TAG}" >> "$GITHUB_OUTPUT"
