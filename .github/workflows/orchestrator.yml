@@ -17,6 +17,13 @@ concurrency:
   group: hibi-prod-${{ github.ref }}
   cancel-in-progress: true
 
+# Reusable workflows can only narrow the parent's permission set, so the
+# orchestrator must grant the union of what its children need. The deploy
+# job runs on a self-hosted runner and uses nothing from GITHUB_TOKEN.
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
     uses: ./.github/workflows/build-and-push.yml
