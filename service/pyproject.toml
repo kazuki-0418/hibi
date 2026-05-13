@@ -11,6 +11,7 @@ dependencies = [
     "pydantic-settings>=2.6",
     "psycopg[binary,pool]>=3.2",
     "slowapi>=0.1.9",
+    "sentry-sdk[fastapi]>=2.18",
 ]
 
 [dependency-groups]

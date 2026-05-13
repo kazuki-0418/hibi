@@ -8,6 +8,7 @@ from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from . import db
+from .observability import init_sentry
 from .rate_limit import limiter
 from .routes import click
 from .settings import Settings
@@ -16,6 +17,15 @@ from .settings import Settings
 def _build_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or Settings()
     logging.basicConfig(level=settings.log_level)
+
+    # Initialize Sentry before FastAPI so the integration can hook lifespan.
+    # No-op when SENTRY_DSN is unset (local dev, tests).
+    init_sentry(
+        settings.sentry_dsn,
+        release=settings.hibi_release,
+        environment=settings.hibi_env,
+        traces_sample_rate=settings.sentry_traces_sample_rate,
+    )
 
     @asynccontextmanager
     async def lifespan(_app: FastAPI):

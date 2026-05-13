@@ -26,3 +26,13 @@ class Settings(BaseSettings):
     # Rate limit for /r/{id}. Read from env at rate_limit.py import time;
     # kept here too so /health can echo it if needed later.
     click_rate_limit: str = "60/minute"
+
+    # Sentry. Optional — unset → no-op (local dev / CI without secrets).
+    sentry_dsn: str | None = None
+    # Release identifier (git SHA in CI, "dev" locally).
+    hibi_release: str = "dev"
+    # Sentry environment tag. Distinct from app_env so we can run in dev mode
+    # but still report to the production Sentry project if desired.
+    hibi_env: str = "production"
+    # Performance traces sample rate. Keep low to fit the free-tier quota.
+    sentry_traces_sample_rate: float = 0.1
