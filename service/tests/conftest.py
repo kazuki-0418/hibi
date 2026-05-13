@@ -27,9 +27,18 @@ def db_stub(monkeypatch: pytest.MonkeyPatch) -> Iterator[MagicMock]:
         "url": "https://origin.example.com/article",
         "user_id": "00000000-0000-0000-0000-000000000001",
     }
+    fake.get_article_with_edition.return_value = {
+        "url": "https://origin.example.com/article",
+        "user_id": "00000000-0000-0000-0000-000000000001",
+        "issue_no": 17,
+        "position_in_edition": 3,
+    }
     fake.log_click.return_value = None
 
     monkeypatch.setattr(db_module, "get_article", fake.get_article)
+    monkeypatch.setattr(
+        db_module, "get_article_with_edition", fake.get_article_with_edition
+    )
     monkeypatch.setattr(db_module, "log_click", fake.log_click)
     monkeypatch.setattr(db_module, "init_pool", lambda *_a, **_kw: None)
     monkeypatch.setattr(db_module, "close_pool", lambda: None)

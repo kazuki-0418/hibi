@@ -130,6 +130,102 @@ def test_db_cold_start_falls_back_to_missing_redirect(
     db_stub_mock.log_click.assert_not_called()
 
 
+def test_to_edition_redirects_to_edition_anchor_and_skips_click_log(app_client):
+    """`?to=edition` with a valid signature must 302 to
+    <web_base_url>/edition/NNNN/#story-N and must NOT record a click
+    (internal clicks are weak learning signal per issue #55)."""
+    client, db, settings = app_client
+
+    r = client.get(
+        f"/r/{ARTICLE_ID}",
+        params={"s": _valid_sig(), "to": "edition"},
+        follow_redirects=False,
+        headers={"user-agent": "Mozilla/5.0 human", "cf-connecting-ip": "203.0.113.20"},
+    )
+
+    assert r.status_code == 302
+    expected = f"{settings.web_base_url.rstrip('/')}/edition/0017/#story-3"
+    assert r.headers["location"] == expected
+    db.log_click.assert_not_called()
+    db.get_article_with_edition.assert_called_once_with(ARTICLE_ID)
+
+
+def test_to_edition_with_invalid_signature_falls_back_to_external_url(app_client):
+    """HMAC failure on `?to=edition` must redirect to the external article URL
+    (same contract as the default branch — never leak signature-verified vs
+    not) and must not record a click."""
+    client, db, _ = app_client
+
+    r = client.get(
+        f"/r/{ARTICLE_ID}",
+        params={"s": "X" * 22, "to": "edition"},
+        follow_redirects=False,
+        headers={"user-agent": "Mozilla/5.0 human", "cf-connecting-ip": "203.0.113.21"},
+    )
+
+    assert r.status_code == 302
+    assert r.headers["location"] == "https://origin.example.com/article"
+    db.log_click.assert_not_called()
+
+
+def test_to_edition_missing_article_redirects_to_missing(app_client):
+    """If the article row does not exist, fall back to missing_redirect_url."""
+    client, db, settings = app_client
+    db.get_article_with_edition.return_value = None
+
+    r = client.get(
+        f"/r/{ARTICLE_ID}",
+        params={"s": _valid_sig(), "to": "edition"},
+        follow_redirects=False,
+        headers={"user-agent": "Mozilla/5.0 human", "cf-connecting-ip": "203.0.113.22"},
+    )
+
+    assert r.status_code == 302
+    assert r.headers["location"] == settings.missing_redirect_url
+    db.log_click.assert_not_called()
+
+
+def test_to_edition_orphan_article_redirects_to_missing(app_client):
+    """Article exists but edition_id is NULL (or FK points at a missing row):
+    issue_no / position_in_edition come back as None → missing_redirect_url."""
+    client, db, settings = app_client
+    db.get_article_with_edition.return_value = {
+        "url": "https://origin.example.com/article",
+        "user_id": "00000000-0000-0000-0000-000000000001",
+        "issue_no": None,
+        "position_in_edition": None,
+    }
+
+    r = client.get(
+        f"/r/{ARTICLE_ID}",
+        params={"s": _valid_sig(), "to": "edition"},
+        follow_redirects=False,
+        headers={"user-agent": "Mozilla/5.0 human", "cf-connecting-ip": "203.0.113.23"},
+    )
+
+    assert r.status_code == 302
+    assert r.headers["location"] == settings.missing_redirect_url
+    db.log_click.assert_not_called()
+
+
+def test_to_param_unknown_value_uses_default_external_redirect(app_client):
+    """Any `to` value other than `edition` must fall through to the default
+    branch (record click, redirect to external URL). Defensive: protects
+    against typos like `?to=editions` silently breaking analytics."""
+    client, db, _ = app_client
+
+    r = client.get(
+        f"/r/{ARTICLE_ID}",
+        params={"s": _valid_sig(), "to": "editions"},
+        follow_redirects=False,
+        headers={"user-agent": "Mozilla/5.0 human", "cf-connecting-ip": "203.0.113.24"},
+    )
+
+    assert r.status_code == 302
+    assert r.headers["location"] == "https://origin.example.com/article"
+    db.log_click.assert_called_once()
+
+
 def test_rate_limit_returns_429_after_threshold(app_client):
     """60/minute per-IP: the 61st request from the same IP must 429."""
     client, _db, _settings = app_client
