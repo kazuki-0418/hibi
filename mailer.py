@@ -160,12 +160,20 @@ def _sources_html(articles: list[dict]) -> str:
     return "".join(rows)
 
 
-def build_html(articles: list[dict], date: str) -> str:
+def build_html(
+    articles: list[dict],
+    date: str,
+    skipped_count: int = 0,
+) -> str:
     """Build the daily email HTML from enriched article dicts.
 
     Articles are rendered top-to-bottom with numeric prefix 01..N matching
     design-system/ui_kits/email. Importance scores no longer drive layout —
     Hibi's design-system removes group headings, pills, and stars.
+
+    ``skipped_count`` is the number of candidate articles dropped during the
+    summarization stage (字幕不足 / 短すぎる要約など). When > 0 it is shown
+    discreetly in the colophon for transparency. 0 (default) hides the line.
     """
     with open(TEMPLATE_PATH, encoding="utf-8") as f:
         template = Template(f.read())
@@ -181,12 +189,25 @@ def build_html(articles: list[dict], date: str) -> str:
     sources_html = _sources_html(articles)
     source_count = len({a.get("source") or a.get("source_name") for a in articles if a.get("source") or a.get("source_name")})
 
+    if skipped_count > 0:
+        # Inline tokens reuse the existing colophon palette (#9B9894 muted
+        # gray, Noto Sans JP). No new colors / fonts introduced.
+        skipped_html = (
+            f'<br><span style="font-family:{FONT_JP};letter-spacing:0;'
+            'font-size:11px;color:#9B9894;">'
+            f"字幕不足等でスキップ: {skipped_count}件"
+            "</span>"
+        )
+    else:
+        skipped_html = ""
+
     return template.safe_substitute(
         date=date,
         article_count=len(articles),
         articles_html=articles_html,
         sources_html=sources_html,
         source_count=source_count,
+        skipped_html=skipped_html,
     )
 
 

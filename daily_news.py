@@ -503,7 +503,9 @@ def main():
 
     date_str = datetime.now(timezone.utc).strftime("%Y.%m.%d")
     articles = _sections_to_articles(sections)
-    html = build_hibi_html(articles, date_str)
+    # スキップ件数を footer で透明性表示する (#12 Phase 1)。
+    # 字幕不足 / Claude による短文 reject の合計。詳細区別は今回はしない。
+    html = build_hibi_html(articles, date_str, skipped_count=skipped_count)
     send_email(
         subject=format_subject(date_str, count=len(articles)),
         html_body=html,
