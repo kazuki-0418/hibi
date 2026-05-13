@@ -45,6 +45,11 @@ jobs:
           # Embeddings for similarity ranking (optional — if unset, articles
           # are saved with embedding = NULL; backfill later).
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # Sentry observability (#89). Optional — if SENTRY_DSN is unset
+          # the pipeline runs without telemetry.
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          HIBI_RELEASE: ${{ github.sha }}
+          HIBI_ENV: production
 
       # Dump editions from Neon → JSON files Astro reads at build time.
       # Idempotent overwrite; no-op if no editions changed.

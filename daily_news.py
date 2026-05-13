@@ -13,6 +13,7 @@ from datetime import datetime, timedelta, timezone
 from email.mime.text import MIMEText
 from urllib.parse import quote
 
+import sentry_sdk
 import yaml
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
@@ -30,6 +31,7 @@ from db import (
 from fetchers import rss as rss_fetcher
 from fetchers import youtube as youtube_fetcher
 from mailer import build_html as build_hibi_html
+from observability import init_sentry_from_env
 from ranking import compute_interest_centroid, cosine_similarity, count_recent_clicks
 from send_mail import format_subject
 
@@ -514,4 +516,18 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sentry_active = init_sentry_from_env()
+    try:
+        main()
+    except Exception:
+        # Make sure Sentry captures the error before the GitHub Actions
+        # runner tears the process down. Re-raise so the workflow still
+        # fails (existing failure-email path stays intact).
+        if sentry_active:
+            sentry_sdk.capture_exception()
+        raise
+    finally:
+        if sentry_active:
+            # Flush is critical for short-lived processes (cron jobs);
+            # without it, async transport may drop events on exit.
+            sentry_sdk.flush(timeout=5)
