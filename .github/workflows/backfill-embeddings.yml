@@ -1,0 +1,44 @@
+name: Backfill Embeddings
+
+# 既存 articles 行のうち embedding が NULL のものに、OpenAI text-embedding-3-small
+# でベクトルを埋める one-shot 運用 workflow。手動 dispatch 専用。
+#
+# 使い方:
+#   GitHub UI → Actions → Backfill Embeddings → Run workflow → "Run dry-run"
+#   選択肢: dry-run (件数+コスト推定のみ) / apply (実書き込み)
+#
+# Phase 3 完了後、cron で新規 article は daily_news.py 内で同期的に embed される
+# ので、本 workflow は OPENAI_API_KEY 設定 / migration 適用直後の一回だけ走らせる
+# 想定。再利用可能だが日常運用では使わない。
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry-run = 件数+コスト推定のみ。apply = 実書き込み (OpenAI 課金発生)"
+        required: true
+        type: choice
+        options:
+          - dry-run
+          - apply
+        default: dry-run
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - run: pip install -r requirements.txt
+
+      - name: Run backfill (${{ inputs.mode }})
+        run: python scripts/backfill_embeddings.py --${{ inputs.mode }}
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
