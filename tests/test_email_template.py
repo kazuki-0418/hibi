@@ -262,3 +262,64 @@ def test_build_html_escapes_dangerous_chars_in_user_fields() -> None:
     # The escaped form must be present.
     assert "&amp;" in rendered, "ampersand should be escaped to &amp;"
     assert "&lt;" in rendered and "&gt;" in rendered, "angle brackets escaped"
+
+
+# ── Skipped article count footer (#12 Phase 1) ─────────────────────────
+
+
+def test_build_html_omits_skipped_line_when_count_is_zero() -> None:
+    """``skipped_count=0`` (default) must not render the skipped footer line.
+
+    Transparency line is opt-in: a clean run should not leak operational
+    noise into the colophon.
+    """
+    html = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10")
+    assert "字幕不足等でスキップ" not in html
+    # Default arg path should match the explicit-zero path.
+    html_explicit = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10", skipped_count=0)
+    assert "字幕不足等でスキップ" not in html_explicit
+
+
+def test_build_html_shows_skipped_line_when_count_positive() -> None:
+    """Positive ``skipped_count`` renders the count + Japanese label inline.
+
+    The line lives inside the colophon block so the standfirst / story area
+    remains untouched. Color must reuse the existing muted palette
+    (``#9B9894``) — no new design tokens introduced.
+    """
+    html = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10", skipped_count=3)
+    assert "字幕不足等でスキップ: 3件" in html
+    # Must reuse the colophon muted gray (no new tokens).
+    skipped_idx = html.index("字幕不足等でスキップ")
+    # Look back ~200 chars for the inline style declaration on this span.
+    window = html[max(0, skipped_idx - 200):skipped_idx]
+    assert "#9B9894" in window, "skipped line must reuse muted #9B9894 token"
+    # Sits inside the colophon (between Generated and the closing </footer>).
+    colophon_start = html.index("Generated")
+    footer_end = html.index("</footer>")
+    assert colophon_start < skipped_idx < footer_end, (
+        "skipped line must be rendered inside the colophon footer"
+    )
+
+
+def test_build_html_skipped_count_signature_accepts_keyword_arg() -> None:
+    """Contract: ``skipped_count`` is keyword-callable with a sane default.
+
+    Guards against future positional reordering that would silently break
+    the daily_news.py caller (``build_hibi_html(articles, date_str,
+    skipped_count=...)``).
+    """
+    sig = inspect.signature(mailer.build_html)
+    params = sig.parameters
+    assert "skipped_count" in params
+    assert params["skipped_count"].default == 0
+    assert params["skipped_count"].kind in (
+        inspect.Parameter.POSITIONAL_OR_KEYWORD,
+        inspect.Parameter.KEYWORD_ONLY,
+    )
+
+
+def test_build_html_large_skipped_count_renders_without_truncation() -> None:
+    """Boundary: a two-digit skip count must render verbatim, not bucketed."""
+    html = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10", skipped_count=27)
+    assert "字幕不足等でスキップ: 27件" in html
