@@ -42,8 +42,29 @@ def _is_prefetch(user_agent: str) -> bool:
 
 @router.get("/r/{article_id}")
 @limiter.limit(CLICK_RATE_LIMIT)
-def click(article_id: str, s: str, request: Request) -> RedirectResponse:
+def click(
+    article_id: str,
+    s: str,
+    request: Request,
+    to: str | None = None,
+) -> RedirectResponse:
+    """Signed redirect.
+
+    Default mode: 302 to the article's external source URL and record the
+    click in `clicks` (subject to HMAC verify + UA/prefetch filtering).
+
+    `?to=edition`: 302 to the internal edition page anchor
+    (`<web_base_url>/edition/NNNN/#story-N`). HMAC is still required to
+    prevent tampering, but the click is **not** recorded — internal clicks
+    are weak learning signal (see issue #55).
+
+    On missing article / missing edition / any DB error, fall back to
+    `settings.missing_redirect_url` (302).
+    """
     settings: Settings = request.app.state.settings
+
+    if to == "edition":
+        return _redirect_to_edition(article_id, s, settings)
 
     article = db.get_article(article_id)
     if article is None:
@@ -76,6 +97,45 @@ def click(article_id: str, s: str, request: Request) -> RedirectResponse:
         log.exception("click: failed to log click for article_id=%s", article_id)
 
     return RedirectResponse(article["url"], status_code=302)
+
+
+def _redirect_to_edition(
+    article_id: str, s: str, settings: Settings
+) -> RedirectResponse:
+    """Handle `/r/{id}?to=edition`.
+
+    On missing article / missing edition info → missing_redirect_url.
+    On HMAC failure → fall through to the article's external URL (same
+    contract as the default branch: don't leak signature-verified vs not).
+    On success → 302 to `<web_base_url>/edition/NNNN/#story-N`. No click
+    is recorded (internal clicks are not a useful learning signal).
+    """
+    article = db.get_article_with_edition(article_id)
+    if article is None:
+        return RedirectResponse(settings.missing_redirect_url, status_code=302)
+
+    if not verify(article_id, s, settings.click_signing_secret):
+        log.info(
+            "click[edition]: bad signature for article_id=%s", article_id
+        )
+        return RedirectResponse(article["url"], status_code=302)
+
+    issue_no = article["issue_no"]
+    position = article["position_in_edition"]
+    if issue_no is None or position is None:
+        # Orphan article (edition_id NULL, or FK pointing at a missing row).
+        log.info(
+            "click[edition]: missing edition info for article_id=%s "
+            "(issue_no=%s, position=%s)",
+            article_id,
+            issue_no,
+            position,
+        )
+        return RedirectResponse(settings.missing_redirect_url, status_code=302)
+
+    base = settings.web_base_url.rstrip("/")
+    target = f"{base}/edition/{issue_no:04d}/#story-{position}"
+    return RedirectResponse(target, status_code=302)
 
 
 def _resolve_client_ip(request: Request) -> str:

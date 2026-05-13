@@ -17,6 +17,11 @@ class Settings(BaseSettings):
     # Public-facing base URL the email links point at, e.g. https://newspaper.<domain>
     public_base_url: str = Field(...)
 
+    # Public-facing base URL of the *web archive* (Astro site on hibi-news.com).
+    # Distinct from `public_base_url` (api.hibi-news.com) so internal click
+    # redirects to /edition/NNNN/ do not accidentally route through the API host.
+    web_base_url: str = "https://hibi-news.com"
+
     # Salt for SHA-256(ip || salt). Rotate periodically to break long-term tracking.
     ip_salt: str = Field(..., min_length=8)
 
