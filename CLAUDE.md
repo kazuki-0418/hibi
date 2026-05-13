@@ -25,6 +25,7 @@ Role-specific guardrails live next door — read the one that matches the work:
 - `.claude/rules/manager-agent.md` — anything inside `manager/`.
 
 Project-wide non-negotiables (also re-stated in each file):
+
 - Type hints required; no `Any` / `# type: ignore` escape hatches.
 - psycopg 3.x only — no psycopg2 / SQLAlchemy / Alembic.
 - No async or concurrency in the daily pipeline (single epic = single process).
@@ -40,11 +41,12 @@ files Claude sees here.
 **Tokens** (colors, spacing, fonts, radii, line-heights) come from exactly
 one file:
 
-```
+```text
 design-system/colors_and_type.css
 ```
 
 When implementing UI:
+
 - Reference these tokens via the CSS custom properties they define
   (`--bg-primary`, `--text-primary`, `--font-jp`, `--space-N`, ...).
 - For email, inline the relevant tokens into the template; for web, link
