@@ -6,10 +6,13 @@ to stand up a real Postgres.
 
 from __future__ import annotations
 
+import logging
 from typing import Optional, TypedDict
 
 import psycopg
 from psycopg_pool import ConnectionPool
+
+log = logging.getLogger(__name__)
 
 
 class Article(TypedDict):
@@ -48,6 +51,12 @@ def get_article(article_id: str) -> Optional[Article]:
             return {"url": row[0], "user_id": row[1]}
     except psycopg.DataError:
         # e.g. article_id is not a valid uuid shape → treat as missing
+        return None
+    except psycopg.Error:
+        # Pool / connection failures (OperationalError, InterfaceError, ...)
+        # — typically Neon scale-to-zero cold start. Return None so the click
+        # handler can fall back to missing_redirect_url instead of 500-ing.
+        log.exception("get_article: db error for article_id=%s", article_id)
         return None
 
 
