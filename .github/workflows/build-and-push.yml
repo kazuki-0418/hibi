@@ -65,6 +65,11 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          # Bake the commit SHA into the image so Sentry release matches
+          # the image identity without operator intervention. See
+          # service/Dockerfile ARG HIBI_RELEASE.
+          build-args: |
+            HIBI_RELEASE=${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
