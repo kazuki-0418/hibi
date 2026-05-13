@@ -173,3 +173,27 @@ def update_edition_meta(
             (standfirst, daily_title, issue_no),
         )
         conn.commit()
+
+
+def get_stats_summary() -> dict[str, int]:
+    """`stats_summary` VIEW を 1 行読み出す (Issue #54).
+
+    Returns:
+        ``{"editions_count": int, "stories_count": int, "sources_count": int}``
+
+    呼び元は web archive masthead の集計表示 (#58)。view 側で 3 列を
+    1 行にまとめているので、 read は常に 1 行・1 RTT。
+    """
+    with get_conn() as conn, conn.cursor() as cur:
+        cur.execute(
+            "select editions_count, stories_count, sources_count "
+            "from stats_summary"
+        )
+        row = cur.fetchone()
+        if row is None:
+            return {"editions_count": 0, "stories_count": 0, "sources_count": 0}
+        return {
+            "editions_count": int(row[0]),
+            "stories_count": int(row[1]),
+            "sources_count": int(row[2]),
+        }
