@@ -6,9 +6,11 @@ Fetches YouTube uploads + RSS articles → summarizes with Claude → sends Gmai
 import base64
 import hashlib
 import hmac
+import json
 import logging
 import os
 import random
+import re
 import sys
 from datetime import datetime, timedelta, timezone
 from email.mime.text import MIMEText
@@ -27,6 +29,7 @@ from db import (
     get_or_create_edition_for_today,
     is_already_sent,
     save_article,
+    update_edition_meta,
     update_edition_sources_scanned,
 )
 from fetchers import rss as rss_fetcher
@@ -214,6 +217,173 @@ def summarize(client: Anthropic, title: str, content: str) -> str:
             log.warning("voice violations in summary: %s", violations)
 
     return summary
+
+
+# ============================================================
+# Edition meta (standfirst / daily_title) generation — Issue #53
+# ============================================================
+# design-system/README.md の voice & tone を守らせる:
+#   - 第三者・観察的 (one-on-one ではない)
+#   - 「驚愕」「やばい」「お見逃しなく」のような marketing CTA / clickbait 禁止
+#   - 絵文字 / 感嘆符禁止
+#   - 句点「。」、 半角ピリオドではなく日本語句読点
+#
+# standfirst は「今朝のN本。」で始まる 1 文。daily_title は 30 文字以内の
+# 一行要約 (アーカイブ用)。
+#
+# 失敗時 (Claude exception / JSON parse fail / 空応答) はそれぞれ安全な
+# フォールバック値を返し、生成自体は通す。
+_EDITION_META_MAX_TITLE_CHARS = 30
+_EDITION_META_MAX_TOKENS = 400
+# 禁止ワードの非網羅リスト。post-processing は warn のみで block しない
+# (Claude を再呼び出ししたくない / 既にフォールバック側でも安全)。
+_BANNED_WORDS = ("驚愕", "やばい", "衝撃", "お見逃しなく", "今すぐ")
+# emoji / variation selector / pictograph の検出 (test_email_template と
+# 整合)。General Category 'So' は呼び出し側でカバー。
+_EMOJI_PATTERN = re.compile(
+    "["
+    "\U00002600-\U000027BF"
+    "\U0001F300-\U0001FAFF"
+    "★☆️"
+    "]"
+)
+
+
+def _fallback_edition_meta(articles: list[dict]) -> dict[str, str]:
+    """Claude 失敗時のフォールバック値。"""
+    return {
+        "standfirst": f"今朝の{len(articles)}本。",
+        "daily_title": " / ".join(a.get("title", "") for a in articles),
+    }
+
+
+def _warn_if_violates_voice(field: str, value: str) -> None:
+    """禁止ワード / 絵文字を含んでいたら warn のみ。生成は通す。"""
+    for word in _BANNED_WORDS:
+        if word in value:
+            log.warning(
+                "generate_edition_meta: %s contains banned word %r: %s",
+                field,
+                word,
+                value,
+            )
+            return
+    if _EMOJI_PATTERN.search(value):
+        log.warning(
+            "generate_edition_meta: %s contains emoji-range codepoint: %s",
+            field,
+            value,
+        )
+
+
+def generate_edition_meta(
+    client: Anthropic, articles: list[dict]
+) -> dict[str, str]:
+    """edition の standfirst + daily_title を Claude で 1 回生成する。
+
+    Args:
+        client: Anthropic SDK client (既存 daily_news 内で生成済みのものを流用)。
+        articles: 配信確定済みの記事 dict のリスト。各要素は最低限
+            ``title`` (str) と ``summary`` (str) を持つ前提。
+
+    Returns:
+        ``{"standfirst": str, "daily_title": str}``。Claude が JSON を返さ
+        なかった / 例外を投げた場合はフォールバック値:
+            standfirst = f"今朝の{N}本。"
+            daily_title = " / ".join(a["title"] for a in articles)
+
+    Side effects:
+        post-processing で禁止ワード / 絵文字を検出したら ``log.warning`` のみ。
+        block はしない (= 生成自体は通す)。
+    """
+    if not articles:
+        # 配信記事ゼロのときはそもそも呼ばれない想定だが、安全側に倒す。
+        return {"standfirst": "今朝の0本。", "daily_title": ""}
+
+    # Claude に渡す入力。要約は既に「・」で始まる 3 行になっている前提
+    # (summarize() の出力形式)。元の summary を素直に渡す。
+    items_repr = "\n\n".join(
+        f"{i}. {a.get('title', '')}\n{a.get('summary', '')}"
+        for i, a in enumerate(articles, 1)
+    )
+
+    prompt = (
+        "あなたは Hibi (日々) という静かな日本語デイリーニュースレターの編集者です。\n"
+        "以下の今朝の記事リスト (タイトル + 3 行要約) を読み、メール冒頭に置く\n"
+        "standfirst (リード一文) と、アーカイブ用の daily_title (一行要約) を\n"
+        "JSON で出力してください。\n"
+        "\n"
+        "voice & tone (厳守):\n"
+        "- 第三者視点・観察的。Hibi は報じる存在で、売り込まない。\n"
+        "- 「あなた」「読者の皆様」「私」「僕」を使わない。\n"
+        "- 感嘆符 (! ！) と絵文字を使わない。\n"
+        "- 「驚愕」「やばい」「衝撃」「お見逃しなく」「今すぐ」等の\n"
+        "  clickbait / marketing 用語を使わない。\n"
+        "- 句点は「。」、読点は「、」。半角ピリオドは使わない。\n"
+        "\n"
+        "出力要件:\n"
+        f"- standfirst: 必ず「今朝の{len(articles)}本。」で始まる 1 文。\n"
+        "  続けて、その日の記事群を貫く静かな観察を 1 つだけ書く。全体で 60 文字以内。\n"
+        f"- daily_title: 1 行、{_EDITION_META_MAX_TITLE_CHARS} 文字以内。\n"
+        "  その日のニュースを 1 行に圧縮した観察的見出し。\n"
+        "\n"
+        "出力形式 (JSON のみ。前後に余計な文字を入れない):\n"
+        '{"standfirst": "...", "daily_title": "..."}\n'
+        "\n"
+        "今朝の記事:\n"
+        f"{items_repr}\n"
+    )
+
+    try:
+        response = client.messages.create(
+            model=CLAUDE_MODEL,
+            max_tokens=_EDITION_META_MAX_TOKENS,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        text = response.content[0].text.strip()
+    except Exception as exc:
+        log.warning("generate_edition_meta: Claude call failed: %s", exc)
+        return _fallback_edition_meta(articles)
+
+    # Claude が前後にコードブロックを付けてくることがあるので、最初の
+    # `{` から最後の `}` までを切り出す。
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1 or end <= start:
+        log.warning("generate_edition_meta: no JSON object in response: %r", text)
+        return _fallback_edition_meta(articles)
+
+    try:
+        parsed = json.loads(text[start : end + 1])
+    except json.JSONDecodeError as exc:
+        log.warning(
+            "generate_edition_meta: JSON parse failed (%s): %r", exc, text
+        )
+        return _fallback_edition_meta(articles)
+
+    standfirst = parsed.get("standfirst")
+    daily_title = parsed.get("daily_title")
+    if not isinstance(standfirst, str) or not isinstance(daily_title, str):
+        log.warning(
+            "generate_edition_meta: missing/typed fields in JSON: %r", parsed
+        )
+        return _fallback_edition_meta(articles)
+
+    standfirst = standfirst.strip()
+    daily_title = daily_title.strip()
+    if not standfirst or not daily_title:
+        log.warning(
+            "generate_edition_meta: empty field after strip: %r / %r",
+            standfirst,
+            daily_title,
+        )
+        return _fallback_edition_meta(articles)
+
+    # post-processing ガード: 禁止ワード / 絵文字を warn だけ。
+    _warn_if_violates_voice("standfirst", standfirst)
+    _warn_if_violates_voice("daily_title", daily_title)
+
+    return {"standfirst": standfirst, "daily_title": daily_title}
 
 
 # ============================================================
@@ -531,9 +701,30 @@ def main():
 
     date_str = datetime.now(timezone.utc).strftime("%Y.%m.%d")
     articles = _sections_to_articles(sections)
+
+    # Stage D: edition meta (standfirst + daily_title) を Claude で生成し、
+    # editions テーブルに書き戻す (Issue #53)。Claude 失敗時はフォールバック値
+    # ("今朝のN本。" / タイトルを「 / 」で連結) を使う。生成 / 保存とも
+    # メール配信を blocking しない設計だが、現状は serial に呼んでログを残す。
+    meta = generate_edition_meta(claude, articles)
+    standfirst = meta["standfirst"]
+    daily_title = meta["daily_title"]
+    print(f"📝 standfirst: {standfirst}")
+    print(f"📝 daily_title: {daily_title}")
+    try:
+        update_edition_meta(edition_issue_no, standfirst, daily_title)
+    except Exception as exc:
+        # DB 書き込み失敗はメール配信を止めない (best effort)。
+        log.warning("update_edition_meta failed: %s", exc)
+
     # スキップ件数を footer で透明性表示する (#12 Phase 1)。
     # 字幕不足 / Claude による短文 reject の合計。詳細区別は今回はしない。
-    html = build_hibi_html(articles, date_str, skipped_count=skipped_count)
+    html = build_hibi_html(
+        articles,
+        date_str,
+        skipped_count=skipped_count,
+        standfirst=standfirst,
+    )
     send_email(
         subject=format_subject(date_str, count=len(articles)),
         html_body=html,

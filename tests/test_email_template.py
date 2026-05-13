@@ -323,3 +323,79 @@ def test_build_html_large_skipped_count_renders_without_truncation() -> None:
     """Boundary: a two-digit skip count must render verbatim, not bucketed."""
     html = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10", skipped_count=27)
     assert "字幕不足等でスキップ: 27件" in html
+
+
+# ── Standfirst (Issue #53) ─────────────────────────────────────────────
+
+
+def test_build_html_default_standfirst_keeps_legacy_text() -> None:
+    """Without ``standfirst=`` arg, the existing static lead must render."""
+    html = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10")
+    # Legacy: 「今朝のN本。静かな朝の読みもの。」
+    assert "今朝の5本。" in html
+    assert "静かな朝の読みもの。" in html
+
+
+def test_build_html_renders_provided_standfirst_in_masthead_section() -> None:
+    """When ``standfirst`` is provided, it replaces the static lead."""
+    lead = "今朝の5本。観察的な一文がここに入る。"
+    html = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10", standfirst=lead)
+    assert lead in html
+    # 静的フォールバック文は出ない (置換されている)。
+    assert "静かな朝の読みもの。" not in html
+    # Standfirst is rendered inside the .hb-stand section (between masthead
+    # and the first story).
+    stand_idx = html.index(lead)
+    section_open = html.index('class="hb-stand"')
+    first_story_idx = html.index('class="hb-story"')
+    assert section_open < stand_idx < first_story_idx, (
+        "standfirst must sit inside the hb-stand section"
+    )
+
+
+def test_build_html_standfirst_uses_primary_color_token() -> None:
+    """Generated standfirst inherits the existing primary text token."""
+    lead = "今朝の5本。静かに見る。"
+    html = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10", standfirst=lead)
+    # The lead is wrapped in an <em> with color:#1A1A1A (existing token).
+    # We don't pin the exact substring shape, but the lead must sit near
+    # the design-token color reference, not be unstyled.
+    idx = html.index(lead)
+    window = html[max(0, idx - 200): idx + len(lead) + 50]
+    assert "#1A1A1A" in window, (
+        "standfirst must reuse the existing #1A1A1A primary token"
+    )
+
+
+def test_build_html_standfirst_escapes_html_special_chars() -> None:
+    """Standfirst must be HTML-escaped (defense against feed-injected markup
+    or future free-form Claude output)."""
+    lead = '今朝の5本。<script>alert(1)</script> & "quote"'
+    html = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10", standfirst=lead)
+    assert "<script>" not in html
+    assert "&amp;" in html
+    assert "&lt;" in html and "&gt;" in html
+
+
+def test_build_html_empty_standfirst_is_backward_compatible() -> None:
+    """``standfirst=""`` behaves identically to the default-arg path."""
+    html_default = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10")
+    html_empty = mailer.build_html(SAMPLE_ARTICLES, "2026.05.10", standfirst="")
+    assert html_default == html_empty
+
+
+def test_build_html_standfirst_signature_contract() -> None:
+    """Contract: ``standfirst`` is keyword-callable with default ``""``.
+
+    Pins the post-design-system call signature
+    ``build_html(articles, date, skipped_count=0, standfirst="")`` so
+    daily_news.py's call site does not silently break.
+    """
+    sig = inspect.signature(mailer.build_html)
+    params = sig.parameters
+    assert "standfirst" in params
+    assert params["standfirst"].default == ""
+    assert params["standfirst"].kind in (
+        inspect.Parameter.POSITIONAL_OR_KEYWORD,
+        inspect.Parameter.KEYWORD_ONLY,
+    )

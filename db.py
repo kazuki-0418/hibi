@@ -149,3 +149,27 @@ def update_edition_sources_scanned(
             (Jsonb(sources_scanned), issue_no),
         )
         conn.commit()
+
+
+def update_edition_meta(
+    issue_no: int, standfirst: str, daily_title: str
+) -> None:
+    """`editions.standfirst` / `editions.daily_title` を更新する (Issue #53)。
+
+    daily_news.py の Stage D (Claude による edition meta 生成) 完了時に
+    1 回呼ぶ想定。失敗時のフォールバック値も呼び出し側で確定済みで
+    渡される (= 空文字 / None は入らない想定)。
+
+    上書き保存。冪等。
+    """
+    with get_conn() as conn:
+        conn.execute(
+            """
+            update editions
+               set standfirst = %s,
+                   daily_title = %s
+             where issue_no = %s
+            """,
+            (standfirst, daily_title, issue_no),
+        )
+        conn.commit()

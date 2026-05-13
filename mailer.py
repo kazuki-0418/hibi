@@ -164,6 +164,7 @@ def build_html(
     articles: list[dict],
     date: str,
     skipped_count: int = 0,
+    standfirst: str = "",
 ) -> str:
     """Build the daily email HTML from enriched article dicts.
 
@@ -174,6 +175,12 @@ def build_html(
     ``skipped_count`` is the number of candidate articles dropped during the
     summarization stage (字幕不足 / 短すぎる要約など). When > 0 it is shown
     discreetly in the colophon for transparency. 0 (default) hides the line.
+
+    ``standfirst`` is the Claude-generated one-line lead (Issue #53). It is
+    rendered just below the masthead, replacing the static "今朝のN本。静か
+    な朝の読みもの。" placeholder. Empty string (default) keeps the legacy
+    static standfirst so callers that do not opt-in stay byte-compatible
+    behavior-wise.
     """
     with open(TEMPLATE_PATH, encoding="utf-8") as f:
         template = Template(f.read())
@@ -201,6 +208,23 @@ def build_html(
     else:
         skipped_html = ""
 
+    # Standfirst: when caller provides a Claude-generated line, render it
+    # wrapped in the same primary-emphasis <em> the legacy static lead uses
+    # so the section style continues to flow (HTML-escape first to neutralize
+    # any feed-injected markup). When empty, leave the static fallback.
+    if standfirst:
+        standfirst_html = (
+            f'<em style="font-style:normal;color:#1A1A1A;font-weight:500;">'
+            f"{html.escape(standfirst)}"
+            f"</em>"
+        )
+    else:
+        standfirst_html = (
+            f'<em style="font-style:normal;color:#1A1A1A;font-weight:500;">'
+            f"今朝の{len(articles)}本。"
+            f"</em>静かな朝の読みもの。"
+        )
+
     return template.safe_substitute(
         date=date,
         article_count=len(articles),
@@ -208,6 +232,7 @@ def build_html(
         sources_html=sources_html,
         source_count=source_count,
         skipped_html=skipped_html,
+        standfirst_html=standfirst_html,
     )
 
 
