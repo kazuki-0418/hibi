@@ -21,9 +21,16 @@ RUN uv sync --frozen --no-install-project --no-dev
 
 FROM python:3.12-slim AS runtime
 
+# Release identifier baked into the image at build time. The CI workflow
+# passes the commit SHA via --build-arg, so every image tagged sha-<sha>
+# also reports release=<sha> to Sentry without operator action. Falls back
+# to "dev" for local docker build invocations.
+ARG HIBI_RELEASE=dev
+
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PATH="/opt/venv/bin:$PATH"
+    PATH="/opt/venv/bin:$PATH" \
+    HIBI_RELEASE=${HIBI_RELEASE}
 
 RUN groupadd --system --gid 10001 appuser \
  && useradd --system --uid 10001 --gid 10001 --home-dir /app --shell /usr/sbin/nologin appuser
