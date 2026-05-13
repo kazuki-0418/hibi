@@ -16,6 +16,6 @@ curl http://localhost:8000/health
 ## Docker
 
 ```bash
-docker build -t personal-daily-news:local -f service/Dockerfile .
-docker run --rm -p 8000:8000 personal-daily-news:local
+docker build -t hibi-api:local -f service/Dockerfile .
+docker run --rm -p 8000:8000 hibi-api:local
 ```

@@ -72,8 +72,8 @@ Expected result:
 
 | container                           | PORTS  |
 | ----------------------------------- | ------ |
-| `personal-daily-news-fastapi`       | *(empty — no host bind)* |
-| `personal-daily-news-cloudflared`   | *(empty)* |
+| `hibi-fastapi`                      | *(empty — no host bind)* |
+| `hibi-cloudflared`                  | *(empty)* |
 
 ## 5. Verify
 

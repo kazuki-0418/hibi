@@ -1,7 +1,7 @@
 services:
   fastapi:
-    image: ghcr.io/kazuki-0418/personal-daily-news:latest
-    container_name: personal-daily-news-fastapi
+    image: ghcr.io/kazuki-0418/hibi-api:latest
+    container_name: hibi-fastapi
     restart: unless-stopped
     env_file:
       - ./secrets.env
@@ -20,7 +20,7 @@ services:
 
   cloudflared:
     image: cloudflare/cloudflared:latest
-    container_name: personal-daily-news-cloudflared
+    container_name: hibi-cloudflared
     restart: unless-stopped
     command: tunnel --no-autoupdate run
     env_file:
