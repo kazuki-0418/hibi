@@ -1,0 +1,160 @@
+{
+  "issue_no": 18,
+  "date": "2026-05-13",
+  "standfirst": null,
+  "daily_title": null,
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Approval Testing vs TDD",
+      "url": "https://www.youtube.com/watch?v=_i7Akk-Lw6A",
+      "summary": "・Approval Testingはレガシーコードのキャラクタリゼーションテストに有効で、TDDの代替として使うこともできるが、アサーションを事前定義しない点で「正統派TDD」とは異なる。\n・Approval TestingをTDDとして使う場合、1つのテストを反復改善しdiffで出力を確認しながら承認・リファクタリングするサイクルを回す形になり、従来TDDのようにテストリストを積み上げていく手法とは設計上の思想が異なる。\n・批判的な見解として、Approval Testは自分の実装出力に基づくため「自分の解が前提」となりやすく、TDDが本来持つ設計駆動のフィードバック機能を十分に代替できないという指摘がある。",
+      "category": "senior-engineer",
+      "source": "Modern Software Engineering",
+      "source_type": "youtube"
+    },
+    {
+      "title": "My $100K App: What I Learned",
+      "url": "https://www.youtube.com/watch?v=GYBVh5zlV50",
+      "summary": "・AIツールで基本的なモックアップは作れても、本番環境への展開やアプリストアへの公開、数千〜数万ユーザーへのスケールは想定以上に困難であることが判明した。\n・経験者をチームに迎えることが重要で、アプリ開発経験豊富な共同創業者とエンジニアチームの存在がプロダクトの成功に大きく貢献した。\n・完成度より早期リリースを優先し、未完成でも実際のユーザーフィードバックを得ることで機能の有効性を検証でき、ポリッシュは後から追加可能という開発哲学が功を奏した。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Better than a Steam Controller - Flydigi Vader 5 Pro",
+      "url": "https://www.youtube.com/watch?v=5dMucToSI24",
+      "summary": "・Flydigi Vader 5 Proはホールエフェクト스틱・トリガー、6軸ジャイロ、調整可能なジョイスティックテンション（ラチェット式）、背面パドル最大4個、トリガーストップなどを搭載した多機能ゲームパッドで、PC・Switch・Bluetoothに対応するがPS/Xboxコンソールは非対応。\n・専用ソフトウェアでボタンリマッピング、デッドゾーン調整、感度カーブ、トリガー振動強度・ストローク設定など細かいカスタマイズが可能だが、UIに中国語表記が残っておりローカライズが不完全な点に注意。\n・ホールエフェクトは高精度・長寿命だが、より省電力で高精度なTMR（トンネル磁気抵抗）スティックへの未対応が惜しく、バッテリーも約15時間と競合に比べ控えめで、V2改良版では背面パドルの破損問題が修正されている。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Getting laid off by a machine might be the best thing that could happen to you.",
+      "url": "https://www.youtube.com/watch?v=MwOR61l9ybQ",
+      "summary": "・ザッカーバーグのようなビッグテック企業がAIで人員削減を進める中、大企業が注力しにくい「売上の10%未満規模の小さな問題」こそが起業家にとっての絶好の機会となる。\n・レイオフされた優秀な人材2〜3人と組んでチームを作り、大企業には「ノイズ」に見える小規模な問題セットをターゲットにすることが有効な戦略となる。\n・「スタートアップ向きでない」という思い込みを捨て、VC支援のスタートアップだけでなく小規模サービス業や個人事業も含むあらゆる起業形態が選択肢になると強調している。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Substrate (YC S24) Is Hiring a Technical Success Manager",
+      "url": "https://www.ycombinator.com/companies/substrate/jobs/T2fMBhD-technical-success-manager",
+      "summary": "・SubstrateはヘルスケアRCM（収益サイクル管理）向けのAIネイティブBPOを構築しており、月50万件以上の医療請求を処理するプロダクトのTechnical Success Manager（技術的顧客成功担当）を募集している。\n・この職種ではクライアントの問題調査において本番DBのクエリやコードベースのトレースを自主的に行い、根本原因特定・自律的なツール開発・プロトタイプ作成まで担うエンジニアリングに近いロールが求められる。\n・開発者視点では、クライアント向けに未言語化ニーズをユースケースへ落とし込み、エンジニアリングチームへフィードバックするブリッジ的役割が重視されており、技術力と顧客折衝力の両立が採用の鍵となる。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    }
+  ]
+}
