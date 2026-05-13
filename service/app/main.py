@@ -25,7 +25,15 @@ def _build_app(settings: Settings | None = None) -> FastAPI:
         finally:
             db.close_pool()
 
-    app = FastAPI(title="Personal AI Newspaper API", version="0.1.0", lifespan=lifespan)
+    is_prod = settings.app_env.lower() == "production"
+    app = FastAPI(
+        title="Personal AI Newspaper API",
+        version="0.1.0",
+        lifespan=lifespan,
+        openapi_url=None if is_prod else "/openapi.json",
+        docs_url=None if is_prod else "/docs",
+        redoc_url=None if is_prod else "/redoc",
+    )
     app.state.settings = settings
     app.state.limiter = limiter
     app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
