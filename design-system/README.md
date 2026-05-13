@@ -32,6 +32,30 @@ The product is bilingual JP/EN, technical, and intimate — built for one reader
 
 ---
 
+## Source of truth
+
+`colors_and_type.css` is the **only** place that owns tokens — colors,
+fonts, spacing, line-heights, radii, motion. Every surface (email
+inlined, web linked) reads from this file.
+
+When you need to change a token:
+
+- Edit `colors_and_type.css`. Nothing else.
+- Do not duplicate a hex code, font family, or spacing value in another
+  CSS / HTML / template file. Reference the custom property
+  (`var(--bg-primary)`, `var(--space-3)`, ...) instead.
+- Email templates inline the relevant tokens because mail clients strip
+  `<link rel="stylesheet">`, but the inlined values must come from this
+  file at build time, not be re-typed by hand.
+- A new token is allowed only after it lives in this file. The rule is
+  "tokens flow from `colors_and_type.css` outward" — never inward.
+
+If a stakeholder asks for a different blue, the answer is one line in
+this file. If it isn't, the design system is no longer the source of
+truth and the brand splits.
+
+---
+
 ## Content fundamentals
 
 Hibi is **bilingual but JP-led**. Body copy is Japanese; English appears as eyebrow labels, numeric metadata, and source titles (which often arrive in English from the feed).
