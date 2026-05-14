@@ -21,6 +21,17 @@ class GitOps(Protocol):
     def fetch_issue_body(self, issue: int) -> str: ...
     def list_child_issues(self, epic_issue: int) -> list[int]: ...
 
+    # ---- VERIFY_PR fallback ---------------------------------------------
+    # When the /run-dev-loop subagent produces verdict=safe_to_merge but
+    # forgets to git commit + gh pr create, Manager recovers by doing it
+    # itself. See _handle_verify_pr in runner.py.
+
+    def has_pending_work(self, branch: str) -> bool: ...
+    def commit_pending_work(self, branch: str, message: str) -> bool: ...
+    def push_and_create_pr(
+        self, branch: str, title: str, body: str
+    ) -> str | None: ...
+
 
 # ============================================================
 # Dummy
@@ -68,6 +79,32 @@ class DummyGitOps:
 
     def list_child_issues(self, epic_issue: int) -> list[int]:
         return list(self.child_listing.get(epic_issue, []))
+
+    # ---- VERIFY_PR fallback (test-friendly) ------------------------------
+
+    pending_work_branches: set[str] = field(default_factory=set)
+    committed_messages: dict[str, str] = field(default_factory=dict)
+    created_prs: dict[str, tuple[str, str]] = field(default_factory=dict)
+
+    def has_pending_work(self, branch: str) -> bool:
+        return branch in self.pending_work_branches
+
+    def commit_pending_work(self, branch: str, message: str) -> bool:
+        self._maybe_fail("commit_pending_work")
+        if branch not in self.pending_work_branches:
+            return False
+        self.pending_work_branches.discard(branch)
+        self.committed_messages[branch] = message
+        return True
+
+    def push_and_create_pr(
+        self, branch: str, title: str, body: str
+    ) -> str | None:
+        self._maybe_fail("push_and_create_pr")
+        url = f"https://example.test/pr/{branch}"
+        self.created_prs[branch] = (title, body)
+        self.pr_urls[branch] = url
+        return url
 
     def _maybe_fail(self, op: str) -> None:
         if op in self.failures:
@@ -210,6 +247,63 @@ class RealGitOps:
     def list_child_issues(self, epic_issue: int) -> list[int]:
         body = self.fetch_issue_body(epic_issue)
         return parse_children_from_body(body)
+
+    # ---- VERIFY_PR fallback ---------------------------------------------
+
+    def has_pending_work(self, branch: str) -> bool:
+        """True if `branch` has any uncommitted modifications or untracked files.
+
+        Used by Manager's VERIFY_PR fallback: if /run-dev-loop ended with
+        verdict=safe_to_merge but the subagent forgot to commit + create PR,
+        Manager picks up here.
+        """
+        self._git("checkout", branch)
+        result = self._git("status", "--porcelain", allow_fail=True)
+        return bool(result.stdout.strip())
+
+    def commit_pending_work(self, branch: str, message: str) -> bool:
+        """Stage everything on `branch` and create a single commit.
+
+        Returns True if a commit was created, False if the tree was already
+        clean. Raises GitOpsError on git failures (the caller treats that as
+        an inability to recover — the child stays NEEDS_HUMAN).
+        """
+        self._git("checkout", branch)
+        status = self._git("status", "--porcelain")
+        if not status.stdout.strip():
+            return False
+        self._git("add", "-A")
+        self._git("commit", "-m", message)
+        return True
+
+    def push_and_create_pr(
+        self, branch: str, title: str, body: str
+    ) -> str | None:
+        """Push `branch` to origin and open a PR against `main`.
+
+        /pr-creation hardcodes `--base main`, and `_handle_verify_pr` retargets
+        to the epic branch afterwards, so we keep the same convention here.
+
+        Returns the PR URL on success, None on failure (the caller falls back
+        to the existing retry counter so transient flakes don't escalate).
+        """
+        push = self._git(
+            "push", "--set-upstream", "origin", branch, allow_fail=True
+        )
+        if push.exit_code != 0:
+            return None
+        result = self._gh(
+            "pr", "create",
+            "--base", "main",
+            "--head", branch,
+            "--title", title,
+            "--body", body,
+            allow_fail=True,
+        )
+        if result.exit_code != 0:
+            return None
+        url = result.stdout.strip().splitlines()[-1] if result.stdout.strip() else ""
+        return url or None
 
     # --------------------------------------------------------- internals
 

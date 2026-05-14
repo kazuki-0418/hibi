@@ -90,15 +90,36 @@ def make_result(
     )
 
 
+_RUN_DEV_LOOP_ADDENDUM = (
+    "\n"
+    "重要 (Manager からの追加指示):\n"
+    "- verdict が `safe to merge` または `confirm before merge` の場合、"
+    "実装した変更を **Bash 経由で `git add -A` + `git commit`** してから "
+    "/pr-creation を呼ぶこと。Edit/Write tool でファイルを書いただけでは "
+    "未 commit のままで Manager が PR を見つけられない。\n"
+    "- /pr-creation 内で `gh pr create` を実行し、Output Format の "
+    "`# PR Summary` セクションを **PR を実際に作成済みの証跡** として記述すること。\n"
+    "- verdict が `fix before merge` の場合のみ commit / PR 作成を行わない。\n"
+)
+
+
 def build_invocation_prompt(slash: str, args_text: str) -> str:
     """The exact prompt format used to invoke any of the existing slash commands.
 
     Matches the template in `.claude/skills/orchestrator.md` so the subagent
     behaves identically whether invoked by `/orchestrate` (LLM router) or by
     Manager (state machine).
+
+    For `/run-dev-loop` we append a Manager-specific addendum that makes the
+    implicit "commit + create PR" step explicit. The /run-dev-loop slash spec
+    says step 6/7 prepares "PR-ready output" and calls /pr-creation, but it
+    does not literally spell out the `git commit` call — subagents sometimes
+    skip the git/gh tool use and leave changes untracked, which makes the
+    VERIFY_PR stage fail because no PR exists. The addendum closes that gap
+    without modifying the slash command file (which is owned externally).
     """
     name = slash.lstrip("/")
-    return (
+    base = (
         f"あなたは /{name} として動作する。\n"
         f"以下の command ファイルを最初に Read tool で読み、"
         f"その Required Reading セクションに書かれた全ファイルを読んでから開始すること。\n"
@@ -109,6 +130,9 @@ def build_invocation_prompt(slash: str, args_text: str) -> str:
         f"\n"
         f"出力は .claude/commands/{name}.md の Output Format に厳密に従うこと。\n"
     )
+    if name == "run-dev-loop":
+        base += _RUN_DEV_LOOP_ADDENDUM
+    return base
 
 
 @dataclass

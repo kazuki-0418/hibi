@@ -257,3 +257,24 @@ def test_build_invocation_prompt_includes_required_reading_directive() -> None:
     assert "Required Reading" in prompt
     assert "PACKET YAML HERE" in prompt
     assert "Output Format" in prompt
+
+
+def test_build_invocation_prompt_run_dev_loop_adds_commit_pr_addendum() -> None:
+    """For /run-dev-loop the prompt must explicitly require git commit +
+    /pr-creation; the slash spec's "PR-ready output" wording is too soft
+    and subagents have been observed skipping the actual commit / gh pr
+    create calls, leaving Manager unable to find the PR."""
+    prompt = build_invocation_prompt("/run-dev-loop", "PACKET YAML")
+    assert "git add" in prompt or "git commit" in prompt
+    assert "/pr-creation" in prompt
+    assert "gh pr create" in prompt
+    assert "PR Summary" in prompt
+
+
+def test_build_invocation_prompt_other_commands_have_no_addendum() -> None:
+    """The addendum is scoped to /run-dev-loop only; other commands
+    don't need to commit/create PRs from inside their own execution."""
+    for slash in ("/triage-issue", "/make-execution-packet", "/spec-architect"):
+        prompt = build_invocation_prompt(slash, "x")
+        assert "git commit" not in prompt
+        assert "/pr-creation" not in prompt
