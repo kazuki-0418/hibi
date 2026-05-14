@@ -5,7 +5,8 @@
 
 ## Rules
 
-- 変更前に既存コード・既存パターン・関連 docs（`architecture/diagrams/*.mmd`、`architecture/skills/hibi-domain.md`）を確認する
+- 変更前に既存コード・既存パターン・関連 docs（`architecture/diagrams/*.mmd`、`architecture/skills/hibi-domain.md`、`docs/legal-posture.md`）を確認する
+- `docs/legal-posture.md` で保留中とされている路線(multi-tenant 配信 / signup-login / 商用化 / OSS 配布 / robots.txt 挙動の変更 / 新規メディアソース追加)に **着手しない**。再開シグナルは同 doc の §6 を参照
 - 変更は現在の依頼に必要な範囲へ限定し、unrelated refactor をしない
 - 既存のレイヤ責務を崩さない（fetcher / db / pipeline / delivery / click endpoint）
 - 型ヒント必須。`Any` / `# type: ignore` で逃げない

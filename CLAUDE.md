@@ -32,6 +32,16 @@ Project-wide non-negotiables (also re-stated in each file):
 - Migrations are additive; never edit an existing migration file.
 - Secrets stay in `.env` (or homelab `/opt/ops/env/hibi/api.env`); never in code or commit messages.
 
+## Legal posture (read before proposing scope expansion)
+
+Hibi runs as a **single-user private newspaper** (kazuki only) because of the
+Perplexity copyright suit pending in Tokyo District Court (filed 2025-08).
+Commercial use, third-party signup, multi-tenant delivery, OSS distribution,
+and aggressive fetcher changes (robots.txt handling, paywall, scope) are
+**all on hold** until that case resolves or a license path opens. Resume
+signals and the policy live in `docs/legal-posture.md` — read that file
+before suggesting auth, multi-tenant, distribution, or scraping-policy work.
+
 ## Design system — single source of truth
 
 `design-system/` is the only place that owns brand decisions. The skill
