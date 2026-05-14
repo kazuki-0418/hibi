@@ -70,6 +70,17 @@ def test_parse_plan_missing_raises() -> None:
         parse_plan("# Goal\nnothing")
 
 
+def test_parse_dev_loop_safe_short_verdict_backticked(fixtures_dir: Path) -> None:
+    # /run-dev-loop は header を `# Verdict` (公式 `# Review Verdict` を短縮)
+    # かつ値を markdown コードスタイル (`safe to merge`) で出力することがある。
+    # 両方を許容する。
+    outcome = parse_dev_loop(
+        _read(fixtures_dir, "dev_loop_safe_short_verdict_backticked.md")
+    )
+    assert outcome.verdict == "safe to merge"
+    assert outcome.blocked is False
+
+
 def test_parse_dev_loop_safe(fixtures_dir: Path) -> None:
     outcome = parse_dev_loop(_read(fixtures_dir, "dev_loop_safe.md"))
     assert outcome.verdict == "safe to merge"
