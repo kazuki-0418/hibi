@@ -56,6 +56,15 @@ def test_parse_plan_confirm(fixtures_dir: Path) -> None:
     assert parse_plan(_read(fixtures_dir, "plan_confirm.md")) == "confirm first"
 
 
+def test_parse_plan_proceed_with_caution_backticked(fixtures_dir: Path) -> None:
+    # /spec-architect は Recommendation 行の値を markdown コードスタイルで
+    # 囲うことがある (`proceed with caution`)。バッククォートを許容する。
+    assert (
+        parse_plan(_read(fixtures_dir, "plan_proceed_with_caution_backticked.md"))
+        == "proceed with caution"
+    )
+
+
 def test_parse_plan_missing_raises() -> None:
     with pytest.raises(ParseError):
         parse_plan("# Goal\nnothing")

@@ -6,7 +6,7 @@ from . import ParseError
 from ..types import PlanRecommendation
 
 _REC_RE = re.compile(
-    r"#\s*Recommendation\s*\n+\s*-?\s*(proceed with caution|confirm first|proceed)\b",
+    r"#\s*Recommendation\s*\n+\s*-?\s*`?(proceed with caution|confirm first|proceed)`?\b",
     re.IGNORECASE,
 )
 
