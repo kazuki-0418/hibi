@@ -1,0 +1,15 @@
+# Cloudflare Pages configuration for the Hibi web app.
+#
+# nodejs_compat is required because Better Auth (via the magic-link plugin)
+# imports `node:async_hooks` (see the vite externalization warning at build
+# time). Without this flag the auth handler crashes at runtime on Workers
+# with "Cannot find module 'node:async_hooks'".
+#
+# compatibility_date is set to the most recent date that the Astro Cloudflare
+# adapter version (12.x) has been validated against; bump alongside adapter
+# upgrades after smoke-testing /api/auth/sign-in/social and magic-link routes.
+
+name = "hibi-web"
+compatibility_date = "2025-09-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist"
