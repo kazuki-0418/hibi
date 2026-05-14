@@ -15,6 +15,11 @@ Hibi の現在の法的状態と、進行中の Perplexity 訴訟 (2025-08 提�
 - multi-tenant / signup / login の路線は **撤回済** (rollback PR #130、2026-05-14)。Better Auth 関連コードと `hibi-domain.md` の multi-tenant 文言を main から削除した。
 - migration 007 (Better Auth 4 テーブル) は Neon に残存。additive で害なし、`hibi-domain.md` の「破壊的変更は別 PR + 運用窓」ルールに従い別途判断する。
 - 商用化 / OSS 配布 / 第三者購読受付は **全部保留**。
+- 2026-05 後段の整理(本ドキュメント更新と同 PR チェーン):
+  - 公開 web archive (`web/` Astro) と FastAPI click handler (`service/`) を main から削除。Cloudflare Pages / Tunnel / `hibi-news.com` も解約。Hibi の公衆送信面積をゼロまで下げた(争点 2「サーバ複製・公衆送信」と争点 4「媒体名つき配信」の外部到達経路を遮断)。
+  - メール内 URL は HMAC tracking proxy 経由ではなく **原典 (YouTube watch / RSS 記事) URL を直接** 載せる。新規 click 収集も停止。
+  - 既存 `clicks` 行は kazuki 固定 UUID のまま保持(過去配信時点の値として確定)。
+  - editions テーブルの `standfirst` / `daily_title` カラムと `stats_summary` VIEW は inert に残存。商用化判断再開時にまとめて取り扱う。
 
 ## 2. Perplexity 訴訟の概要
 
