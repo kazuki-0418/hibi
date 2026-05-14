@@ -14,8 +14,8 @@ Hibi の現行ドメイン事実を固定するスキル。
 - pipeline は 3-stage + ranking 構成。各 Stage は前段の出力にのみ依存
 - ranking 反映は **次回バッチ実行時**。クリックは即座に centroid を更新しない
 - embedding 対象は `title + summary`。本文ではない
-- cold start: `clicks_in_30d < 5` で純ランダム、30 件で full weight。**user ごとに判定** する (multi-tenant 配信)
-- score 式: `sim × 0.7 × weight + rand() × (1 − 0.4 × weight)`、weight = `min(1, clicks_in_30d / 30)` (user 別 clicks)
+- cold start: `clicks_in_30d < 5` で純ランダム、30 件で full weight
+- score 式: `sim × 0.7 × weight + rand() × (1 − 0.4 × weight)`、weight = `min(1, clicks_in_30d / 30)`
 - 現行の事実は以下のダイアグラムから確認する:
   - `architecture/diagrams/pipeline-flow.mmd`
   - `architecture/diagrams/data-model.mmd`
@@ -49,8 +49,7 @@ Hibi の現行ドメイン事実を固定するスキル。
 - クリック URL は HMAC 署名必須。`?a=<article_id>&sig=<HMAC>`
 - 署名なし / 改ざんリクエストは `clicks` に記録しない（fails-open でリダイレクトのみ）
 - bot filter は `user_agent` で判定。GoogleImageProxy 等のプリフェッチは除外
-- `clicks.user_id` は Better Auth が発行する実 user.id (UUID)。kazuki も DB 上の 1 user として扱う。固定 UUID 前提はもう存在しない
-- 未ログインで踏まれたクリックは `clicks.user_id = NULL` で記録 (集計から除外、配信トラッキングの精度は user 紐付きクリックで担保)
+- `clicks.user_id` は当面 kazuki 固定 UUID
 - HMAC シークレット rotation は既配布メールのリンクを無効化する。明示的なメンテナンス窓が必要
 
 ---
@@ -68,7 +67,7 @@ Hibi の現行ドメイン事実を固定するスキル。
 ## State and Persistence Constraints
 
 - `articles.is_sent` は配信完了の唯一の真実。重複送信防止は `content_id` UK + `is_sent` で判定
-- `clicks` は append-only。論理削除カラムを足さない。`user_id` (実 user.id) で論理分離
+- `clicks` は append-only。論理削除カラムを足さない。multi-tenant 化時に `user_id` で論理分離
 - migrations は手動実行。`migrations/NNN_*.sql` を番号順に Neon SQL Editor で適用
 - 破壊的変更（DROP COLUMN、ALTER TYPE）は別 PR + 運用窓で実行。同 PR に DDL と DML を混ぜない
 - backfill が必要な migration は別 PR に分ける
@@ -80,23 +79,16 @@ Hibi の現行ドメイン事実を固定するスキル。
 - 配信は Gmail API、OAuth2 refresh_token 方式
 - OAuth consent screen は **Production** 必須。Testing は 7 日で refresh_token 失効
 - メール本文の URL はすべて HMAC 署名付きトラッキング URL に置換
-- bounce 処理 / unsubscribe link / Privacy Policy は **常時必須** (multi-tenant 配信前提)
-- 配信先は `subscribers` テーブルから引く。`.env` の単一 `RECIPIENT_EMAIL` 固定は廃止
-- 各メール末尾に `/unsubscribe?token=<HMAC>` を必ず挿入する
+- bounce 処理 / unsubscribe link / Privacy Policy は multi-tenant 化前に必須。1 人運用では不要
 
 ---
 
 ## Web Frontend Constraints
 
 - Web archive ( edition page / archive / landing ) は **Astro** で実装。配置は `web/` ディレクトリ
-- 配信は **Cloudflare Pages Functions** (Workers ランタイム)。`hibi-news.com` から配信
-- Astro adapter は `@astrojs/cloudflare`。**static + selective SSR**:
-  - public ページ (`/`, `/edition/[issue_no]`, `/privacy`, `/unsubscribe` 等) は build-time に静的生成
-  - `/api/auth/**`, `/api/subscribe/**`, `/account`, `/login` のみ SSR runtime
-- runtime DB access は **上記 SSR ルートに限り許可**。public ページから DB を呼ばない
-- DB driver は `@neondatabase/serverless` (Workers compatible)。Workers ランタイムで `pg` (node:net) は使えない
+- Build target は `web/dist/`。**Cloudflare Pages** で `hibi-news.com` から配信
 - `design-system/colors_and_type.css` は SSoT。Astro 側で `<link>` で直接参照し、トークンを再宣言しない
-- editions / archive のデータは引き続き **build-time dump**。Python パイプライン (`daily_news.py` etc.) が `web/src/content/editions/*.json` に dump、Astro Content Collection で読む。SSR ルートは editions に触れない
+- データ取得は **build-time**。Python パイプライン (`daily_news.py` etc.) が `web/src/content/editions/*.json` に dump、Astro Content Collection で読む。Astro から DB へ実行時アクセスしない
 - 言語は TypeScript。`tsconfig.json` の strict は有効化する
 
 ---
@@ -105,6 +97,7 @@ Hibi の現行ドメイン事実を固定するスキル。
 
 以下は計画中。現行挙動として扱わない:
 
+- multi-tenant（`clicks.user_id` の動的化）
 - source mute 機能
 - 評価 UI（👍/👎、星評価）— 明示的に作らない方針
 - LangGraph による agent 化
@@ -118,7 +111,8 @@ Hibi の現行ドメイン事実を固定するスキル。
 
 - 汎用ニュースアプリの慣例（カテゴリタブ、検索、お気に入り、共有）を持ち込まない
 - `articles.rating` のような評価フィールドが存在すると仮定しない
-- Python パイプライン側を Cloudflare Workers で動かそうとしない (Pyodide 非互換)。Workers ランタイムは Astro SSR (TypeScript) のみ
+- multi-user が動いていると仮定しない
+- Cloudflare Workers で動くと仮定しない（Pyodide 非互換）
 - async / 並行処理が入っていると仮定しない（YAGNI 判断済み）
 - ORM が入っていると仮定しない。psycopg 3.x + 生 SQL のみ
 - Alembic が入っていると仮定しない。手動 migration
