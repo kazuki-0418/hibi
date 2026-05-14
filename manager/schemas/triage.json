@@ -1,0 +1,41 @@
+{
+  "type": "object",
+  "properties": {
+    "classification": {
+      "type": "string",
+      "enum": ["auto-fixable", "confirm-first", "blocked"]
+    },
+    "scope": {
+      "type": "string",
+      "enum": ["small", "medium", "large"]
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "security",
+          "billing",
+          "quota-impact",
+          "ux-heavy",
+          "ambiguous",
+          "hmac-rotation",
+          "schema-breaking",
+          "embedding-migration",
+          "multi-tenant",
+          "pipeline-redesign"
+        ]
+      }
+    },
+    "why": { "type": "string" },
+    "missing_information": { "type": "string" },
+    "blocking_question": { "type": "string" },
+    "split_proposal": { "type": "string" },
+    "execution_readiness": {
+      "type": "string",
+      "enum": ["ready", "needs-confirmation", "do-not-run"]
+    }
+  },
+  "required": ["classification", "scope", "execution_readiness"],
+  "additionalProperties": false
+}

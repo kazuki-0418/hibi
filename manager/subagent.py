@@ -5,9 +5,9 @@ import os
 import re
 import time
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Protocol
+from typing import Mapping, Protocol
 
 from ._subprocess import CommandTimeout, run
 from .limits import NETWORK_BACKOFF_SECONDS, SUBAGENT_TIMEOUT_SECONDS
@@ -165,11 +165,19 @@ class RealSubagent:
     extra_add_dirs: tuple[Path, ...] = ()
     dangerously_skip_permissions: bool = True
     bare: bool = False
+    # Opt-in: map slash command name (without leading `/`) to a JSON Schema
+    # file. When set, `--json-schema <contents>` is appended to argv, forcing
+    # the CLI to validate the model's output against the schema (Anthropic
+    # Structured Outputs, GA on Claude 4.x). The slash command's Markdown
+    # Output Format becomes secondary — the CLI overrides it. Default empty
+    # keeps the legacy Markdown contract for every stage. See
+    # `manager/schemas/triage.json` for the first migrated schema.
+    json_schemas: Mapping[str, Path] = field(default_factory=dict)
 
     def invoke(self, slash: str, args_text: str, budget_usd: float) -> SubagentResult:
         session_id = str(uuid.uuid4())
         prompt = build_invocation_prompt(slash, args_text)
-        argv = self._build_argv(session_id, budget_usd)
+        argv = self._build_argv(session_id, budget_usd, slash)
         result = self._run_with_transient_backoff(argv, prompt)
         if isinstance(result, CommandTimeout):
             return SubagentResult(
@@ -225,7 +233,9 @@ class RealSubagent:
         assert last is not None
         return last
 
-    def _build_argv(self, session_id: str, budget_usd: float) -> list[str]:
+    def _build_argv(
+        self, session_id: str, budget_usd: float, slash: str
+    ) -> list[str]:
         argv: list[str] = [
             self.claude_bin,
             "-p",
@@ -242,6 +252,9 @@ class RealSubagent:
             argv.append("--dangerously-skip-permissions")
         for extra in self.extra_add_dirs:
             argv.extend(["--add-dir", str(extra)])
+        schema_path = self.json_schemas.get(slash.lstrip("/"))
+        if schema_path is not None:
+            argv.extend(["--json-schema", schema_path.read_text(encoding="utf-8")])
         return argv
 
 

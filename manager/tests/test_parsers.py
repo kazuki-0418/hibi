@@ -8,7 +8,12 @@ from manager.parsers import ParseError
 from manager.parsers.dev_loop import parse_dev_loop
 from manager.parsers.packet import parse_packet
 from manager.parsers.plan import parse_plan
-from manager.parsers.triage import parse_classification, parse_triage
+from manager.parsers.triage import (
+    parse_classification,
+    parse_classification_json,
+    parse_triage,
+    parse_triage_json,
+)
 
 
 def _read(fixtures_dir: Path, name: str) -> str:
@@ -34,6 +39,41 @@ def test_parse_triage_needs_confirmation(fixtures_dir: Path) -> None:
 def test_parse_triage_missing_section_raises() -> None:
     with pytest.raises(ParseError):
         parse_triage("# Some Other Section\n- ready\n")
+
+
+def test_parse_triage_json_ready() -> None:
+    payload = (
+        '{"classification": "auto-fixable", "scope": "small", '
+        '"execution_readiness": "ready"}'
+    )
+    assert parse_triage_json(payload) == "ready"
+    assert parse_classification_json(payload) == "auto-fixable"
+
+
+def test_parse_triage_json_needs_confirmation() -> None:
+    payload = (
+        '{"classification": "confirm-first", "scope": "medium", '
+        '"risk_flags": ["multi-tenant"], "execution_readiness": "needs-confirmation"}'
+    )
+    assert parse_triage_json(payload) == "needs-confirmation"
+    assert parse_classification_json(payload) == "confirm-first"
+
+
+def test_parse_triage_json_not_json_raises() -> None:
+    with pytest.raises(ParseError):
+        parse_triage_json("# Classification\n- auto-fixable\n")
+
+
+def test_parse_triage_json_bad_enum_raises() -> None:
+    with pytest.raises(ParseError):
+        parse_triage_json(
+            '{"classification": "auto-fixable", "scope": "small", '
+            '"execution_readiness": "go"}'
+        )
+
+
+def test_parse_classification_json_missing_field_returns_none() -> None:
+    assert parse_classification_json('{"scope": "small"}') is None
 
 
 def test_parse_packet_minimal(fixtures_dir: Path) -> None:
