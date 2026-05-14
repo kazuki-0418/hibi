@@ -474,6 +474,13 @@ def _handle_implement(runner: Runner, epic: EpicState, child: ChildState) -> Non
 def _handle_verify_pr(runner: Runner, epic: EpicState, child: ChildState) -> None:
     url = runner.git_ops.find_pr_url(child["branch"], epic["epic_branch"])
     if url is None:
+        # Fallback: /run-dev-loop sometimes finishes with verdict=safe_to_merge
+        # but skips the git commit + gh pr create steps (the slash spec's
+        # step 6/7 are implicit and subagents miss them). Recover by doing
+        # it here so the epic can progress instead of grinding through
+        # VERIFY_PR_MAX_ATTEMPTS retries for work the agent already did.
+        url = _recover_missing_pr(runner, epic, child)
+    if url is None:
         if child["retry"]["verify_pr"] >= VERIFY_PR_MAX_ATTEMPTS:
             child["needs_human_reason"] = "PR not found after retries"
             runner.transition(epic, child, "NEEDS_HUMAN")
@@ -497,6 +504,75 @@ def _handle_verify_pr(runner: Runner, epic: EpicState, child: ChildState) -> Non
         },
     )
     runner.transition(epic, child, "DONE")
+
+
+def _recover_missing_pr(
+    runner: Runner, epic: EpicState, child: ChildState
+) -> str | None:
+    """Manager fallback for the "verdict=safe_to_merge but no PR" gap.
+
+    Returns the URL of a newly-created PR on success, None if there's no
+    pending work to recover (i.e. the agent didn't even write files) or if
+    the commit/push/PR-create itself failed.
+
+    Soft-fails on any error so the caller falls back to the normal retry
+    counter and `NEEDS_HUMAN` escalation. Logs every step so a human can
+    trace why recovery did or didn't happen.
+    """
+    branch = child["branch"]
+    issue_number = child["issue_number"]
+    try:
+        if not runner.git_ops.has_pending_work(branch):
+            runner._log(
+                epic["epic_issue_number"],
+                {
+                    "event": "pr_recover_skip",
+                    "child": issue_number,
+                    "reason": "branch clean — no pending work to commit",
+                },
+            )
+            return None
+        commit_msg = (
+            f"feat: implement issue #{issue_number} (manager recovery)\n\n"
+            "Auto-committed by Manager because /run-dev-loop produced\n"
+            "verdict=safe_to_merge but did not commit the change set.\n"
+            f"See state.json artifacts for the dev-loop output.\n\n"
+            f"Refs: #{issue_number}"
+        )
+        committed = runner.git_ops.commit_pending_work(branch, commit_msg)
+        if not committed:
+            return None
+        url = runner.git_ops.push_and_create_pr(
+            branch=branch,
+            title=f"feat: implement #{issue_number}",
+            body=(
+                f"Closes #{issue_number}\n\n"
+                "Auto-created by Manager VERIFY_PR fallback. "
+                "/run-dev-loop produced `safe to merge` but the subagent "
+                "did not call /pr-creation. The implementation is in this "
+                "PR; review against the child issue's acceptance criteria."
+            ),
+        )
+        runner._log(
+            epic["epic_issue_number"],
+            {
+                "event": "pr_recovered",
+                "child": issue_number,
+                "pr_url": url,
+                "committed": committed,
+            },
+        )
+        return url
+    except Exception as exc:
+        runner._log(
+            epic["epic_issue_number"],
+            {
+                "event": "pr_recover_failed",
+                "child": issue_number,
+                "error": str(exc),
+            },
+        )
+        return None
 
 
 _HANDLERS: dict[ChildStatus, Handler] = {

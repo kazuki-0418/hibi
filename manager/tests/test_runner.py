@@ -217,6 +217,58 @@ def test_pr_not_found_retries_then_escalates(
     assert child["retry"]["verify_pr"] == 3
 
 
+def test_verify_pr_fallback_recovers_when_subagent_skipped_commit(
+    state_root: Path, repo_root: Path, fixtures_dir: Path
+) -> None:
+    """Manager VERIFY_PR fallback: /run-dev-loop verdict=safe_to_merge but
+    the subagent forgot to git commit + gh pr create. The branch has
+    pending work. Manager commits + creates the PR itself and the child
+    transitions to DONE instead of grinding through retries to NEEDS_HUMAN.
+    """
+    scripted = _happy_scripted(fixtures_dir, 1)
+    runner, _esc, git_ops = _build(
+        state_root, repo_root, children=[10],
+        scripted=scripted,
+        pr_urls={},  # no PR exists initially
+    )
+    # Simulate the subagent leaving uncommitted work on the child branch.
+    git_ops.pending_work_branches.add("epic/1-test-child-10")
+
+    rc = runner.run_epic(1, slug="test")
+    assert rc == EXIT_OK
+    child = runner.state_store.load_child(1, 10)
+    assert child["status"] == "DONE"
+    assert child["pr_url"] == "https://example.test/pr/epic/1-test-child-10"
+    # Manager committed pending work on the branch with a descriptive message.
+    assert "epic/1-test-child-10" in git_ops.committed_messages
+    assert "issue #10" in git_ops.committed_messages["epic/1-test-child-10"]
+    # And opened a PR titled to reference the child issue.
+    title, _body = git_ops.created_prs["epic/1-test-child-10"]
+    assert "#10" in title
+
+
+def test_verify_pr_fallback_skipped_when_branch_is_clean(
+    state_root: Path, repo_root: Path, fixtures_dir: Path
+) -> None:
+    """If the subagent neither created a PR nor left any working-tree
+    changes, the fallback has nothing to recover. Manager falls back to
+    the normal retry counter and escalates to NEEDS_HUMAN after the cap.
+    """
+    scripted = _happy_scripted(fixtures_dir, 1)
+    runner, _esc, git_ops = _build(
+        state_root, repo_root, children=[10],
+        scripted=scripted,
+        pr_urls={},
+    )
+    # No pending work — fallback can't help.
+    assert not git_ops.pending_work_branches
+    rc = runner.run_epic(1, slug="test")
+    assert rc == EXIT_NEEDS_HUMAN
+    child = runner.state_store.load_child(1, 10)
+    assert child["status"] == "NEEDS_HUMAN"
+    assert "PR not found" in (child["needs_human_reason"] or "")
+
+
 def test_no_children_halts(state_root: Path, repo_root: Path) -> None:
     runner, escalator, _git = _build(state_root, repo_root, children=[], scripted={})
     rc = runner.run_epic(1, slug="test")

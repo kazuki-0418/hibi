@@ -5,9 +5,9 @@ import os
 import re
 import time
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Protocol
+from typing import Mapping, Protocol
 
 from ._subprocess import CommandTimeout, run
 from .limits import NETWORK_BACKOFF_SECONDS, SUBAGENT_TIMEOUT_SECONDS
@@ -90,15 +90,41 @@ def make_result(
     )
 
 
+_RUN_DEV_LOOP_ADDENDUM = (
+    "\n"
+    "重要 (Manager からの追加指示):\n"
+    "- verdict が `safe to merge` または `confirm before merge` の場合、"
+    "実装した変更を **Bash 経由で `git add -A` + `git commit`** してから "
+    "/pr-creation を呼ぶこと。Edit/Write tool でファイルを書いただけでは "
+    "未 commit のままで Manager が PR を見つけられない。\n"
+    "  (注: ローカル Git 操作 (`git add` / `git commit` / `git push`) に "
+    "MCP 相当のツールは存在しないため Bash 一択)\n"
+    "- /pr-creation 内で PR を作成すること。**推奨は MCP github の "
+    "`mcp__github__create_pull_request`**。MCP server が利用できない場合は "
+    "Bash の `gh pr create` でフォールバックして可。いずれの経路でも "
+    "Output Format の `# PR Summary` セクションを **PR を実際に作成済みの "
+    "証跡** として記述すること。\n"
+    "- verdict が `fix before merge` の場合のみ commit / PR 作成を行わない。\n"
+)
+
+
 def build_invocation_prompt(slash: str, args_text: str) -> str:
     """The exact prompt format used to invoke any of the existing slash commands.
 
     Matches the template in `.claude/skills/orchestrator.md` so the subagent
     behaves identically whether invoked by `/orchestrate` (LLM router) or by
     Manager (state machine).
+
+    For `/run-dev-loop` we append a Manager-specific addendum that makes the
+    implicit "commit + create PR" step explicit. The /run-dev-loop slash spec
+    says step 6/7 prepares "PR-ready output" and calls /pr-creation, but it
+    does not literally spell out the `git commit` call — subagents sometimes
+    skip the git/gh tool use and leave changes untracked, which makes the
+    VERIFY_PR stage fail because no PR exists. The addendum closes that gap
+    without modifying the slash command file (which is owned externally).
     """
     name = slash.lstrip("/")
-    return (
+    base = (
         f"あなたは /{name} として動作する。\n"
         f"以下の command ファイルを最初に Read tool で読み、"
         f"その Required Reading セクションに書かれた全ファイルを読んでから開始すること。\n"
@@ -109,6 +135,9 @@ def build_invocation_prompt(slash: str, args_text: str) -> str:
         f"\n"
         f"出力は .claude/commands/{name}.md の Output Format に厳密に従うこと。\n"
     )
+    if name == "run-dev-loop":
+        base += _RUN_DEV_LOOP_ADDENDUM
+    return base
 
 
 @dataclass
@@ -141,11 +170,19 @@ class RealSubagent:
     extra_add_dirs: tuple[Path, ...] = ()
     dangerously_skip_permissions: bool = True
     bare: bool = False
+    # Opt-in: map slash command name (without leading `/`) to a JSON Schema
+    # file. When set, `--json-schema <contents>` is appended to argv, forcing
+    # the CLI to validate the model's output against the schema (Anthropic
+    # Structured Outputs, GA on Claude 4.x). The slash command's Markdown
+    # Output Format becomes secondary — the CLI overrides it. Default empty
+    # keeps the legacy Markdown contract for every stage. See
+    # `manager/schemas/triage.json` for the first migrated schema.
+    json_schemas: Mapping[str, Path] = field(default_factory=dict)
 
     def invoke(self, slash: str, args_text: str, budget_usd: float) -> SubagentResult:
         session_id = str(uuid.uuid4())
         prompt = build_invocation_prompt(slash, args_text)
-        argv = self._build_argv(session_id, budget_usd)
+        argv = self._build_argv(session_id, budget_usd, slash)
         result = self._run_with_transient_backoff(argv, prompt)
         if isinstance(result, CommandTimeout):
             return SubagentResult(
@@ -201,7 +238,9 @@ class RealSubagent:
         assert last is not None
         return last
 
-    def _build_argv(self, session_id: str, budget_usd: float) -> list[str]:
+    def _build_argv(
+        self, session_id: str, budget_usd: float, slash: str
+    ) -> list[str]:
         argv: list[str] = [
             self.claude_bin,
             "-p",
@@ -218,6 +257,9 @@ class RealSubagent:
             argv.append("--dangerously-skip-permissions")
         for extra in self.extra_add_dirs:
             argv.extend(["--add-dir", str(extra)])
+        schema_path = self.json_schemas.get(slash.lstrip("/"))
+        if schema_path is not None:
+            argv.extend(["--json-schema", schema_path.read_text(encoding="utf-8")])
         return argv
 
 

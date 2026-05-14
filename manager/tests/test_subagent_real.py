@@ -257,3 +257,108 @@ def test_build_invocation_prompt_includes_required_reading_directive() -> None:
     assert "Required Reading" in prompt
     assert "PACKET YAML HERE" in prompt
     assert "Output Format" in prompt
+
+
+def test_build_invocation_prompt_run_dev_loop_adds_commit_pr_addendum() -> None:
+    """For /run-dev-loop the prompt must explicitly require:
+      - local commit via Bash (no MCP equivalent for `git commit` exists)
+      - PR creation via MCP github (preferred) with `gh pr create` as fallback
+      - the PR Summary section as evidence the PR really got created
+    Subagents have been observed skipping the actual commit / PR-create
+    tool calls, leaving Manager unable to find the PR."""
+    prompt = build_invocation_prompt("/run-dev-loop", "PACKET YAML")
+    assert "git add" in prompt or "git commit" in prompt
+    assert "/pr-creation" in prompt
+    # PR creation: MCP is the preferred path; `gh pr create` remains as fallback.
+    assert "mcp__github__create_pull_request" in prompt
+    assert "gh pr create" in prompt
+    assert "PR Summary" in prompt
+
+
+def test_build_invocation_prompt_other_commands_have_no_addendum() -> None:
+    """The addendum is scoped to /run-dev-loop only; other commands
+    don't need to commit/create PRs from inside their own execution."""
+    for slash in ("/triage-issue", "/make-execution-packet", "/spec-architect"):
+        prompt = build_invocation_prompt(slash, "x")
+        assert "git commit" not in prompt
+        assert "/pr-creation" not in prompt
+
+
+def test_default_does_not_pass_json_schema(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """Opt-in: with json_schemas empty (default), --json-schema MUST NOT
+    appear in argv. The legacy Markdown Output Format contract stays the
+    canonical path until each stage is explicitly migrated."""
+    captured = _capture(monkeypatch)
+    sub = RealSubagent(repo_root=tmp_path)
+    sub.invoke("/triage-issue", "issue body", budget_usd=0.5)
+    argv = captured["argv"]
+    assert "--json-schema" not in argv
+
+
+def test_opt_in_passes_json_schema_for_configured_slash(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """When a slash command has a schema registered, the CLI receives
+    `--json-schema <schema-contents>` so Anthropic Structured Outputs
+    enforces the shape at the model boundary."""
+    captured = _capture(monkeypatch)
+    schema_text = (
+        '{"type":"object","properties":{"x":{"type":"string"}},'
+        '"required":["x"],"additionalProperties":false}'
+    )
+    schema_path = tmp_path / "triage.json"
+    schema_path.write_text(schema_text, encoding="utf-8")
+    sub = RealSubagent(
+        repo_root=tmp_path,
+        json_schemas={"triage-issue": schema_path},
+    )
+    sub.invoke("/triage-issue", "issue body", budget_usd=0.5)
+    argv = captured["argv"]
+    assert "--json-schema" in argv
+    schema_arg = argv[argv.index("--json-schema") + 1]
+    assert schema_arg == schema_text
+
+
+def test_opt_in_skips_unconfigured_slash_commands(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """The opt-in is per-slash-command. A registered schema for /triage-issue
+    must NOT leak into /spec-architect or any other stage."""
+    captured = _capture(monkeypatch)
+    schema_path = tmp_path / "triage.json"
+    schema_path.write_text(
+        '{"type":"object","additionalProperties":false}', encoding="utf-8"
+    )
+    sub = RealSubagent(
+        repo_root=tmp_path,
+        json_schemas={"triage-issue": schema_path},
+    )
+    sub.invoke("/spec-architect", "packet yaml", budget_usd=0.5)
+    argv = captured["argv"]
+    assert "--json-schema" not in argv
+
+
+def test_real_triage_schema_file_is_valid_and_registers(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """End-to-end: the committed manager/schemas/triage.json is valid JSON
+    matching Anthropic Structured Outputs constraints, and gets wired to
+    the CLI when registered for /triage-issue."""
+    captured = _capture(monkeypatch)
+    repo_root = Path(__file__).resolve().parents[2]
+    schema_path = repo_root / "manager" / "schemas" / "triage.json"
+    schema_obj = json.loads(schema_path.read_text(encoding="utf-8"))
+    assert schema_obj["additionalProperties"] is False
+    assert "execution_readiness" in schema_obj["required"]
+
+    sub = RealSubagent(
+        repo_root=tmp_path,
+        json_schemas={"triage-issue": schema_path},
+    )
+    sub.invoke("/triage-issue", "issue body", budget_usd=0.5)
+    argv = captured["argv"]
+    assert "--json-schema" in argv
+    passed = json.loads(argv[argv.index("--json-schema") + 1])
+    assert passed == schema_obj
