@@ -97,8 +97,13 @@ _RUN_DEV_LOOP_ADDENDUM = (
     "実装した変更を **Bash 経由で `git add -A` + `git commit`** してから "
     "/pr-creation を呼ぶこと。Edit/Write tool でファイルを書いただけでは "
     "未 commit のままで Manager が PR を見つけられない。\n"
-    "- /pr-creation 内で `gh pr create` を実行し、Output Format の "
-    "`# PR Summary` セクションを **PR を実際に作成済みの証跡** として記述すること。\n"
+    "  (注: ローカル Git 操作 (`git add` / `git commit` / `git push`) に "
+    "MCP 相当のツールは存在しないため Bash 一択)\n"
+    "- /pr-creation 内で PR を作成すること。**推奨は MCP github の "
+    "`mcp__github__create_pull_request`**。MCP server が利用できない場合は "
+    "Bash の `gh pr create` でフォールバックして可。いずれの経路でも "
+    "Output Format の `# PR Summary` セクションを **PR を実際に作成済みの "
+    "証跡** として記述すること。\n"
     "- verdict が `fix before merge` の場合のみ commit / PR 作成を行わない。\n"
 )
 

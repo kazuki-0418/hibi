@@ -284,6 +284,13 @@ class RealGitOps:
         /pr-creation hardcodes `--base main`, and `_handle_verify_pr` retargets
         to the epic branch afterwards, so we keep the same convention here.
 
+        Note on tooling: the AI-side `/pr-creation` slash command prefers MCP
+        github (`mcp__github__create_pull_request`). This Manager-side fallback,
+        however, runs in the Python process, not inside an AI agent — MCP tool
+        calls are only available to AI agents. So we shell out to `gh pr create`
+        regardless. That's fine: this code path only fires when the AI failed
+        to create the PR itself, and it produces a functionally identical PR.
+
         Returns the PR URL on success, None on failure (the caller falls back
         to the existing retry counter so transient flakes don't escalate).
         """

@@ -4,7 +4,7 @@
 
 ## Role
 
-変更ファイルを確認し、PR テンプレートを埋めて、`gh pr create` で main への PR を作る。
+変更ファイルを確認し、PR テンプレートを埋めて、MCP github (`mcp__github__create_pull_request`) で main への PR を作る。MCP server が無い環境では Bash の `gh pr create` でフォールバックする。
 
 ## Inputs
 
@@ -81,6 +81,17 @@ git diff --name-only main...HEAD
 
 ### Step 4: PR 作成
 
+**推奨**: MCP github の `mcp__github__create_pull_request` を呼ぶ。
+引数:
+
+- `owner` / `repo` は現在のリポジトリ
+- `base`: `main`
+- `head`: 現在のブランチ
+- `title`: concise summary（PR Title Format に従う）
+- `body`: 埋めたテンプレート
+
+**フォールバック** (MCP github が利用できない環境のみ):
+
 ```bash
 gh pr create \
   --base main \
@@ -88,6 +99,8 @@ gh pr create \
   --title "<concise summary>" \
   --body "<filled-in template>"
 ```
+
+どちらの経路で作成しても、実行後レポートの URL は実際に作られた PR の URL を必ず記載すること（hallucination 禁止）。
 
 ## Output Format
 

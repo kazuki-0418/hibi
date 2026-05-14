@@ -260,13 +260,17 @@ def test_build_invocation_prompt_includes_required_reading_directive() -> None:
 
 
 def test_build_invocation_prompt_run_dev_loop_adds_commit_pr_addendum() -> None:
-    """For /run-dev-loop the prompt must explicitly require git commit +
-    /pr-creation; the slash spec's "PR-ready output" wording is too soft
-    and subagents have been observed skipping the actual commit / gh pr
-    create calls, leaving Manager unable to find the PR."""
+    """For /run-dev-loop the prompt must explicitly require:
+      - local commit via Bash (no MCP equivalent for `git commit` exists)
+      - PR creation via MCP github (preferred) with `gh pr create` as fallback
+      - the PR Summary section as evidence the PR really got created
+    Subagents have been observed skipping the actual commit / PR-create
+    tool calls, leaving Manager unable to find the PR."""
     prompt = build_invocation_prompt("/run-dev-loop", "PACKET YAML")
     assert "git add" in prompt or "git commit" in prompt
     assert "/pr-creation" in prompt
+    # PR creation: MCP is the preferred path; `gh pr create` remains as fallback.
+    assert "mcp__github__create_pull_request" in prompt
     assert "gh pr create" in prompt
     assert "PR Summary" in prompt
 
