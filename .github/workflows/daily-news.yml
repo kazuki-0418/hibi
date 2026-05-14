@@ -8,10 +8,6 @@ on:
     # 外部から API で叩ける
     types: [ daily-news ]
 
-permissions:
-  # 後段の dump → auto-commit + push に必要 (CF Pages の auto-rebuild を main push で発火させる)
-  contents: write
-
 jobs:
   send:
     runs-on: ubuntu-latest
@@ -38,10 +34,6 @@ jobs:
           GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
           RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          # Click-tracking (optional — if either is unset, daily_news.py
-          # silently falls back to the original URL in email links).
-          CLICK_SIGNING_SECRET: ${{ secrets.CLICK_SIGNING_SECRET }}
-          PUBLIC_BASE_URL: ${{ secrets.PUBLIC_BASE_URL }}
           # Embeddings for similarity ranking (optional — if unset, articles
           # are saved with embedding = NULL; backfill later).
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -50,26 +42,3 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           HIBI_RELEASE: ${{ github.sha }}
           HIBI_ENV: production
-
-      # Dump editions from Neon → JSON files Astro reads at build time.
-      # Idempotent overwrite; no-op if no editions changed.
-      - name: Dump editions to web content collection
-        run: python scripts/dump_editions_to_json.py --apply
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
-      # Auto-commit & push only if dump produced JSON diffs. Push to main
-      # triggers Cloudflare Pages auto-rebuild (separate webhook, not
-      # affected by [skip ci]). [skip ci] suppresses re-firing this and
-      # other GitHub workflows on the bot commit.
-      - name: Commit & push edition JSON if changed
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add web/src/content/editions/
-          if git diff --cached --quiet; then
-            echo "No edition changes — skipping commit"
-          else
-            git commit -m "chore(web): auto-dump editions $(date -u +%Y-%m-%d) [skip ci]"
-            git push
-          fi

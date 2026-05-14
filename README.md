@@ -13,7 +13,7 @@ GitHub Actions（毎朝 UTC 13:00 = Vancouver 6:00 AM PDT）
        ├─ 候補をシャッフル → 先頭 MAX_ATTEMPTS 本を試行プール化
        ├─ 本文取得
        │    ├─ YouTube: youtube-transcript-api（WebShare proxy 経由）
-       │    └─ RSS: trafilatura（本文抽出 + robots.txt 尊重）
+       │    └─ RSS: trafilatura（本文抽出）
        ├─ Claude Sonnet 4.6（日本語3行要約、要約不能時は空文字返却）
        └─ Gmail API（OAuth2）→ 受信トレイへ配信（目標 5 本）
 ```

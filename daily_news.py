@@ -4,8 +4,6 @@ Fetches YouTube uploads + RSS articles → summarizes with Claude → sends Gmai
 """
 
 import base64
-import hashlib
-import hmac
 import json
 import logging
 import os
@@ -14,7 +12,6 @@ import re
 import sys
 from datetime import datetime, timedelta, timezone
 from email.mime.text import MIMEText
-from urllib.parse import quote
 
 import sentry_sdk
 import yaml
@@ -29,7 +26,6 @@ from db import (
     get_or_create_edition_for_today,
     is_already_sent,
     save_article,
-    update_edition_meta,
     update_edition_sources_scanned,
 )
 from fetchers import rss as rss_fetcher
@@ -387,42 +383,16 @@ def generate_edition_meta(
 
 
 # ============================================================
-# Click-tracking URL rewrite
-# ============================================================
-# HMAC signer kept IN SYNC with service/app/signing.py. The golden vector in
-# service/tests/test_signing.py is the contract — if you edit this, verify
-# it still produces the expected output there.
-_CLICK_SIG_LEN = 22
-
-
-def _sign_article(article_id: str, secret: str) -> str:
-    digest = hmac.new(secret.encode(), article_id.encode(), hashlib.sha256).digest()
-    return base64.urlsafe_b64encode(digest).decode()[:_CLICK_SIG_LEN]
-
-
-def _redirect_url(article_id: str | None, original_url: str) -> str:
-    """Return the tracking URL for an article, or the original URL if tracking
-    is not configured yet (missing env) or the article id is unavailable.
-
-    This is intentionally lenient: a new deploy may not have CLICK_SIGNING_SECRET
-    / PUBLIC_BASE_URL set. In that case, the email still works — just without
-    click tracking — rather than 404'ing every link.
-    """
-    secret = os.environ.get("CLICK_SIGNING_SECRET")
-    base = os.environ.get("PUBLIC_BASE_URL")
-    if not article_id or not secret or not base:
-        return original_url
-    sig = _sign_article(article_id, secret)
-    return f"{base.rstrip('/')}/r/{quote(article_id, safe='')}?s={quote(sig, safe='')}"
-
-
-# ============================================================
 # Build HTML email (Hibi design-system; see `mailer.build_html`)
 # ============================================================
 def _sections_to_articles(sections: list[dict]) -> list[dict]:
     """Flatten `sections` (grouped by source) into the flat `articles` shape
-    `mailer.build_html` expects, applying the click-tracking redirect to
-    each URL so signed `/r/<id>` links survive the new template.
+    `mailer.build_html` expects.
+
+    Each article's `url` is the original source URL (YouTube watch / RSS
+    item link). Click tracking via the FastAPI `service/` proxy was
+    removed when Hibi went back to single-user; see
+    `docs/legal-posture.md` for the rationale.
     """
     articles: list[dict] = []
     for section in sections:
@@ -430,7 +400,7 @@ def _sections_to_articles(sections: list[dict]) -> list[dict]:
         for item in section["items"]:
             articles.append({
                 "title": item["title"],
-                "url": _redirect_url(item.get("article_id"), item["url"]),
+                "url": item["url"],
                 "summary": item["summary"],
                 "source": source_name,
                 # category / source_type / learning / practical_application:
@@ -711,11 +681,6 @@ def main():
     daily_title = meta["daily_title"]
     print(f"📝 standfirst: {standfirst}")
     print(f"📝 daily_title: {daily_title}")
-    try:
-        update_edition_meta(edition_issue_no, standfirst, daily_title)
-    except Exception as exc:
-        # DB 書き込み失敗はメール配信を止めない (best effort)。
-        log.warning("update_edition_meta failed: %s", exc)
 
     # スキップ件数を footer で透明性表示する (#12 Phase 1)。
     # 字幕不足 / Claude による短文 reject の合計。詳細区別は今回はしない。

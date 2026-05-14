@@ -151,49 +151,8 @@ def update_edition_sources_scanned(
         conn.commit()
 
 
-def update_edition_meta(
-    issue_no: int, standfirst: str, daily_title: str
-) -> None:
-    """`editions.standfirst` / `editions.daily_title` を更新する (Issue #53)。
-
-    daily_news.py の Stage D (Claude による edition meta 生成) 完了時に
-    1 回呼ぶ想定。失敗時のフォールバック値も呼び出し側で確定済みで
-    渡される (= 空文字 / None は入らない想定)。
-
-    上書き保存。冪等。
-    """
-    with get_conn() as conn:
-        conn.execute(
-            """
-            update editions
-               set standfirst = %s,
-                   daily_title = %s
-             where issue_no = %s
-            """,
-            (standfirst, daily_title, issue_no),
-        )
-        conn.commit()
-
-
-def get_stats_summary() -> dict[str, int]:
-    """`stats_summary` VIEW を 1 行読み出す (Issue #54).
-
-    Returns:
-        ``{"editions_count": int, "stories_count": int, "sources_count": int}``
-
-    呼び元は web archive masthead の集計表示 (#58)。view 側で 3 列を
-    1 行にまとめているので、 read は常に 1 行・1 RTT。
-    """
-    with get_conn() as conn, conn.cursor() as cur:
-        cur.execute(
-            "select editions_count, stories_count, sources_count "
-            "from stats_summary"
-        )
-        row = cur.fetchone()
-        if row is None:
-            return {"editions_count": 0, "stories_count": 0, "sources_count": 0}
-        return {
-            "editions_count": int(row[0]),
-            "stories_count": int(row[1]),
-            "sources_count": int(row[2]),
-        }
+# update_edition_meta and get_stats_summary were removed when the web
+# archive (web/) and stats_summary VIEW consumers were dropped (single-user
+# pivot). The editions.standfirst / editions.daily_title columns and the
+# stats_summary VIEW remain in Neon as inert leftovers — drop migration
+# can ship later under the "破壊的変更は別 PR + 運用窓" rule.

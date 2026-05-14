@@ -2,18 +2,16 @@
 
 A personal AI newspaper. A cron at 13:17 UTC fetches curated YouTube channels
 and RSS feeds, has Claude summarize the best five stories in Japanese, and
-emails the digest to a single recipient. The same articles are surfaced as
-an archive on `hibi-news.com`.
+emails the digest to a single recipient (kazuki). No public web archive, no
+click tracking, no multi-tenant signup — see `docs/legal-posture.md` for why.
 
 ## Layout overview
 
 - `daily_news.py` — pipeline entry point (fetch → rank → summarize → save → mail).
-- `service/` — FastAPI click-tracking service, deployed to homelab via
-  GHCR + self-hosted runner + nginx + Cloudflare Tunnel.
 - `manager/` — code-driven state machine that orchestrates the project's
   slash-command sub-agents. Has its own rules in `.claude/rules/manager-agent.md`.
-- `design-system/` — brand guide + tokens + UI kits (see "Design system" below).
-- `web/` — Astro site for the public archive on hibi-news.com.
+- `design-system/` — brand guide + tokens used by the email template
+  (`mailer.py`). See "Design system" below.
 
 ## Agent rules
 
@@ -59,16 +57,14 @@ When implementing UI:
 
 - Reference these tokens via the CSS custom properties they define
   (`--bg-primary`, `--text-primary`, `--font-jp`, `--space-N`, ...).
-- For email, inline the relevant tokens into the template; for web, link
-  the file directly.
+- For the email template, inline the relevant tokens into `mailer.py`.
 - **Do not redefine** tokens (color hex, font family, spacing scale) in
   other files. If a token needs to change, edit `colors_and_type.css` and
   let every surface inherit.
 - Do not introduce new tokens without first putting them in this file.
 
 Non-negotiable visual rules (Japanese minimalist) live in
-`design-system/README.md` — read it before any work touching email
-templates, web pages, or marketing surfaces:
+`design-system/README.md` — read it before touching the email template:
 
 - Grayscale (7 values) only — no saturated color, no gradients, no emoji.
 - Hairline rules (`1px solid #E8E6E1`) instead of cards / shadows.
@@ -79,10 +75,3 @@ templates, web pages, or marketing surfaces:
 
 Detailed guidance, UI kits, and assets are inside `design-system/`; that
 directory is the SSoT, and `/hibi-design` exposes it to Claude Code.
-
-## Auto-deploy (FYI)
-
-A push to `main` that touches `service/**` builds a SHA-pinned image
-(`ghcr.io/kazuki-0418/hibi-api:sha-<sha>`), and the homelab self-hosted
-runner rolls forward via `make deploy-hibi`. See `docs/deploy.md` for the
-full flow and the rollback escape hatch.
