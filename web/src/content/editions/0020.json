@@ -1,0 +1,160 @@
+{
+  "issue_no": 20,
+  "date": "2026-05-15",
+  "standfirst": "今朝の5本。ローカルAIの実装から起業まで、個別のハードウェアと市場に向き合う技術者たちの営為が見える。",
+  "daily_title": "ローカルAIと個別最適化の時代",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "The old world of tech is dying and the new cannot be born",
+      "url": "https://www.baldurbjarnason.com/2026/the-old-world-of-tech-is-dying/",
+      "summary": "本文が不完全で、最後が途中で切れており、著者の主要な論旨の完成形が不明確なため、要約が困難です。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "The Best Local Agentic Coding Workflow (Complete Guide)",
+      "url": "https://www.youtube.com/watch?v=UngVdAsQEiU",
+      "summary": "・ローカルAIモデルの構成要素として、パラメータ数とコンテキストウィンドウサイズを理解し、GPU VRAM容量に対する計算負荷の関係性を把握することが実装の基礎となる。\n・LM Studioなどのツールを用いてHuggingFaceから入手可能なモデルを選定する際、Q4量子化など圧縮形式を活用することで、グラフィックスカードのメモリ制限内でモデルを実行可能にする手法が利用できる。\n・agentic codingワークフローの構築にはtool use機能とreasoningモデルの組み合わせが重要であり、パラメータ数と量子化レベルを調整することで、個別のハードウェア仕様に合わせた最適な設定が実現できる。",
+      "category": "tech",
+      "source": "Web Dev Simplified",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Cerebras's IPO goes vertical, and the death of OpenClaw? | E2287",
+      "url": "https://www.youtube.com/watch?v=WYNSR87GKn0",
+      "summary": "・AI21のOri Goanが、複数の言語モデルの動作パターンを学習するメタモデルに基づくオーケストレーションシステム「Maestro」を開発し、エンタープライズ向けのコスト効率化と精度のトレードオフを自動化している。\n\n・同社の「Jamba」はトランスフォーマーとMambaアーキテクチャを組み合わせたオープンウェイトモデルで、13億パラメータの小規模版から400億パラメータの大規模版まで展開され、長いコンテキスト処理に最適化されている。\n\n・ビジネスモデルとして言語モデルは公開する一方、複数モデル間でのインテリジェントなルーティングと推論戦略を実行するプロプライエタリなMaestroシステムで企業顧客から固定ライセンス料と従量課金ベースの収益を得ている。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    },
+    {
+      "title": "This never works out. OpenAI and Microsoft think they're different.",
+      "url": "https://www.youtube.com/watch?v=d4oh7Y5ZNDs",
+      "summary": "本文が断片的で、具体的な技術的事実や実装の詳細を含まず、主観的な評価や推測に基づいた内容であるため、技術的な要点を抽出することが困難です。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Day 287 growing my SaaS startup to $1M",
+      "url": "https://www.youtube.com/watch?v=7aQ01ZKysl8",
+      "summary": "・開発者が自身の問題を解決することで事業を構築することが有効であり、実例としてPosture AIはウェブカメラとローカルAIモデルを組み合わせて姿勢の問題を検出するアプリケーションとして開発された。\n・同じ開発時間でも情報商品は購読型SaaSより高い収益を生成する傾向があり、異なる事業モデルのティアを理解することで初期段階では現金流を優先することが重要である。\n・市場の反応を直接的にコントロールすることは不可能であるため、達成可能な行動目標（アプリ数やリリース頻度など）を設定することで確実な成功を目指すべきである。",
+      "category": "indie-hacker",
+      "source": "Marc Lou",
+      "source_type": "youtube"
+    }
+  ]
+}
