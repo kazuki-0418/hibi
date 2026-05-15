@@ -14,7 +14,7 @@ GitHub Actions（毎朝 UTC 13:00 = Vancouver 6:00 AM PDT）
        ├─ 本文取得
        │    ├─ YouTube: youtube-transcript-api（WebShare proxy 経由）
        │    └─ RSS: trafilatura（本文抽出 + robots.txt 尊重）
-       ├─ Claude Sonnet 4.6（日本語3行要約、要約不能時は空文字返却）
+       ├─ Claude Haiku 4.5（日本語3行要約、要約不能時は空文字返却）
        └─ Gmail API（OAuth2）→ 受信トレイへ配信（目標 5 本）
 ```
 
@@ -82,7 +82,7 @@ python scripts/test_neon_connection.py
 
 | サービス | コスト |
 |---|---|
-| Claude Sonnet 4.6 | 約 $0.05 / 日（9動画 × 15,000 chars） |
+| Claude Haiku 4.5 | 約 $0.02 / 日（9動画 × 15,000 chars。Sonnet 比 約 1/3）|
 | YouTube Data API v3 | 無料枠内（約 60 units / 日、上限 10,000） |
 | Gmail API | 無料 |
 
