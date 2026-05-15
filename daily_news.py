@@ -51,7 +51,7 @@ MAX_VIDEOS_PER_RUN = 5  # 1回の配信で要約・送信する最大本数（�
 MAX_ATTEMPTS = 30  # 1回の実行で試行する最大候補数（無限試行防止）
 MIN_CONTENT_CHARS = 500  # transcript/記事本文がこれ未満なら失敗扱い
 MIN_SUMMARY_CHARS = 10  # Claude が防御プロンプトに従って空を返したケースを弾く閾値
-CLAUDE_MODEL = "claude-sonnet-4-6"
+CLAUDE_MODEL = "claude-haiku-4-5-20251001"
 CONTENT_CHAR_LIMIT = 15000  # Claude に渡す本文の上限（コスト制御）
 EMBEDDING_MODEL = "text-embedding-3-small"  # OpenAI; 1536 dim。差し替える時は 003 migration も見直す
 
