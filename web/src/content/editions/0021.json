@@ -1,0 +1,144 @@
+{
+  "issue_no": 21,
+  "date": "2026-05-16",
+  "standfirst": null,
+  "daily_title": null,
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "How Anthropic, Costco, and Patagonia all build incorruptible companies  | Eric Ries",
+      "url": "https://www.youtube.com/watch?v=PoJ1vTdHpks",
+      "summary": "・Anthropic は AI安全性を最優先とする企業構造を採用しており、外部の信頼できる人物で構成される委員会が営利事業体の取締役会に監督役として関与する仕組みを導入している。\n・Eric Ries の新著『Incorruptible』は、成功した企業が組織的腐敗により衰退する構造的メカニズムを分析し、資金調達や規模拡大の圧力に抗う原則的な経営判断がかえって長期的報酬をもたらすと主張している。\n・ハーバード・ロースクールのデータによると、ベンチャー企業の創業者のうち公開後3年時点で CEO を務める者は 20% にとどまり、腐敗への構造的対策なくしては創業者が企業の方向性を決定し続けることは統計的に困難である。",
+      "category": "podcast",
+      "source": "Lenny's Podcast",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Victory! End-to-End Encrypted RCS Comes to Apple and Android Chats",
+      "url": "https://www.eff.org/deeplinks/2026/05/victory-end-end-encrypted-rcs-comes-apple-and-android-chats",
+      "summary": "・AppleはiOS 18.5で RCS メッセージングのエンドツーエンド暗号化に対応し、キャリアが両技術をサポートすれば Messages アプリと Google Messages 間の通信が自動的に暗号化される。\n・両社は GSMA RCS Universal Profile 3.0 と Messaging Layer Security プロトコルを実装しており、Google・Apple・キャリアが通信内容にアクセスできなくなる。\n・当機能は iOS では beta 段階であり、Android 側の Google Messages 最新版導入と各キャリアの対応完了までは段階的な展開となる見通しである。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "I might have been wrong about Razer -  Razer Viper V4 Pro",
+      "url": "https://www.youtube.com/watch?v=fO1_AeiPYPo",
+      "summary": "・Razer Viper V4 Pro は 50 グラムの軽量ボディに Focus Pro 50K センサー、8,000 Hz ポーリングレート、新型スイッチ（100万クリック耐性）を搭載し、ラボ測定で 6 ミリ秒以下の入力遅延を実現している。\n・ソフトウェアが Web アプリ化され、Synapse のダウンロード不要となり、ボタン割り当て、DPI 設定の X/Y 軸分離、マウスの傾き角度補正、非対称リフトオフ距離設定など詳細なカスタマイズが可能になった。\n・ドングルに LED インジケータを搭載することで接続品質、バッテリー残量、ポーリングレートをマウス本体の重量増加なしに表示でき、価格 160 ドルでハイエンド競技用マウスとしての基準を満たしている。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    }
+  ]
+}

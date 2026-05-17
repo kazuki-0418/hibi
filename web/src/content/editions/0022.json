@@ -1,0 +1,160 @@
+{
+  "issue_no": 22,
+  "date": "2026-05-17",
+  "standfirst": "今朝の5本。自動運転から調理ロボット、ドライブレコーダー、AIツール、そして活版印字の歴史まで、技術が日常の労働をいかに変えてきたかが静かに浮かび上がる。",
+  "daily_title": "技術が仕事を置き換える、その歴史と現在",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "I can finally be lazy  - Posha Robot Chef",
+      "url": "https://www.youtube.com/watch?v=AkQdZxRQ36U",
+      "summary": "・Poshaロボットシェフは食材を事前計量したコンテナに投入すると自動で調理する家庭用調理ロボットで、1,000以上のレシピに対応し、AIビジョンで調理進捗を監視する機能を搭載している。\n\n・セットアップは段階的なチュートリアルを強制し、油と水の循環テスト、複数の攪拌ブレード、スパイスカルーセルの装着確認など初期化プロセスを厳密に実行させ、ユーザーが装置の動作を理解してから実調理に進む設計となっている。\n\n・本体価格は1,750ドル、年間サブスクリプション100ドルで追加700以上のレシピ解放、Instacartとの連携で食材配送が可能だが、レシピ利用に継続的なサブスクリプションを要求することが制約として機能している。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "OpenClaw is Insane. Here's the Safe Way to Use It #ad",
+      "url": "https://www.youtube.com/watch?v=j8jE4UhhMuo",
+      "summary": "・Open Clawは高機能なAIアシスタントであるが、ローカルマシンへのインストールはセキュリティリスクとなる可能性がある。\n・Hostingerのプラットフォーム上でのインストールにより、セキュリティ設定を適切に構成した状態でOpen Clawを実行できる。\n・クラウド環境での運用により、ユーザーデータ、チャットログ、AI自動化機能を個人デバイスの安全を損なわずに管理できる。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "The Self-Driving Startup Nobody Saw Coming | E2289",
+      "url": "https://www.youtube.com/watch?v=nso01z53huw",
+      "summary": "・Wayveは端末間学習による自動運転技術でエンドツーエンドモデルと世界モデルを開発し、Gaia 2およびGaia 3で複数センサー（カメラ、レーダー、ライダー）からのデータを統合して学習する汎用的なアプローチを実装している。\n\n・世界モデルは走行ポリシー学習と同時にシミュレーション環境を学習し、異なるセンサー構成や気象条件下での無限の仮想テスト走行を可能にすることで、安全性検証と開発効率化を実現している。\n\n・日産、メルセデス、ステランティスなどの自動車メーカーとの提携により、年間270万台規模の車両へのライセンス展開が進行しており、自動車メーカーやフリート事業者向けのB2B事業モデルを通じた経済規模での実装段階に移行している。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Twilight of the Velocipede: Typesetting Races Before the Age of Linotype",
+      "url": "https://publicdomainreview.org/essay/twilight-of-the-velocipede/",
+      "summary": "・1870年代から1880年代にかけてニューヨーク・タイムズの植字工ジョージ・アレンズバーグが時間当たり2064文字を植字する記録を達成し、その後の数十年間で植字速度競技が公開のスペクタクルへと発展した。\n\n・新聞社の植字工に限定された競技文化のなかで、労働組合に排除されていた女性たちは競合組織のナイツ・オブ・レーバーに加入することで1886年のボストン競技会で男性を上回る成績を記録し、その直後に国際印刷工組合が女性の加入を認めた。\n\n・産業革命が印刷業の他工程を機械化していくなか、活版植字のみが人手に依存したままであり、数百件の機械化特許が出願されながらも実用化されず、組合化した植字工たちは職業の衰退が避けられないことを認識していた。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "a MUST HAVE for night drives - Vantrue Pilot 2 Thermal Dashcam",
+      "url": "https://www.youtube.com/watch?v=PeV4GltY7gs",
+      "summary": "・Vantrue Pilot 2は世界初の熱カメラを搭載したドライブレコーダーシステムで、4つのカメラ（熱、フロント、キャビン、リア）と6.25インチのタッチスクリーン表示ユニットで構成され、個別カメラの交換が可能な設計となっている。\n\n・熱カメラは夜間走行時に動物や人物を検出し、ARで枠表示する機能を備えており、IP67防水仕様で車体外部への設置に対応し、500フィートの検出範囲を有する。\n\n・システムはBluetoothおよびWi-Fi 6に対応し、CarPlayやテキスト送受信などの娯楽機能を持つほか、イベント検出時の自動保存機能で効率的にストレージを管理できる。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    }
+  ]
+}
