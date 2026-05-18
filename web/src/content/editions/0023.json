@@ -1,0 +1,160 @@
+{
+  "issue_no": 23,
+  "date": "2026-05-18",
+  "standfirst": "今朝の5本。AIエージェント、メモリ、コード審査、検索トラフィック、プライバシー機能をめぐる技術的な選択と実装の現実が問われている。",
+  "daily_title": "エージェント最適化から暗号化撤廃まで、技術の実装が問い直される一日",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Inference Chips for Agent Workflows",
+      "url": "https://www.youtube.com/watch?v=4YzFuHk84K0",
+      "summary": "・エージェントワークフローは従来のプロンプト入力・応答出力型推論と異なり、ツール呼び出しやループ、分岐、文脈保持を複数ステップにわたって行うため、既存GPUではピーク性能の30～40%の利用率に留まっている。\n・エージェント向け推論チップに必要な機能はモデル間の高速コンテキストスイッチング、投機的デコーディング、実行グラフ全体を通じて機能するKBキャッシュ用メモリなど、ハードウェア設計で根本的に異なるアプローチを要する。\n・推論用シリコンの成功にはチップアーキテクチャの設計だけでなく、それを機能させるコンパイラが同等に重要であり、エージェント実行の実装知見とハードウェア設計の両方の理解が差別化要因となる。",
+      "category": "startup",
+      "source": "Y Combinator",
+      "source_type": "youtube"
+    },
+    {
+      "title": "AI Memory: Stop Building Stateless Agents",
+      "url": "https://www.youtube.com/watch?v=whyz0m302ZI",
+      "summary": "・TanStack AIのメモリシステムは、会話内の一時的な情報のみを保持するステートレスエージェントの限界を超え、複数の会話にまたがってユーザー設定や事実を記憶する長期メモリを実装している。\n\n・メモリドライバーインターフェースは、会話前にベクトル検索で関連事実を取得する「recall」フェーズと、LLMで会話から事実を抽出して保存する「retain」フェーズの二つの操作で構成され、HindsightやMem0など複数のバックエンド実装またはローカルSQLite実装に対応している。\n\n・実装はミドルウェアパターンで提供され、スコープ管理によるユーザー・セッション単位の事実保持、ツールサポートによる会話中のアドホック記憶、そしてコーディングエージェントへの適用が可能な設計となっている。",
+      "category": "dev-for-startup",
+      "source": "Jack Herrington",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Your AEO Strategy + Action Plan Checklist | 4.2. AEO Course by Ahrefs",
+      "url": "https://www.youtube.com/watch?v=Y_QrXGeNfQU",
+      "summary": "・AI検索トラフィックは現在全体の0.25%と小さいが、オーガニック検索の23倍の高い転換率を示しており、年間9.7倍の成長を遂行している。\n・AEOの測定はブランドレーダーを用いて月次でAI占有率・被引用ドメイン・トピックカバレッジ・メンション感情を確認し、四半期ごとに競合監査を実施することで進捗を追跡できる。\n・実装優先順位は、ロボット.txtでAIボットアクセスを確認し、AI分析を設定し、重要ページを更新し、ブランドギャップ分析を実行し、メンション獲得対象を特定することである。",
+      "category": "marketing",
+      "source": "Ahrefs",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Stop Getting Roasted in PR Review (CodeRabbit, Locally)",
+      "url": "https://www.youtube.com/watch?v=r8Qnbx6jsMg",
+      "summary": "・CodeRabbitのCLIツールはClaude CodeおよびCursorに統合でき、開発プロセスの早期段階でコード審査を実行することで、低スペックモデルの品質向上を実現する。\n・拡張機能やカスタムルール設定を通じてCodeRabbitをエディタに組み込むと、未コミット変更に対するリアルタイムフィードバックが得られ、修正提案の自動適用が可能である。\n・AIエージェントがコード生成時にCodeRabbitレビューを並行実行する統合により、PR段階ではなく開発プロセス内での潜在的な脆弱性検出が実現される。",
+      "category": "dev-for-startup",
+      "source": "Jack Herrington",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Broken Promises: RIP Instagram’s End-to-End Encrypted DMs",
+      "url": "https://www.eff.org/deeplinks/2026/05/broken-promises-rip-instagrams-end-end-encrypted-dms",
+      "summary": "・Metaは2022年から2023年にかけてInstagramとMessengerにおけるエンドツーエンド暗号化をデフォルトで実装すると公式に約束していたが、先週その機能を廃止した。\n・同社は利用者の低い採用率を理由に挙げたが、この機能は4段階のオプトインプロセスを必要とする設計であり、利用者への周知が不足していた可能性が指摘されている。\n・GoogleとAppleが他の通信規格のエンドツーエンド暗号化に取り組む中で、Metaの撤回はプライバシー保護機能をデフォルトで有効化すべき業界の課題を浮き彫りにしている。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    }
+  ]
+}
