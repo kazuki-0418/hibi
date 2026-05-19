@@ -1,0 +1,160 @@
+{
+  "issue_no": 24,
+  "date": "2026-05-19",
+  "standfirst": "今朝の5本。資本集約化、コンバージョン最適化、タスク管理、国境での検索令状、デジタル人権会議中止。市場の規模化と個人の権利が問われる朝。",
+  "daily_title": "資本集中とデジタル権、両局面での構造的転換",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "The #1 habit that saves me hours",
+      "url": "https://www.youtube.com/watch?v=jiizjv8X-6o",
+      "summary": "・朝の業務開始時に「今日の冒険は何か」と問い、最も重要なタスクを特定する習慣が時間節約につながる。\n・タスクを冒険として捉え直すことで、遊び心のある姿勢を養い、生産性と創造性の向上につながる。\n・この手法は研究に基づいており、定期的に実践することで週単位での時間節約が期待できる。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "EFF to Fourth Circuit: Electronic Device Searches at the Border Require a Warrant",
+      "url": "https://www.eff.org/deeplinks/2026/05/eff-fourth-circuit-electronic-device-searches-border-require-warrant",
+      "summary": "・EFFと複数の市民的自由団体は第4巡回控訴裁判所に対し、国境での電子機器検査に令状を要求する修正第4条の解釈を求めるアミカスブリーフを提出し、手動検索と法医学的検索の両方に同じ令状基準（中立的な判事による相当因果関係に基づく令状）を適用すべきと主張している。\n\n・電子機器に含まれる個人情報の本質（政治的信条、宗教的信条、性的指向、財務状況、健康状態など）は従来の荷物検査とは異なり、2014年のRiley v. California判例における逮捕後の携帯電話検査の分析基準が適用されるべきであると論じている。\n\n・第4巡回裁判所は過去の判例で法医学的検索のみを扱い、2018年のKolsuz判例では個別化された嫌疑を、2019年のAigbekaen判例では令状を要件としたが、今回は手動検索が争点であり、裁判所の判断が注目されている。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "EFF Stands in Solidarity With RightsCon and the Global Digital Rights Community",
+      "url": "https://www.eff.org/deeplinks/2026/05/eff-stands-solidarity-rightscon-and-global-digital-rights-community",
+      "summary": "・ザンビアで予定されていた世界最大のデジタル人権会議RightsCon 2026が、中国政府による台湾参加者の排除要求など政治的圧力により直前に中止となり、民主的空間の縮小と市民社会への敵対姿勢が拡大する傾向を示している。\n\n・RightsConは2011年の開始以来、検閲・監視・インターネット遮断などのデジタル時代の人権課題に取り組む国際的なプラットフォームであり、特にグローバルサウスの支援者にとって国境を超えた連帯構築と資金確保の稀少な機会を提供していた。\n\n・EFFを含むデジタル人権コミュニティは、政府による市民参加への抑圧に抗しながら、オンライン空間や地域コミュニティでの継続的な組織化と国際連携を通じてデジタル自由を守る活動を継続している。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "The end of Venture Capital? (VC Roundtable) | E2285",
+      "url": "https://www.youtube.com/watch?v=quQAr-WYSgU",
+      "summary": "・米国大手5社が第1四半期のLP出資の73.1%を占める資本集中化が進むなか、ベンチャーキャピタル業界は「コンセンサスキャピタル」の時代へと移行し、従来の職人的ビジネスモデルとしてのVC産業の50～60年の歴史は終焉を迎えつつある。\n\n・ベンチャーファンドが初期段階で過度に資金投下することで所有権が希薄化し、非対称なリターン構造が成立しなくなる数学的矛盾が生じており、大規模ファンドによる過度な資本集約は.comバブル期と同様の市場歪みをもたらす可能性がある。\n\n・従来型VC（ニッチ特化型、創業者との高頻度接触、資本効率重視）と合意資本型VC（大規模ファンド、複数企業への分散投資）が異なる資産クラスとして共存する見通しであり、中規模ファンドへの需要は増加傾向にある。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    },
+    {
+      "title": "SaaS Copywriting Secrets: 5 Mistakes Killing Your Conversions",
+      "url": "https://www.youtube.com/watch?v=NnhTqs3giNc",
+      "summary": "・SaaS企業のコンバージョン改善には、顧客レビュー、サポートチケット、ユーザーインタビューなど複数のチャネルから継続的にVoice of Customer(VOC)データを収集し、顧客が実際に使用する具体的な表現を抽出することが有効である。\n\n・収集したVOCデータは文脈を保ったまま整理し、ユーザージャーニーの各段階(認識、導入、活用、熱心な利用、離脱)に対応させることで、ウェブサイトやメールの見出しやCTA、サブヘッドラインに直接組み込むことができる。\n\n・問題認識、問題の深刻化、解決策を示すU-PASS（UVP+Problem-Agitation-Solution）フォーマットにVOCの言葉を構造化することで、顧客の実際の語彙を使用した認証性の高いコピーが実現される。",
+      "category": "indie-hacker",
+      "source": "MicroConf",
+      "source_type": "youtube"
+    }
+  ]
+}
