@@ -7,7 +7,7 @@ from . import ParseError
 from ..types import ReviewVerdict
 
 _VERDICT_RE = re.compile(
-    r"#\s*(?:Review\s+)?Verdict\s*\n+\s*-?\s*`?(safe to merge|fix before merge|confirm before merge)`?\b",
+    r"#\s*(?:Review\s+)?Verdict\s*\n+\s*-?\s*\*{0,2}`?(safe to merge|fix before merge|confirm before merge)`?\*{0,2}\b",
     re.IGNORECASE,
 )
 _PYTEST_RE = re.compile(

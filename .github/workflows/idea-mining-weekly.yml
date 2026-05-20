@@ -1,0 +1,42 @@
+name: Idea Mining Weekly
+
+# idea-mining 用の private fetcher を週次で走らせる。
+#
+# 現状は Apple iTunes RSS (★1-4 customer reviews → voices) のみ。
+# newspaper pipeline (`daily-news.yml`) とは完全に分離していて、
+# 失敗してもニュースレターには影響しない。
+#
+# 関連: Issue #136, idea_mining/fetchers/apple_rss.py, migration 008.
+
+on:
+  schedule:
+    # 毎週月曜 14:00 UTC (= JST 23:00) — daily-news (13:17 UTC) と十分離す。
+    - cron: "0 14 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  apple_rss:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - run: pip install -r requirements.txt
+
+      - run: python -m idea_mining.fetchers.apple_rss
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          # Optional — if SENTRY_DSN is unset the fetcher still runs;
+          # 5-consecutive-failure alerts simply log to stderr.
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          HIBI_RELEASE: ${{ github.sha }}
+          HIBI_ENV: production

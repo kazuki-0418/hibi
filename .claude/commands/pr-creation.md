@@ -6,19 +6,39 @@
 
 変更ファイルを確認し、PR テンプレートを埋めて、MCP github (`mcp__github__create_pull_request`) で適切な base への PR を作る。MCP server が無い環境では Bash の `gh pr create` でフォールバックする。
 
-## Base ブランチ判定 (絶対ルール)
+## Base ブランチ判定 (絶対ルール — flat PR design)
 
-**epic ブランチが存在する場合は必ず epic ブランチを base にする。main を base にしない。**
+**子 PR は常に親 epic ブランチを base にする。epic が無ければ main。sibling child branch を base にしない。**
+
+設計分離:
+- **ブランチ作成**: stacked (child-N は child-N-1 の tip から派生 → 前の子の成果物が見える)
+- **PR の merge 先**: flat (常に epic、stacked PR は作らない)
 
 判定ロジック:
 
 1. 現在のブランチ名を取得 (`git rev-parse --abbrev-ref HEAD`)
-2. パターン `^epic/\d+-.*-child-\d+$` (例: `epic/134-epic-child-136`) にマッチするか確認
-3. マッチする場合: `-child-\d+` を除いた部分を epic ブランチとする (例: `epic/134-epic`)
-4. epic ブランチが存在 (`git rev-parse --verify <epic-branch>` または `origin/<epic-branch>`) する場合: それを base にする
-5. それ以外: base は `main`
+2. パターン `^(epic/\d+-.*)-child-(\d+)$` にマッチするか確認 (例: `epic/134-epic-child-138` → epic prefix `epic/134-epic`)
+3. マッチした場合: epic prefix (`epic/134-epic`) が local or origin に存在すれば `base` = それ、無ければ `base` = `main`
+4. マッチしない (= 単独ブランチ) → `base` = `main`
 
-子 PR を main に向けると `git rebase` / `merge` 衝突 + epic 統合 PR でのレビュー範囲膨張 + 子 commit が main 履歴を直接汚す問題が起きるので、これを防ぐためのルール。
+理由: stacked PR は graphite 等のツール前提で GitHub native レビューが煩雑になる。kazuki は GitHub UI で素直に merge したい (上から順、PR 単独で完結)。PR diff が膨らむのは epic から先に merge する運用で自然に縮む (GitHub の base 引き算)。
+
+検出例 (`epic/134-epic-child-139` で発火):
+
+```bash
+CURRENT=$(git rev-parse --abbrev-ref HEAD)
+if [[ "$CURRENT" =~ ^(epic/.+)-child-[0-9]+$ ]]; then
+  EPIC="${BASH_REMATCH[1]}"
+  if git rev-parse --verify "$EPIC" >/dev/null 2>&1 || \
+     git rev-parse --verify "origin/$EPIC" >/dev/null 2>&1; then
+    BASE="$EPIC"
+  else
+    BASE="main"
+  fi
+else
+  BASE="main"
+fi
+```
 
 ## Inputs
 
@@ -35,7 +55,7 @@
 - 人間への確認なしに merge しない
 - force push をしない
 - `main` ブランチに直接コミット・push しない
-- **epic ブランチが存在するのに `main` を base にして PR を作らない** (絶対ルール、上記「Base ブランチ判定」参照)
+- **child ブランチで PR を作る時、base に sibling child を選ばない** (絶対ルール、上記「Base ブランチ判定」参照)。epic prefix が存在すれば必ず epic、無ければ main。stacked PR チェーンを作らない
 - `.env` / 鍵 / トークン / `*.json` の credentials を stage しない
 - レビュアーの判定が `fix before merge` のまま PR を作らない
 - HMAC シークレット rotation を伴う変更は main への直接 push をしない（必ずブランチ + PR + 運用窓説明）

@@ -14,7 +14,13 @@ class GitOpsError(Exception):
 
 class GitOps(Protocol):
     def create_epic_branch(self, epic_issue: int, slug: str) -> str: ...
-    def create_child_branch(self, epic_branch: str, child_issue: int) -> str: ...
+    def create_child_branch(
+        self,
+        epic_branch: str,
+        child_issue: int,
+        base_branch: str | None = None,
+    ) -> str: ...
+    def branch_exists(self, branch: str) -> bool: ...
     def diff_lines(self, base_branch: str) -> int: ...
     def find_pr_url(self, head_branch: str, base_branch: str) -> str | None: ...
     def retarget_pr(self, pr_url: str, new_base: str) -> bool: ...
@@ -57,11 +63,24 @@ class DummyGitOps:
         self.epic_branches[epic_issue] = branch
         return branch
 
-    def create_child_branch(self, epic_branch: str, child_issue: int) -> str:
+    def create_child_branch(
+        self,
+        epic_branch: str,
+        child_issue: int,
+        base_branch: str | None = None,
+    ) -> str:
         self._maybe_fail("create_child_branch")
         branch = child_branch_name(epic_branch, child_issue)
         self.child_branches[child_issue] = branch
+        # Record the base used so tests can assert stacked-branch behavior.
+        self.last_child_base = base_branch if base_branch else epic_branch
         return branch
+
+    last_child_base: str | None = None
+    existing_branches: set[str] = field(default_factory=set)
+
+    def branch_exists(self, branch: str) -> bool:
+        return branch in self.existing_branches
 
     def diff_lines(self, base_branch: str) -> int:
         return self.diff_lines_value
@@ -180,15 +199,35 @@ class RealGitOps:
             self._git("checkout", "-b", branch, f"origin/{self.base_branch}")
         return branch
 
-    def create_child_branch(self, epic_branch: str, child_issue: int) -> str:
+    def create_child_branch(
+        self,
+        epic_branch: str,
+        child_issue: int,
+        base_branch: str | None = None,
+    ) -> str:
+        """Create or check out the child branch.
+
+        `base_branch` lets the caller override what we branch from. Stacked
+        design: the runner passes the previous done child's branch so each
+        child builds on the prior, instead of always restarting from the
+        epic tip. None falls back to `epic_branch` (initial child or when
+        the previous child's branch was already merged + deleted).
+        """
         branch = child_branch_name(epic_branch, child_issue)
+        base = base_branch if base_branch else epic_branch
         existing = self._git("rev-parse", "--verify", "--quiet", branch, allow_fail=True)
         if existing.exit_code == 0:
             self._git("checkout", branch)
         else:
-            self._git("checkout", epic_branch)
+            self._git("checkout", base)
             self._git("checkout", "-b", branch)
         return branch
+
+    def branch_exists(self, branch: str) -> bool:
+        return (
+            self._git("rev-parse", "--verify", "--quiet", branch, allow_fail=True).exit_code
+            == 0
+        )
 
     def diff_lines(self, base_branch: str) -> int:
         result = self._git(

@@ -13,17 +13,16 @@ import random
 import re
 import sys
 from datetime import datetime, timedelta, timezone
-from email.mime.text import MIMEText
 from urllib.parse import quote
 
 import sentry_sdk
 import yaml
 from googleapiclient.discovery import build
-from google.oauth2.credentials import Credentials
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.proxies import WebshareProxyConfig
 from anthropic import Anthropic
 
+import email_sender
 from db import (
     get_conn,
     get_or_create_edition_for_today,
@@ -516,22 +515,10 @@ def rank_candidates(
 # Gmail send
 # ============================================================
 def send_email(subject: str, html_body: str, to: str):
-    creds = Credentials(
-        token=None,
-        refresh_token=os.environ["GMAIL_REFRESH_TOKEN"],
-        client_id=os.environ["GMAIL_CLIENT_ID"],
-        client_secret=os.environ["GMAIL_CLIENT_SECRET"],
-        token_uri="https://oauth2.googleapis.com/token",
-        scopes=["https://www.googleapis.com/auth/gmail.send"],
-    )
-    service = build("gmail", "v1", credentials=creds)
-
-    msg = MIMEText(html_body, "html")
-    msg["to"] = to
-    msg["subject"] = subject
-    raw = base64.urlsafe_b64encode(msg.as_bytes()).decode()
-
-    service.users().messages().send(userId="me", body={"raw": raw}).execute()
+    # Gmail OAuth2 send path is shared with idea_mining.digest via
+    # `email_sender`. Signature is preserved (positional) so existing callers
+    # keep working unchanged.
+    email_sender.send_email(subject=subject, to=to, html_body=html_body)
     print(f"✅ Email sent to {to}")
 
 

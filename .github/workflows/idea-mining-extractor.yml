@@ -1,0 +1,48 @@
+name: Idea Mining Extractor
+
+# voices → patterns 抽出を週 3 回 (火 / 木 / 土 03:00 UTC) 走らせる。
+#
+# - 直近 7 日の `voices` (Apple iTunes ★1-4 reviews 等) を Haiku で
+#   クラスタリングし、頻度 3+ の構造的ペインを `patterns` テーブルに
+#   UPSERT する。
+# - newspaper pipeline (`daily-news.yml`, 13:17 UTC) や collector
+#   (`idea-mining-weekly.yml`, Mon 14:00 UTC) と時刻が衝突しないよう
+#   03:00 UTC に固定。
+# - 失敗してもニュースレターには影響しない (idea-mining レーンは
+#   newspaper と独立)。
+#
+# 関連: Issue #134 (epic), migration 009, idea_mining/extractor.py.
+
+on:
+  schedule:
+    # 火 / 木 / 土 03:00 UTC.
+    - cron: "0 3 * * 2,4,6"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extractor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - run: pip install -r requirements.txt
+
+      - run: python -m idea_mining.extractor
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          # Optional — if SENTRY_DSN is unset the extractor still runs;
+          # malformed-JSON warnings simply log to stderr.
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          HIBI_RELEASE: ${{ github.sha }}
+          HIBI_ENV: production

@@ -71,6 +71,15 @@ epic #124 で 5 件の防衛 issue を起こした(2026-05-14、Hibi 着手前)�
 - 公開 web archive (`hibi-news.com`) は読み取り専用、signup 動線なし。
 - OSS 配布 (#74) / VS Code 拡張 (#77) / CLI (#76) / MCP (#75) は **設計検討のみ**。公開配布しない。
 
+## 5.5 idea-mining は別パイプライン (保留対象外)
+
+`idea_mining/` (Apple iTunes RSS 等の製品レビュー / ideation ソース) は newspaper 配信パイプライン (`daily_news.py` / `fetchers/rss.py` / `articles`) の外側に存在し、§5 の「新規メディアソース追加」保留対象には該当しない。
+
+判断根拠:
+- ニュース記事ではなく Apple 公式 RSS API + UGC (アプリレビュー)、§2 の 4 争点 (robots.txt / 本文複製 / paywall / 信用毀損) いずれにも該当しない
+- メール配信 / archive 公開なし、`voices` テーブルに private で保管
+- 将来 idea-mining 用に news サイト RSS を追加する場合は本除外対象外、§5 に従って判決後再判断
+
 ## 6. 再開シグナル
 
 以下のうち **どれかが起きたら本ドキュメントを再開し、#124 相当の防衛 issue を再起票** する候補とする:
