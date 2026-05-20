@@ -1,10 +1,24 @@
 # /pr-creation
 
-現在のブランチから `main` への PR を作成するコマンド。
+現在のブランチから **適切な base ブランチ** (epic ブランチがあればそれ、無ければ `main`) への PR を作成するコマンド。
 
 ## Role
 
-変更ファイルを確認し、PR テンプレートを埋めて、MCP github (`mcp__github__create_pull_request`) で main への PR を作る。MCP server が無い環境では Bash の `gh pr create` でフォールバックする。
+変更ファイルを確認し、PR テンプレートを埋めて、MCP github (`mcp__github__create_pull_request`) で適切な base への PR を作る。MCP server が無い環境では Bash の `gh pr create` でフォールバックする。
+
+## Base ブランチ判定 (絶対ルール)
+
+**epic ブランチが存在する場合は必ず epic ブランチを base にする。main を base にしない。**
+
+判定ロジック:
+
+1. 現在のブランチ名を取得 (`git rev-parse --abbrev-ref HEAD`)
+2. パターン `^epic/\d+-.*-child-\d+$` (例: `epic/134-epic-child-136`) にマッチするか確認
+3. マッチする場合: `-child-\d+` を除いた部分を epic ブランチとする (例: `epic/134-epic`)
+4. epic ブランチが存在 (`git rev-parse --verify <epic-branch>` または `origin/<epic-branch>`) する場合: それを base にする
+5. それ以外: base は `main`
+
+子 PR を main に向けると `git rebase` / `merge` 衝突 + epic 統合 PR でのレビュー範囲膨張 + 子 commit が main 履歴を直接汚す問題が起きるので、これを防ぐためのルール。
 
 ## Inputs
 
@@ -21,6 +35,7 @@
 - 人間への確認なしに merge しない
 - force push をしない
 - `main` ブランチに直接コミット・push しない
+- **epic ブランチが存在するのに `main` を base にして PR を作らない** (絶対ルール、上記「Base ブランチ判定」参照)
 - `.env` / 鍵 / トークン / `*.json` の credentials を stage しない
 - レビュアーの判定が `fix before merge` のまま PR を作らない
 - HMAC シークレット rotation を伴う変更は main への直接 push をしない（必ずブランチ + PR + 運用窓説明）
@@ -42,7 +57,7 @@
 ### Step 2: 変更ファイルを確認
 
 ```bash
-git diff --name-only main...HEAD
+git diff --name-only <base>...HEAD   # <base> は「Base ブランチ判定」で決めた値 (epic ブランチ or main)
 ```
 
 | パス | フラグ |
@@ -85,7 +100,7 @@ git diff --name-only main...HEAD
 引数:
 
 - `owner` / `repo` は現在のリポジトリ
-- `base`: `main`
+- `base`: 「Base ブランチ判定」で決めた値 (epic ブランチ or `main`)
 - `head`: 現在のブランチ
 - `title`: concise summary（PR Title Format に従う）
 - `body`: 埋めたテンプレート
@@ -93,8 +108,9 @@ git diff --name-only main...HEAD
 **フォールバック** (MCP github が利用できない環境のみ):
 
 ```bash
+BASE=$(... 「Base ブランチ判定」で決めた値、epic ブランチがあればそれ、無ければ main ...)
 gh pr create \
-  --base main \
+  --base "$BASE" \
   --head <current-branch> \
   --title "<concise summary>" \
   --body "<filled-in template>"
