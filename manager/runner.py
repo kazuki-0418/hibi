@@ -465,6 +465,12 @@ def _handle_implement(runner: Runner, epic: EpicState, child: ChildState) -> Non
     runner.state_store.save_child(epic["epic_issue_number"], child)
     if outcome.verdict == "safe to merge":
         runner.transition(epic, child, "VERIFY_PR")
+    elif outcome.verdict == "confirm before merge":
+        runner._log(
+            epic["epic_issue_number"],
+            {"child": child["issue_number"], "event": "verdict_caution_accepted"},
+        )
+        runner.transition(epic, child, "VERIFY_PR")
     elif outcome.verdict == "fix before merge":
         _retry_or_escalate(
             runner, epic, child,
