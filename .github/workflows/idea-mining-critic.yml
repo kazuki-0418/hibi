@@ -1,0 +1,45 @@
+name: Idea Mining Critic
+
+# candidates テーブルの `critic_verdict IS NULL` 行を Sonnet
+# (`claude-sonnet-4-6`) で adversarial 評価し、verdict と JSONB meta
+# を UPDATE する。
+#
+# - 初期は手動 (`workflow_dispatch`) のみ。cron スケジュールの追加は
+#   別 issue で決める (Issue #139 Decisions §E)。
+# - newspaper pipeline (`daily-news.yml`) や他の idea-mining レーン
+#   (`idea-mining-extractor.yml`, `idea-mining-weekly.yml`) からは独立。
+#   失敗してもニュースレターには影響しない。
+#
+# 関連: Issue #139 (Critic), Epic #134, migrations/010_create_candidates.sql,
+#       idea_mining/critic.py.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  critic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - run: pip install -r requirements.txt
+
+      - run: python -m idea_mining.critic
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          # Optional — if SENTRY_DSN is unset the critic still runs;
+          # malformed-JSON warnings simply log to stderr.
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          HIBI_RELEASE: ${{ github.sha }}
+          HIBI_ENV: production
