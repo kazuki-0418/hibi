@@ -20,7 +20,7 @@ from .escalate import (
     render_halted,
     render_needs_human,
 )
-from .git_ops import GitOps, GitOpsError
+from .git_ops import GitOps, GitOpsError, child_branch_name
 from .limits import (
     EXIT_HALTED,
     EXIT_NEEDS_HUMAN,
@@ -163,14 +163,22 @@ class Runner:
             # exists it just checks it out.
             if child["status"] not in TERMINAL_STATES:
                 try:
-                    self.git_ops.create_child_branch(epic["epic_branch"], child_issue)
+                    self.git_ops.create_child_branch(
+                        epic["epic_branch"],
+                        child_issue,
+                        base_branch=self._previous_child_base(epic),
+                    )
                 except GitOpsError as exc:
                     child["needs_human_reason"] = f"resume checkout failed: {exc}"
                     self.transition(epic, child, "NEEDS_HUMAN")
                     return "NEEDS_HUMAN"
         else:
             try:
-                branch = self.git_ops.create_child_branch(epic["epic_branch"], child_issue)
+                branch = self.git_ops.create_child_branch(
+                    epic["epic_branch"],
+                    child_issue,
+                    base_branch=self._previous_child_base(epic),
+                )
             except GitOpsError as exc:
                 child = self.state_store.init_child(epic_n, child_issue, branch="")
                 child["needs_human_reason"] = f"create_child_branch failed: {exc}"
@@ -274,6 +282,18 @@ class Runner:
     def _log(self, epic_issue: int, event: dict[str, object]) -> None:
         self.state_store.append_log(epic_issue, event)
 
+    def _previous_child_base(self, epic: EpicState) -> str | None:
+        """Stacked-branch design: branch the next child off the previous done
+        child's branch so each child sees prior work without waiting for human
+        PR merges. Falls back to the epic branch when the previous child's
+        branch no longer exists locally (already merged + deleted).
+        """
+        done = epic["children_done"]
+        if not done:
+            return None
+        prev_branch = child_branch_name(epic["epic_branch"], done[-1])
+        return prev_branch if self.git_ops.branch_exists(prev_branch) else None
+
     # --------------------------------------------------------- signals
 
     @contextmanager
@@ -376,10 +396,16 @@ def _handle_triage(runner: Runner, epic: EpicState, child: ChildState) -> None:
         return
     if readiness == "ready":
         runner.transition(epic, child, "PACKETIZE")
+    elif readiness == "needs-confirmation":
+        runner._log(
+            epic["epic_issue_number"],
+            {"child": child["issue_number"], "event": "triage_caution_accepted"},
+        )
+        runner.transition(epic, child, "PACKETIZE")
     elif readiness == "do-not-run":
         runner.transition(epic, child, "SKIPPED")
     else:
-        child["needs_human_reason"] = "triage readiness=needs-confirmation"
+        child["needs_human_reason"] = f"triage readiness={readiness}"
         runner.transition(epic, child, "NEEDS_HUMAN")
 
 
@@ -500,17 +526,19 @@ def _handle_verify_pr(runner: Runner, epic: EpicState, child: ChildState) -> Non
         runner.state_store.save_child(epic["epic_issue_number"], child)
         return
     child["pr_url"] = url
-    # /pr-creation hard-codes `--base main`; retarget to the epic branch so the
-    # epic accumulates child PRs as designed. Soft-fail: a failed retarget logs
-    # but doesn't escalate (the PR still exists, just on the wrong base).
-    retargeted = runner.git_ops.retarget_pr(url, epic["epic_branch"])
+    # /pr-creation now resolves base to stacked (prev sibling → epic → main).
+    # We still retarget defensively in case the slash fallback hit main: the
+    # right target is "previous done child branch if alive, else epic". This
+    # keeps PRs chained for the stacked review flow. Soft-fail.
+    desired_base = runner._previous_child_base(epic) or epic["epic_branch"]
+    retargeted = runner.git_ops.retarget_pr(url, desired_base)
     runner._log(
         epic["epic_issue_number"],
         {
             "event": "pr_retarget",
             "child": child["issue_number"],
             "pr_url": url,
-            "new_base": epic["epic_branch"],
+            "new_base": desired_base,
             "ok": retargeted,
         },
     )
