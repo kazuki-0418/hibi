@@ -211,7 +211,12 @@ class Runner:
         cost = cost_check(epic["cost_usd"])
         if cost.tripped:
             raise _StopEpic(cost.reason)
-        diff = diff_check(self.git_ops.diff_lines(epic["epic_branch"]))
+        # Stacked design: measure THIS child's diff against its immediate base
+        # (previous done child's branch if alive, else epic). Measuring against
+        # epic accumulates prior siblings' commits and trips the cap on day 1
+        # for every child after the first.
+        diff_base = self._previous_child_base(epic) or epic["epic_branch"]
+        diff = diff_check(self.git_ops.diff_lines(diff_base))
         if diff.tripped:
             child["needs_human_reason"] = diff.reason
             self.transition(epic, child, "NEEDS_HUMAN")
