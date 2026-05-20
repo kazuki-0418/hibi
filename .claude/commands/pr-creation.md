@@ -6,37 +6,35 @@
 
 変更ファイルを確認し、PR テンプレートを埋めて、MCP github (`mcp__github__create_pull_request`) で適切な base への PR を作る。MCP server が無い環境では Bash の `gh pr create` でフォールバックする。
 
-## Base ブランチ判定 (絶対ルール — stacked design)
+## Base ブランチ判定 (絶対ルール — flat PR design)
 
-**子 PR は「直前の sibling child branch があればそれ、無ければ epic ブランチ、それも無ければ main」を base にする。** 親 epic を飛び越えて main を直接 base にしない。
+**子 PR は常に親 epic ブランチを base にする。epic が無ければ main。sibling child branch を base にしない。**
+
+設計分離:
+- **ブランチ作成**: stacked (child-N は child-N-1 の tip から派生 → 前の子の成果物が見える)
+- **PR の merge 先**: flat (常に epic、stacked PR は作らない)
 
 判定ロジック:
 
 1. 現在のブランチ名を取得 (`git rev-parse --abbrev-ref HEAD`)
-2. パターン `^(epic/\d+-.*)-child-(\d+)$` にマッチするか確認 (例: `epic/134-epic-child-138` → epic prefix `epic/134-epic`, child number `138`)
-3. マッチした場合の **stacked base 検索**:
-   - 同 epic prefix の sibling 子ブランチ `<epic-prefix>-child-<N>` を `git for-each-ref` で列挙し、現在の child number より小さい `N` の中で **最大の `N`** を選ぶ
-   - その branch が local (or origin) に存在すれば `base` = そのブランチ (例: 現在 `child-138`、`child-137` が存在 → `base = epic/134-epic-child-137`)
-   - 存在しない (= merge 後に削除済) なら fallback して epic prefix そのものを base にする (例: `epic/134-epic`)
-4. epic prefix にもブランチが無い (= マッチしない / 単独ブランチ) → `base` = `main`
+2. パターン `^(epic/\d+-.*)-child-(\d+)$` にマッチするか確認 (例: `epic/134-epic-child-138` → epic prefix `epic/134-epic`)
+3. マッチした場合: epic prefix (`epic/134-epic`) が local or origin に存在すれば `base` = それ、無ければ `base` = `main`
+4. マッチしない (= 単独ブランチ) → `base` = `main`
 
-理由: 子 #N の PR base を一つ前の子 #N-1 にすることで、PR を stacked PR の連鎖にし、人手 merge を待たずに次の子を進められる。merge は最終的に下から (#N-1 → #N → ... の順で kazuki が承認)。
+理由: stacked PR は graphite 等のツール前提で GitHub native レビューが煩雑になる。kazuki は GitHub UI で素直に merge したい (上から順、PR 単独で完結)。PR diff が膨らむのは epic から先に merge する運用で自然に縮む (GitHub の base 引き算)。
 
-検出例 (`epic/134-epic-child-138` で発火):
+検出例 (`epic/134-epic-child-139` で発火):
 
 ```bash
 CURRENT=$(git rev-parse --abbrev-ref HEAD)
-[[ "$CURRENT" =~ ^(epic/.+)-child-([0-9]+)$ ]] || { BASE="main"; exit 0; }
-EPIC="${BASH_REMATCH[1]}"
-CHILD_N="${BASH_REMATCH[2]}"
-# Find highest sibling with lower number
-PREV=$(git for-each-ref "refs/heads/${EPIC}-child-*" --format='%(refname:short)' \
-       | awk -F'-child-' -v cur="$CHILD_N" '$2 < cur {print $0}' \
-       | sort -t- -k4 -n | tail -1)
-if [[ -n "$PREV" ]] && git rev-parse --verify "$PREV" >/dev/null 2>&1; then
-  BASE="$PREV"
-elif git rev-parse --verify "$EPIC" >/dev/null 2>&1; then
-  BASE="$EPIC"
+if [[ "$CURRENT" =~ ^(epic/.+)-child-[0-9]+$ ]]; then
+  EPIC="${BASH_REMATCH[1]}"
+  if git rev-parse --verify "$EPIC" >/dev/null 2>&1 || \
+     git rev-parse --verify "origin/$EPIC" >/dev/null 2>&1; then
+    BASE="$EPIC"
+  else
+    BASE="main"
+  fi
 else
   BASE="main"
 fi
@@ -57,7 +55,7 @@ fi
 - 人間への確認なしに merge しない
 - force push をしない
 - `main` ブランチに直接コミット・push しない
-- **stacked design に違反して `main` / 過去 sibling より上 (低い number の child) を base にしない** (絶対ルール、上記「Base ブランチ判定」参照)。直前の sibling → epic → main の優先順を守る
+- **child ブランチで PR を作る時、base に sibling child を選ばない** (絶対ルール、上記「Base ブランチ判定」参照)。epic prefix が存在すれば必ず epic、無ければ main。stacked PR チェーンを作らない
 - `.env` / 鍵 / トークン / `*.json` の credentials を stage しない
 - レビュアーの判定が `fix before merge` のまま PR を作らない
 - HMAC シークレット rotation を伴う変更は main への直接 push をしない（必ずブランチ + PR + 運用窓説明）

@@ -531,11 +531,12 @@ def _handle_verify_pr(runner: Runner, epic: EpicState, child: ChildState) -> Non
         runner.state_store.save_child(epic["epic_issue_number"], child)
         return
     child["pr_url"] = url
-    # /pr-creation now resolves base to stacked (prev sibling → epic → main).
-    # We still retarget defensively in case the slash fallback hit main: the
-    # right target is "previous done child branch if alive, else epic". This
-    # keeps PRs chained for the stacked review flow. Soft-fail.
-    desired_base = runner._previous_child_base(epic) or epic["epic_branch"]
+    # Flat-PR design: PR base is always the epic branch (never a sibling
+    # child). Branches remain stacked (each child branches off the previous
+    # one) so each child can see prior work, but the PR merge target is flat
+    # for GitHub-native review ergonomics. Retarget defensively in case the
+    # slash fallback hit main. Soft-fail.
+    desired_base = epic["epic_branch"]
     retargeted = runner.git_ops.retarget_pr(url, desired_base)
     runner._log(
         epic["epic_issue_number"],
