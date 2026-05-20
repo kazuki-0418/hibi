@@ -1,0 +1,160 @@
+{
+  "issue_no": 25,
+  "date": "2026-05-20",
+  "standfirst": "今朝の5本。技術から哲学まで、システムの複雑性と人間の認識のあり方が静かに問われている。",
+  "daily_title": "自動化と接続管理、そして他者への見方。",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "The core of backend system design",
+      "url": "https://www.youtube.com/watch?v=1nUnRgawAC8",
+      "summary": "・バックエンド システム設計において接続管理が中核をなし、クライアントはTCP/UDP接続を通じてバックエンド側に接続オブジェクトを生成し、受信したリクエストはバッファリング、復号化、プロトコル解析されて処理される。\n・バックエンド アプリケーションは外部のバックエンド システム（データベースなど）と通信する際、フロントエンド接続とは異なるアップストリーム接続を確立するため、複数のソケット接続を同時管理する必要がある。\n・APIゲートウェイやリバースプロキシといった中間層は、クライアント側のフロントエンド接続とバックエンド側のアップストリーム接続の双方を管理しリクエストを転送する二重の接続管理構造を実装する。",
+      "category": "dev-for-startup",
+      "source": "Hussein Nasser",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Your Old Projector Was a Waste Of Money - XGIMI Titan Noir Max",
+      "url": "https://www.youtube.com/watch?v=Lr-n8kjnUrQ",
+      "summary": "・Titan Noir Max は 5,000 ルーメンの実測輝度、最大 6,000:1 のネイティブコントラスト比、デュアルアイリス機構を備え、レンズシフト機能により歪みなく画像を移動できる。\n\n・カスタマイズされた AOSP ベースの OS により Android の標準機能を廃し、ユーザーによるアプリのサイドロード導入と最適化されたソフトウェア体験を実現している。\n\n・メニューシステムは応答性と細かい制御が優先され、画面サイズ調整による輝度ブーストや Dolby Vision 設定内の画面ゲイン調整など、ユーザーが画質を細かく調整できる設計となっている。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Almost too thin - Razer Blade 16",
+      "url": "https://www.youtube.com/watch?v=itA1JE3b0kg",
+      "summary": "・Razer Blade 16はIntel Core Ultra 9 386H または AMD Ryzen AI 9365プロセッサー、RTX 5090 GPU(インテル版のみ)、64GB RAM、2TB SSD、2560x1600 240Hz表示を搭載し、厚さの割に高い処理能力を実装している。\n\n・280W専有コネクタの電源アダプタ、Thunderbolt 5ポート、SD カードリーダー、6スピーカー構成(THX認証)、90Wh バッテリーを備え、1.5mm ストロークのメンブレンキーボードと大型トラックパッドが実装されている。\n\n・Cyberpunk 2077において1600p ウルトラ設定で100FPS平均を達成し、同等スペックのHP Omen との比較では若干劣るもの期待値内の性能を示し、特にバッテリー駆動時間が10.5時間を超える優位性が確認された。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Prompt to Dashboard in One AI Tool Call",
+      "url": "https://www.youtube.com/watch?v=3dpqz8oPBJ0",
+      "summary": "・TanStack AIのCode Modeはデータベースに接続し、TypeScriptを生成してSQL実行やデータ変換を行うことで、LLMが苦手とする数学計算や複雑なロジック処理を効率的に実現する。\n・Netlify Databaseとの連携では、queryTableなどのツールをCode Modeの仮想マシン内に注入することで、標準的なLLMツール定義を再利用しながら、生成されたTypeScriptが直接データベースを操作できる仕組みになっている。\n・生成されたUIはNodeRendererを通じてReactコンポーネントにマッピングされた配列のノードをイテレーションして動的に構築され、チャートやグリッド、メトリクスなどのレポート要素が自動生成される。",
+      "category": "dev-for-startup",
+      "source": "Jack Herrington",
+      "source_type": "youtube"
+    },
+    {
+      "title": "The Empty Boat Paradox",
+      "url": "https://www.youtube.com/watch?v=1ONRHbMRVqk",
+      "summary": "・霧の中で他者の行動に激怒する人間が、実は空の船との衝突に過ぎない状況を認識することで怒りが消滅する空の船の寓話が提示されている。\n・日常生活における他者の過失や不作為の大半は、相手が意図的に危害を加えようとしたのではなく、その人物の固有の問題や事情に由来するものであることが指摘されている。\n・衝突した相手が自分への悪意なく自身の課題を抱えながら移動している空の船と見なすことで、怒りの感情を軽減する認知的アプローチが示唆されている。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    }
+  ]
+}
