@@ -429,7 +429,12 @@ def _handle_plan(runner: Runner, epic: EpicState, child: ChildState) -> None:
             reason=f"plan parse failed: {exc}",
         )
         return
-    if rec == "proceed":
+    if rec in ("proceed", "proceed with caution"):
+        if rec == "proceed with caution":
+            runner._log(
+                epic["epic_issue_number"],
+                {"child": child["issue_number"], "event": "plan_caution_accepted"},
+            )
         runner.transition(epic, child, "IMPLEMENT")
     else:
         child["needs_human_reason"] = f"plan recommendation={rec}"
