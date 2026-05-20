@@ -239,3 +239,34 @@ sources:
     feed_url: https://hnrss.org/frontpage
     why: テック業界のリアルタイム話題集約。
     url: https://news.ycombinator.com
+
+# ============================================================
+# apple_apps — Apple iTunes RSS (★1-4 customer reviews → voices)
+#
+# idea-mining 用の private シグナル源。`daily_news.py` / newsletter /
+# web archive とは無関係で、`voices` テーブルにのみ書き込む。
+#
+# Issue #136 では country MVP として jp のみ運用。us/gb の追加は
+# 別 issue で判断 (out-of-scope)。
+#
+# fetcher: idea_mining/fetchers/apple_rss.py
+# workflow: .github/workflows/idea-mining-weekly.yml (毎週月 14:00 UTC)
+# ============================================================
+apple_apps:
+  - name: Notion
+    app_id: "1232780281"
+    country: [jp]
+    enabled: true
+    why: 個人の生産性ツール市場での pain point 観測 (knowledge mgmt + AI 機能)。
+
+  - name: Obsidian
+    app_id: "1557175442"
+    country: [jp]
+    enabled: true
+    why: ローカル / Markdown / plugin 系の note-taking pain point 観測。
+
+  - name: MoneyForward
+    app_id: "459683577"
+    country: [jp]
+    enabled: true
+    why: 日本市場の家計簿 / マネー系 SaaS の継続課金 / UI pain 観測。
