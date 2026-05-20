@@ -26,6 +26,15 @@ _FENCE_RE = re.compile(r"```(?:yaml|yml)?\s*\n(.*?)```", re.DOTALL | re.IGNORECA
 # The fallback path only runs when the initial parse already failed, so we
 # can quote aggressively without worrying about over-quoting valid YAML.
 _LIST_ITEM_RE = re.compile(r"^(\s*-\s+)(.+?)\s*$")
+# Top-level scalar string keys (excluding issue_id which is int) — used by
+# fallback to quote inline values that contain YAML-significant chars like
+# `title: feat(idea-mining): Critic` (double colon trips safe_load).
+_TOP_LEVEL_STRING_KEYS: tuple[str, ...] = (
+    "title", "classification", "scope", "goal",
+)
+_TOP_LEVEL_KV_RE = re.compile(
+    r"^(" + "|".join(_TOP_LEVEL_STRING_KEYS) + r"):\s+(.+?)\s*$"
+)
 
 
 def _extract_yaml_block(raw: str) -> str:
@@ -35,24 +44,33 @@ def _extract_yaml_block(raw: str) -> str:
     return raw
 
 
-def _quote_unsafe_list_items(text: str) -> str:
-    r"""Defensive preprocessor: wrap every `- foo` item in single quotes.
+def _quote_unsafe_yaml(text: str) -> str:
+    r"""Defensive preprocessor: wrap list items AND top-level string fields
+    (title / classification / scope / goal) in single quotes.
 
-    /make-execution-packet outputs free-form Japanese acceptance_criteria that
-    routinely embed `[jp]` / `country: [jp]` / backticked code refs / mid-line
-    `"quoted phrases"` continued with more text. Each of these breaks
-    safe_load. The packet schema only uses lists of strings (not lists of
-    mappings), so blanket-quoting list items is safe and covers all
-    YAML-significant-character failure modes in one pass.
+    Failure modes seen in production:
+    - acceptance_criteria 配下の `- country: [jp]` / `- "wrapper" 型...`
+      (list item の中の `: ` / `[...]` / 中途半端な double quote)
+    - top-level `title: feat(idea-mining): Critic ...` (conventional commit
+      prefix の `:` が二重 colon になり mapping 解釈で爆発)
+
+    packet schema は list of strings + top-level scalars (string + int) のみ。
+    list of mappings は無いので blanket quoting で安全。issue_id だけは
+    int として残したいので _TOP_LEVEL_STRING_KEYS から除外。
     """
     out: list[str] = []
     for line in text.split("\n"):
-        m = _LIST_ITEM_RE.match(line)
-        if m:
-            content = m.group(2).replace("'", "''")
-            out.append(f"{m.group(1)}'{content}'")
-        else:
-            out.append(line)
+        m_list = _LIST_ITEM_RE.match(line)
+        if m_list:
+            content = m_list.group(2).replace("'", "''")
+            out.append(f"{m_list.group(1)}'{content}'")
+            continue
+        m_kv = _TOP_LEVEL_KV_RE.match(line)
+        if m_kv:
+            value = m_kv.group(2).replace("'", "''")
+            out.append(f"{m_kv.group(1)}: '{value}'")
+            continue
+        out.append(line)
     return "\n".join(out)
 
 
@@ -62,7 +80,7 @@ def parse_packet(raw: str) -> dict[str, Any]:
         loaded = yaml.safe_load(text)
     except yaml.YAMLError:
         try:
-            loaded = yaml.safe_load(_quote_unsafe_list_items(text))
+            loaded = yaml.safe_load(_quote_unsafe_yaml(text))
         except yaml.YAMLError as exc:
             raise ParseError(f"YAML 解析失敗: {exc}") from exc
     if not isinstance(loaded, dict):
