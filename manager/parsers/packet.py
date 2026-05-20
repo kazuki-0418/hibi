@@ -22,8 +22,10 @@ _REQUIRED_KEYS: tuple[str, ...] = (
 )
 
 _FENCE_RE = re.compile(r"```(?:yaml|yml)?\s*\n(.*?)```", re.DOTALL | re.IGNORECASE)
-_LIST_ITEM_RE = re.compile(r"^(\s*-\s+)([^'\"\s].*?)\s*$")
-_YAML_SIGNIFICANT = re.compile(r"(?<!\w):\s|[\[\]`{}#&*!|>%@,]")
+# Match any non-empty `- foo` list item (no restriction on starting char).
+# The fallback path only runs when the initial parse already failed, so we
+# can quote aggressively without worrying about over-quoting valid YAML.
+_LIST_ITEM_RE = re.compile(r"^(\s*-\s+)(.+?)\s*$")
 
 
 def _extract_yaml_block(raw: str) -> str:
@@ -34,18 +36,19 @@ def _extract_yaml_block(raw: str) -> str:
 
 
 def _quote_unsafe_list_items(text: str) -> str:
-    r"""Defensive preprocessor: wrap `- foo` items in single quotes when `foo`
-    contains YAML-significant characters (`: `, `[`, `]`, `\``, etc.).
+    r"""Defensive preprocessor: wrap every `- foo` item in single quotes.
 
     /make-execution-packet outputs free-form Japanese acceptance_criteria that
-    routinely embed `[jp]` / `country: [jp]` / backticked code refs. Plain
-    unquoted scalars then break safe_load. The packet schema only uses lists
-    of strings (not lists of mappings), so quoting list items is safe.
+    routinely embed `[jp]` / `country: [jp]` / backticked code refs / mid-line
+    `"quoted phrases"` continued with more text. Each of these breaks
+    safe_load. The packet schema only uses lists of strings (not lists of
+    mappings), so blanket-quoting list items is safe and covers all
+    YAML-significant-character failure modes in one pass.
     """
     out: list[str] = []
     for line in text.split("\n"):
         m = _LIST_ITEM_RE.match(line)
-        if m and _YAML_SIGNIFICANT.search(m.group(2)):
+        if m:
             content = m.group(2).replace("'", "''")
             out.append(f"{m.group(1)}'{content}'")
         else:
