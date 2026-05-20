@@ -86,6 +86,10 @@ python scripts/test_neon_connection.py
 | YouTube Data API v3 | 無料枠内（約 60 units / 日、上限 10,000） |
 | Gmail API | 無料 |
 
+## Idea mining
+
+5 AI workflow (Collector / Extractor / Spotter / Ideator / Critic) で共通利用する Vault profile ローダーは [`idea_mining/README.md`](idea_mining/README.md) を参照。
+
 ## 法的ポジショニング
 
 Hibi は **kazuki 単独購読の private newspaper** として運用中。Perplexity 訴訟 (2025-08 提訴、東京地裁係属中) の含意で **商用化 / 第三者配信 / OSS 配布は保留**。判決後に再評価する。詳細と再開シグナルは [`docs/legal-posture.md`](docs/legal-posture.md) を参照。
