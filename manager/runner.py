@@ -460,12 +460,24 @@ def _handle_plan(runner: Runner, epic: EpicState, child: ChildState) -> None:
             reason=f"plan parse failed: {exc}",
         )
         return
-    if rec in ("proceed", "proceed with caution"):
-        if rec == "proceed with caution":
-            runner._log(
-                epic["epic_issue_number"],
-                {"child": child["issue_number"], "event": "plan_caution_accepted"},
-            )
+    if rec == "proceed":
+        runner.transition(epic, child, "IMPLEMENT")
+    elif rec == "proceed with caution":
+        runner._log(
+            epic["epic_issue_number"],
+            {"child": child["issue_number"], "event": "plan_caution_accepted"},
+        )
+        runner.transition(epic, child, "IMPLEMENT")
+    elif rec == "confirm first":
+        # `/spec-architect` の最強 halt 信号だが、PR review が最終 safety net で
+        # あり、agent が round を重ねるごとに新たな question を生成する pattern
+        # (#139 で 3 round / $2+ 消費) を構造的に解決するため IMPLEMENT に流す。
+        # fix before merge は引き続き retry 経路を持つので大規模仕様ずれは
+        # IMPLEMENT 段階で吸収される。
+        runner._log(
+            epic["epic_issue_number"],
+            {"child": child["issue_number"], "event": "plan_confirm_first_accepted"},
+        )
         runner.transition(epic, child, "IMPLEMENT")
     else:
         child["needs_human_reason"] = f"plan recommendation={rec}"
