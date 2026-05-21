@@ -2,11 +2,16 @@ name: Idea Mining Weekly
 
 # idea-mining 用の private fetcher を週次で走らせる。
 #
-# 現状は Apple iTunes RSS (★1-4 customer reviews → voices) のみ。
+# 2026-05-21: Apple iTunes Customer Reviews RSS が死状態に陥ったため
+# (Issue #150, ADR: 10_projects/idea-mining/decisions/2026-05-21-appfollow-free-personal-use.md)
+# AppFollow Free API (★1-4 customer reviews → voices) に切り替えた。
+# 旧 apple_rss step は実装を残置 (将来 Apple RSS 復活時の参照) するが
+# 本 workflow からは呼ばない。
+#
 # newspaper pipeline (`daily-news.yml`) とは完全に分離していて、
 # 失敗してもニュースレターには影響しない。
 #
-# 関連: Issue #136, idea_mining/fetchers/apple_rss.py, migration 008.
+# 関連: Issue #150, idea_mining/fetchers/appfollow.py, migration 008.
 
 on:
   schedule:
@@ -18,7 +23,7 @@ permissions:
   contents: read
 
 jobs:
-  apple_rss:
+  appfollow:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -32,9 +37,10 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python -m idea_mining.fetchers.apple_rss
+      - run: python -m idea_mining.fetchers.appfollow
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          APPFOLLOW_API_TOKEN: ${{ secrets.APPFOLLOW_API_TOKEN }}
           # Optional — if SENTRY_DSN is unset the fetcher still runs;
           # 5-consecutive-failure alerts simply log to stderr.
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}

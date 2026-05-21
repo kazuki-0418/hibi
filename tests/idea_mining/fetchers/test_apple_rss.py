@@ -333,15 +333,21 @@ def test_insert_voices_treats_rowcount_zero_as_noop() -> None:
 
 
 def test_load_apple_apps_reads_real_sources_yaml() -> None:
+    # 2026-05-21 以降、Apple iTunes Customer Reviews RSS 死亡を受けて
+    # sources.yaml の apple_apps セクションは全 entry を enabled: false に
+    # 変更し、idea-mining-weekly workflow からも切り離した
+    # (Issue #150, ADR: 10_projects/idea-mining/decisions/
+    # 2026-05-21-appfollow-free-personal-use.md)。
+    # load_apple_apps は enabled=true のみ返すため、本番 sources.yaml に
+    # 対しては 0 件で返ることが正しい挙動。fetcher コード自体は将来 Apple
+    # が RSS を復活させたときの参照実装として残置している。
     apps = load_apple_apps(REPO_ROOT / "sources.yaml")
 
-    by_name = {a.name: a for a in apps}
-    for required in ("Notion", "Obsidian", "MoneyForward"):
-        assert required in by_name, f"sources.yaml missing apple_apps entry: {required}"
-        assert by_name[required].countries == ("jp",)
-        assert by_name[required].enabled is True
-        # app_id is a string ID (Apple uses numeric strings).
-        assert by_name[required].app_id.isdigit()
+    assert apps == [], (
+        "apple_apps must be fully disabled in sources.yaml after the "
+        "2026-05-21 pivot to AppFollow. Re-enable only if Apple revives "
+        "the Customer Reviews RSS endpoint and the ADR is reopened."
+    )
 
 
 def test_load_apple_apps_skips_disabled(tmp_path: Path) -> None:

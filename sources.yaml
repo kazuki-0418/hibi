@@ -243,27 +243,63 @@ sources:
 # ============================================================
 # apple_apps — Apple iTunes RSS (★1-4 customer reviews → voices)
 #
-# idea-mining 用の private シグナル源。`daily_news.py` / newsletter /
-# web archive とは無関係で、`voices` テーブルにのみ書き込む。
+# DISABLED 2026-05-21: Apple iTunes Customer Reviews RSS endpoint が
+# HTTP 200 だが feed.entry が常に空という死状態に到達したため
+# (Issue #150, ADR: 10_projects/idea-mining/decisions/2026-05-21-appfollow-free-personal-use.md)。
+# Apple 側に公式 deprecation アナウンスはないが復旧見込みも不明。
+# 代替経路として AppFollow Free に切替 (appfollow_apps 参照)。
 #
-# Issue #136 では country MVP として jp のみ運用。us/gb の追加は
-# 別 issue で判断 (out-of-scope)。
-#
-# fetcher: idea_mining/fetchers/apple_rss.py
-# workflow: .github/workflows/idea-mining-weekly.yml (毎週月 14:00 UTC)
+# 既存 fetcher (idea_mining/fetchers/apple_rss.py) は将来 Apple が
+# RSS を復活させた場合の参照実装として残置する。
 # ============================================================
 apple_apps:
   - name: Notion
     app_id: "1232780281"
     country: [jp]
-    enabled: true
-    why: 個人の生産性ツール市場での pain point 観測 (knowledge mgmt + AI 機能)。
+    enabled: false
+    why: (disabled) Apple iTunes RSS 死亡につき AppFollow 経路へ移行。
 
   - name: Obsidian
     app_id: "1557175442"
     country: [jp]
+    enabled: false
+    why: (disabled) 同上。
+
+  - name: MoneyForward
+    app_id: "459683577"
+    country: [jp]
+    enabled: false
+    why: (disabled) 同上。
+
+# ============================================================
+# appfollow_apps — AppFollow Free API (★1-4 customer reviews → voices)
+#
+# idea-mining 用の private シグナル源。`daily_news.py` / newsletter /
+# web archive とは無関係で、`voices` テーブルにのみ書き込む
+# (source='appfollow')。
+#
+# Phase 0 proof として Notion (jp) + MoneyForward (jp) の 2 つで開始。
+# 1-2 週後に Canva / DeepL Pro / pixiv / freee 等の niche app へ
+# 入れ替え予定 (ADR の Open 節)。AppFollow Free は 2 apps cap。
+#
+# - app_id は Apple App Store 側の app id (AppFollow API では ext_id
+#   パラメータに渡す)。同じ id を「AppFollow ダッシュボード上で own
+#   として追加」して tracking 対象にしておく。
+# - country は AppFollow API の country パラメータ (jp / us / gb 等)。
+# - ★5 は fetcher 側で除外する (rating < 5 のみ INSERT)。
+# - APPFOLLOW_API_TOKEN env が必要。GitHub Actions secrets で設定。
+#
+# fetcher: idea_mining/fetchers/appfollow.py
+# workflow: .github/workflows/idea-mining-weekly.yml (毎週月 14:00 UTC)
+# ADR: 10_projects/idea-mining/decisions/2026-05-21-appfollow-free-personal-use.md
+# Issue: #150
+# ============================================================
+appfollow_apps:
+  - name: Notion
+    app_id: "1232780281"
+    country: [jp]
     enabled: true
-    why: ローカル / Markdown / plugin 系の note-taking pain point 観測。
+    why: 個人の生産性ツール市場での pain point 観測 (knowledge mgmt + AI 機能)。
 
   - name: MoneyForward
     app_id: "459683577"
