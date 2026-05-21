@@ -1,0 +1,160 @@
+{
+  "issue_no": 26,
+  "date": "2026-05-21",
+  "standfirst": "今朝の5本。インターフェースから核実験映像まで、観測と記録の精度が更新される。",
+  "daily_title": "計測と記録の精度が段階的に進化する一日",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "AI + Code = FAST AS F... 💨",
+      "url": "https://www.youtube.com/watch?v=oXfAq7TBjAg",
+      "summary": "・機械学習によるコード補完は従来のIDE機能の改善から始まり、1行補完、複数行補完へと段階的に進化している。\n・AIコーディングアシスタンスの利用形態は、IDE内での機械学習、プラグイン、ブラウザチャット、インラインコマンドなど複数の方法が存在する。\n・最新のアジェンティックAIやAI IDEはコード生成だけでなく、既存コードのコンテキストを活用してテスト実行やコミットまで含む一連の開発タスクを最小限の人間の介入で実行する。",
+      "category": "senior-engineer",
+      "source": "Modern Software Engineering",
+      "source_type": "youtube"
+    },
+    {
+      "title": "New CSS text-box Property Is A Game Changer",
+      "url": "https://www.youtube.com/watch?v=5P-7lIqn1lI",
+      "summary": "・CSSの新しいtext-boxプロパティはtextbox-trimとtextbox-edgeの短縮形で、テキストの上下に加わるデフォルト余白を調整できる。\n・textbox-edgeはtrimの基準位置を指定でき、「cap」は大文字の高さ、「x」は小文字の高さ、「alphabetic」はディセンダー下端に合わせることで、テキストボックスのサイズを正確に制御できる。\n・両プロパティを組み合わせることで柔軟なテキストトリミングが可能になり、textbox短縮プロパティを使用することで記述が簡潔になる。",
+      "category": "tech",
+      "source": "Web Dev Simplified",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Tesla FSD saved their lives at 1am. They didn't even see them coming.",
+      "url": "https://www.youtube.com/watch?v=13K4nRdiyEI",
+      "summary": "・テスラのフルセルフドライビング機能が深夜の高速走行中に複数の鹿を検知して緊急制動をかけ、衝突を回避した事例が報告されている。\n・テスラは全世界で累計100億マイルの走行データを集積しており、この大規模なデータセットが自動運転システムの精度向上に寄与していると考えられている。\n・ユーザーは膨大な運用データに基づく継続的な改善がフルセルフドライビング機能の安全性向上に つながるとみており、さらなる普及拡大が交通事故削減につながる可能性を指摘している。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Lost Images from the 1945 Trinity Nuclear Test Restored",
+      "url": "https://spectrum.ieee.org/trinity-nuclear-test",
+      "summary": "・三位一体実験の撮影チームは意図的に異なる距離、角度、フレームレート、焦点距離で配置した52台のカメラのうち11台から満足できる画像を得て、10万フレーム以上を記録し、爆発の初期段階における火球の膨張を詳細に追跡した。\n\n・高速度撮影カメラは実際の爆発が予測の数倍の威力を示したため多くの計測機器が機能を失う中で、起爆から100分の1秒以内の初期段階を含む貴重な映像記録を保存した。\n\n・プルトニウム圧縮と核分裂反応の連鎖を可視化した映像は科学者に対して、目撃者の証言や直感では把握できない、時間と空間規模における爆発の挙動を繰り返し測定・分析する機会を提供した。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "I save hours with this simple trick",
+      "url": "https://www.youtube.com/watch?v=3G-gcv0L-q0",
+      "summary": "・テキスト展開機能を活用することで、頻繁に入力する情報をキーボードショートカットで自動補完できる。\n・iPhone のキーボード設定からテキスト置換を設定することで、メールアドレスや電話番号などの定型情報を迅速に入力可能になる。\n・フォーム入力時など繰り返し発生するテキスト入力の作業時間を大幅に削減できるという実装例が示されている。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    }
+  ]
+}
