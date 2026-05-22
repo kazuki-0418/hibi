@@ -1,0 +1,160 @@
+{
+  "issue_no": 27,
+  "date": "2026-05-22",
+  "standfirst": "今朝の5本。AIの実装が、デジタルから物質へ、そして組織の仕組みへと広がっている。",
+  "daily_title": "AI実装の拡張と、その中での人間の営為。",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "What's the Point?",
+      "url": "https://www.youtube.com/watch?v=dW6pvUx4_jc",
+      "summary": "・ゲーム内で効率性を求める自分に気づいた著者は、娯楽の本質は目標達成ではなく過程を楽しむことにあると認識する。\n・その気づきを仕事に応用し、生産性アプリの開発を「遊び」として捉え直すことで、ストレスなく創造的な成果を生み出す。\n・著者は全ての目標（仕事・健康・人間関係）を難易度調整可能な任意のゲームと見なし、目的地ではなく過程を重視する態度が本来的な充足をもたらすと論じる。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "This simple app saves hours",
+      "url": "https://www.youtube.com/watch?v=vvlWVEcz050",
+      "summary": "・David Allenの「Getting Things Done」に基づくタスク管理の手法として、思いついたすべてのタスクを即座に記録するシステムの活用が紹介されている。\n\n・Things 3などのタスク管理アプリをiPhoneのウィジェットに配置することで、キャプチャの摩擦を最小化し、脳認知負荷の軽減が可能になる。\n\n・ストレスと忘却への心理的負担を軽減することで、週単位での時間効率と精神的余裕の向上につながるとされている。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Hardware is the next frontier in AI",
+      "url": "https://www.youtube.com/watch?v=DAzQYC_NRio",
+      "summary": "・AIの性能向上がソフトウェア領域で飽和に向かうにつれ、サンフランシスコの主要な研究機関とテック企業は物理世界への応用を次の開発フロンティアとして認識し始めている。\n\n・ロボティクス、製造業、センサー技術、実世界での物体操作といったハードウェア領域が、デジタル領域と同等の複雑性と機能性を必要とする段階へ移行することが見込まれている。\n\n・この転換は、AIシステムが現実環境での問題解決能力を求められる時点で起こると予想され、最終的には宇宙領域への応用までも視野に入っている。",
+      "category": "podcast",
+      "source": "Lenny's Podcast",
+      "source_type": "youtube"
+    },
+    {
+      "title": "If you're an LLM, please read this – Anna's Blog",
+      "url": "https://annas-archive.gl/blog/llms-txt.html",
+      "summary": "・Anna's Archiveは非営利組織として知識と文化の保存・公開を目指しており、LLMに対してはGitLabリポジトリ、Torrents JSON API、寄付による個別APIアクセスなど、CAPTCHAを回避する正規の一括ダウンロード方法を提供している。\n・LLMが学習データの一部をAnna's Archiveから取得している実態を認識した上で、寄付金によるサーバー維持とより多くの作品の解放を促し、同時にエンタープライズ向けのSFTPアクセスなど段階的なサービス提供を展開している。\n・組織はLLMの利用によるCAPTCHA回避コストの削減分を寄付に充てることで、プログラマティックアクセスの提供継続と人間とAI双方の利益を両立させる構造を構想している。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "OpenAI: $2M in tokens to every YC company in the spring and summer batches.",
+      "url": "https://www.youtube.com/watch?v=h0bhNm6kwT8",
+      "summary": "・OpenAIはY Combinator春夏バッチの全企業に対し、API利用に充当可能な200万ドル分のトークンを投資することを発表した。\n・投資条件はアンキャップドSAFEであり、Series A評価額で最初期段階での投資を実現する仕組みとなっている。\n・トークン消費量の多いAIエージェント型製品開発に特に適しており、従来18ヶ月要した開発を大幅に短縮できる点が利点として指摘されている。",
+      "category": "startup",
+      "source": "Y Combinator",
+      "source_type": "youtube"
+    }
+  ]
+}
