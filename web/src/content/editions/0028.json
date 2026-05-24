@@ -1,0 +1,144 @@
+{
+  "issue_no": 28,
+  "date": "2026-05-23",
+  "standfirst": null,
+  "daily_title": null,
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Everything May Not Be Awesome - LEGO Smart Brick",
+      "url": "https://www.youtube.com/watch?v=jHmeAmn13Ps",
+      "summary": "・LEGO Smart Brickはセット内に統合されており、単体での購入は現在できず、スマートタグを搭載したセットのみが互換性を持つが、電池寿命が45分と短く、交換が不可能であるという設計上の制限がある。\n\n・スマートブリックは色センサーを搭載し、接続したスマートタグ上の色付きレンゴピースに反応して異なる音響効果を生成するが、同梱されるキャラクターボイスおよび効果音の品質に対する批判が多く、期待値とのギャップが指摘されている。\n\n・複数のスマートブリック搭載セット間での相互作用は約15フィート範囲内の接近を検出する単純な仕組みであり、方向性を持たない設計となっているため、プロモーション時に示唆された機能よりも限定的である。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Technical SEO for AI: Robots.txt, GPTBot & llms.txt Explained | 3.4. AEO Course by Ahrefs",
+      "url": "https://www.youtube.com/watch?v=RyJYGpVyl0o",
+      "summary": "・robots.txtファイルでGPTBot、Cloudbot、Google Extended、OAI Searchbotなどの主要なAIクローラーがブロックされていないか確認が必要であり、約5.9%のサイトが意図せずこれらを遮断している。\n・JavaScriptへの依存はChatGPTのクローラーなどのレンダリング非対応システムでコンテンツを見えなくするため、サーバーサイドレンダリングの実装が推奨される。\n・ページスピード、論理的なHTML構造（適切な見出し階層）、AIの幻想的なURL生成による404ページへの対応が、AI検索システムのコンテンツ解析と引用可能性に影響する。",
+      "category": "marketing",
+      "source": "Ahrefs",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Your privacy or the public's safety",
+      "url": "https://www.youtube.com/watch?v=VajYMUZ5t3A",
+      "summary": "・プライベートな位置情報の記録と犯罪捜査への活用のトレードオフについて、個人の行動追跡と公共の安全確保のいずれを優先するかという根本的な葛藤が存在する。\n・ナンバープレート認識システムの導入により、犯罪者の特定と逮捕の迅速化が可能になる一方で、個人の移動データが不正利用またはセキュリティ侵害によって漏洩するリスクが生じる。\n・利用者は自身の行動の秘匿性と犯罪防止効果のどちらかを選択することを迫られ、その決定は社会的な価値観と技術的なリスク評価に基づいている。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    }
+  ]
+}

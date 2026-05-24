@@ -1,0 +1,160 @@
+{
+  "issue_no": 29,
+  "date": "2026-05-24",
+  "standfirst": "今朝の5本。AI企業の台頭、創業者の経営権、コンピュータの歴史、そして執筆環境。技術と制度が人の選択肢を縮める過程が浮かぶ。",
+  "daily_title": "技術発展の中で、初期の制約と選択が問い直される",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Childhood Computing",
+      "url": "https://susam.net/childhood-computing.html",
+      "summary": "・1992年の限られたコンピュータ実験室での体験において、著者は5.25インチフロッピーディスクからMS-DOSとLOGOを順次読み込むルーチン作業を通じ、ストレージ不足による手書きプログラミングとグラフ紙での動作検証という制約的な環境で創意工夫を積み重ねた。\n\n・著者が開発したLOGOプログラムはアナログな配布システムにより同級生に広がり、修正・改変を重ねられる形態となり、後にオープンソースソフトウェアの協調的開発モデルを先取りする形式であったと指摘される。\n\n・限定的なコンピュータアクセスと初期的なプログラミング言語の制約下で、3次元グラフィックスを扱うゲームソフトに触れた経験は、30年後に成人してから同ジャンルのゲーム開発を実現する動機付けとなった。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Mission protection can't wait",
+      "url": "https://www.youtube.com/watch?v=piECgduPrRA",
+      "summary": "・企業設立時に創業者が経営権を守るための条項(ミッション保護条項)を導入することの重要性が述べられており、成功後は実装が困難になる点が指摘されている。\n・弁護士やVCなどの関係者は実装を先延ばしにするよう勧めるが、IPO時点では創業者の交渉力が失われ条項追加が不可能になるという段階的な構造が描写されている。\n・創業者が経営権を失う可能性(IPO後3年で20%のみがCEOに留まる)に対抗するには、実装の「適切な時期」が存在せず早期の決断が必須であるという論点が提示されている。",
+      "category": "podcast",
+      "source": "Lenny's Podcast",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Microsoft open-sources \"the earliest DOS source code discovered to date\"",
+      "url": "https://arstechnica.com/gadgets/2026/04/microsoft-open-sources-the-earliest-dos-source-code-discovered-to-date/",
+      "summary": "・マイクロソフトが86-DOS 1.00カーネルおよびPC-DOS 1.00の開発スナップショット、CHKDSKなどのユーティリティを含む、現存する最古のDOSソースコードを公開した。\n・本リリースはMS-DOSブランドが確立される以前のもので、プログラマTim Petersonがシアトルコンピュータプロダクツ向けに開発した86-DOSに遡る。\n・マイクロソフトはIBM PC向けにこのOSをライセンス提供してPC-DOSとし、同時に他社への販売ライセンスを保持してMS-DOSとすることで、その後の市場優位性の基盤となった。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Time to talk about my writerdeck",
+      "url": "https://veronicaexplains.net/my-first-writerdeck/",
+      "summary": "・旧型ノートパソコンをDebianのttyベース環境で構成し、neovim、kmscon、tmuxを組み合わせてGUIを排除した専用執筆デバイスを実装した。\n・network-managerによるネットワーク接続、acpiとlightを用いたバッテリー表示と画面輝度制御、vimwikiとSyncthing による文書同期といった機能をカスタマイズして統合した。\n・自動ログインとブート時のtmux自動起動により、開く即座に執筆を開始できる環境を実現し、ブラウザ通知や外部アプリケーションからの干渉を完全に除去した。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "How Many Startups Will Survive OpenAI? | E2288",
+      "url": "https://www.youtube.com/watch?v=8Gj1pNXOGYI",
+      "summary": "・OpenAIとAnthropicが後発のSPV取引に制限を設けたことで、認定されていない投資家向けの非公式な株式取引市場が混乱に直面している。\n\n・多層化したSPVと高額な仲介手数料（最大10%）が詐欺的な仲介業者を増加させ、創業者と投資家の利益相反が生じている。\n\n・現在のAccredited Investor制度の限定性に対し、運転免許のような知識テストにより投資適格性を判断する制度改革が議論されている。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    }
+  ]
+}
