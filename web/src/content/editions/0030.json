@@ -1,0 +1,152 @@
+{
+  "issue_no": 30,
+  "date": "2026-05-25",
+  "standfirst": null,
+  "daily_title": null,
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "YouTube SEO for AI Search: How to Rank your YouTube Videos | 3.3. AEO Course by Ahrefs",
+      "url": "https://www.youtube.com/watch?v=_b_cTpLHMTM",
+      "summary": "・YouTube は Google AI Overviews で最も引用されるドメインであり、YouTube の言及は ChatGPT の可視性との相関が 0.737 と最も強く、GPT-4 が百万時間以上の YouTube トランスクリプトで学習しているため、AI にとって重要なプラットフォームである。\n\n・YouTube 動画をランク付けするには、ウイルス的ヒットではなく検索ヒットを対象とし、タイトルにキーワードを含め、説明文を動画の実際の要約とし、タイムスタンプを追加し、動画内で音声でキーワードを述べ、すでにランク付けされているコンテンツ形式に合わせることが重要である。\n\n・AI の可視性をさらに向上させるには Brand Radar を使用してどのクエリが AI から YouTube 動画を引き出しているかを特定し、当該トピックについてコンテンツを作成し、有用で具体的で構造化された動画は AI のトレーニングデータとして機能する可能性がある。",
+      "category": "marketing",
+      "source": "Ahrefs",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Migrating from Go to Rust",
+      "url": "https://corrode.dev/learn/migration-guides/go-to-rust/",
+      "summary": "・Go から Rust への移行は パフォーマンスよりも型システムによる正確性保証、nil パニックやデータ競合の防止、エラーハンドリングの堅牢性が主な動機であり、backend サービスを対象とした比較である。\n\n・Go の nil ポインタによる実行時パニックや go test -race では検出されないデータ競合は Rust の Option<T>、Send/Sync トレイト、Mutex<T> などの型システムにより コンパイル段階で防止される。\n\n・Rust の Result<T, E> と ? オペレータ、#[from] による型変換、モノモルフィゼーション、GC なしの予測可能なレイテンシなど、Go のパターンを型安全性とランタイム制御の向上にマッピングできる。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Start a SaaS From $0 in 2026",
+      "url": "https://www.youtube.com/watch?v=xJX9uu2HUZ0",
+      "summary": "・多くの初心者起業家は製品開発に費用がかかると想定するが、実際には顧客獲得（マーケティング・営業・流通）が時間と資金の大きな負担であり、有料顧客がいない段階では法人設立や各種準備は不要である。\n\n・技術者であれば夜間・週末にAIコーディングツール（Cursor、Claude Code等）を用いてMVPを4週間以下で構築でき、非技術者はAI支援開発ツール（Lovable、Boltなど）でプロトタイプを検証してから開発者を雇用する方法が現実的である。\n\n・予算ゼロの段階では有料広告を避けSEO・コンテンツ、冷たい営業、パートナーシップ、コミュニティの複合戦略を長期と短期で並行し、日中の職を保ちながら継続的スキル開発と顧客問題の特定が成功の鍵となる。",
+      "category": "indie-hacker",
+      "source": "Rob Walling",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Use AI first or this isn't the place for you",
+      "url": "https://www.youtube.com/watch?v=F8Q0I-U1IQc",
+      "summary": "・スタートアップの経営者は、チームメンバーに対して全業務においてAIを優先的に活用するよう求め、AI活用を組織文化の必須要件として位置付けている。\n\n・「AI first」とは、実行する各タスクについてまずAIに相談して改善可能性を検討し、反復的な作業についてはAIに委譲または試行させるアプローチを指す。\n\n・時間不足を理由にAI活用を先送りする行動は職務放棄と見なされ、限定的な人数による迅速な実装を重視する採用・評価戦略が示唆されている。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "issue_no": 31,
+  "date": "2026-05-26",
+  "standfirst": "今朝の5本。AI投資の効果測定、言語モデルの最適化、インフラの障害対応といった、技術の実装と評価の課題が浮かぶ。",
+  "daily_title": "AI投資の効果測定と技術最適化の課題",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Uber president says AI spending is getting 'harder to justify'",
+      "url": "https://www.theverge.com/transportation/937116/uber-ai-investment-hard-to-justify",
+      "summary": "・Uberは2026年初頭の4ヶ月でAI年間予算を使い切ったが、トークン消費の増加とユーザー向け機能の改善の間に明確な因果関係を見出せていない。\n・同社幹部は数値指標は上昇傾向を示す一方で、AI支出と消費者向け機能の実装量を直結させることが困難であると述べている。\n・人員削減によってAI投資コストを相殺する戦略が取られているものの、トークン消費コストと実装されたユーザー機能の価値を測定する課題が指摘されている。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Eagle 3.1: Collaboration Between the EAGLE Team, vLLM Team, and TorchSpec Team",
+      "url": "https://vllm.ai/blog/2026-05-26-eagle-3-1",
+      "summary": "・EAGLE 3.1は注意ドリフト現象に対処するため、FC正規化とポストノーム隠れ状態フィードバックの2つのアーキテクチャ改善を導入し、長コンテキスト推論で最大2倍の受理長を実現した。\n・TorchSpecとvLLMの統合により、既存のEAGLE 3チェックポイントとの後方互換性を保ちながら、本番環境でのドラフトモデルアップグレードをシームレスに実施できるようになった。\n・Kimi K2.6での実測値では、EAGLE 3.1は同時実行数1で2.03倍、同時実行数16で1.66倍のスループット向上を達成し、スケーリング時も有意な高速化が維持された。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Someone else is trying to make an Apple display - Sotsu FlipAction Elite",
+      "url": "https://www.youtube.com/watch?v=VQzY2c2WJdM",
+      "summary": "・Sades Flip Action Elite 16は16対10のアスペクト比で3840×2400の4K解像度を備える携帯型モニターだが、リフレッシュレートは60Hzに制限されている。\n・Apple製品との色精度を比較する企業の主張に対して実測検査の結果、AppleデバイスとMacBook下部に配置した場合のDelta E2000平均値は3～3.5であり、色正確性を必要とする作業には十分でないことが確認された。\n・価格は780ドルであり、スタンド統合設計のため拡張性に乏しく、同価格帯の他製品との競争力を考慮すると推奨困難であると結論付けられた。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Incident with Actions and Pages",
+      "url": "https://www.githubstatus.com/incidents/gnftqj9htp0g",
+      "summary": "・GitHub ActionsとPagesで発生した認証問題が特定され、実行開始とアクション取得の失敗が大多数のActionsランに影響を与えた。\n・その後12時37分UTC時点で原因特定が完了し、13時00分UTC時点で劣化状況が軽減され、安定性の監視が継続された。\n・13時18分UTC時点でインシデントは解決され、詳細な根本原因分析が後日共有される予定である。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Rating self-help & productivity books",
+      "url": "https://www.youtube.com/watch?v=duDgVfn1lCk",
+      "summary": "申し訳ございませんが、本文は自己啓発書の個人的な評価を列挙した内容であり、技術的要点や開発者向けの実装ヒント、示唆を含んでいません。新聞記事としての事実報告や分析的な情報が欠落しているため、要約対象として成立しません。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    }
+  ]
+}
