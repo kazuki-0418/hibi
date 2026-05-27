@@ -1,0 +1,160 @@
+{
+  "issue_no": 32,
+  "date": "2026-05-27",
+  "standfirst": "今朝の5本。テクノロジーの効率化と検証の間で、実装の本質が問われ続けている。",
+  "daily_title": "効率と検証、技術の現場で問い直される",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Use This One Trick To Make AI 10x Faster",
+      "url": "https://www.youtube.com/watch?v=Tk7CuEmfTDc",
+      "summary": "・Mixture of Experts (MoE)モデルを使用することで、35億パラメータしかアクティブでない35億パラメータのモデルなど、大規模モデルを限定的なハードウェアで効率的に実行できる。\n\n・LM Studioでは、GPU オフロード設定を最大化し、CPU レイヤー数を調整することで、重要な処理をGPUで実行しながら補助的な処理をCPUで処理する最適なバランスを見つけることができる。\n\n・MoEモデルの複数の小規模専門モデルをCPUとGPUに分散させることで、同じモデルでも設定変更のみで推論速度を大幅に向上させることが可能である。",
+      "category": "tech",
+      "source": "Web Dev Simplified",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Why AI WON'T Replace Software Engineering...",
+      "url": "https://www.youtube.com/watch?v=XDNXLdwq114",
+      "summary": "・AIが生成したコードの品質管理には継続的デリバリーが必須であり、自動テストと小さな段階的な変更を通じて常にシステムの本番適用可能性を検証する必要がある。\n\n・AIはコード生成を安価にする一方で、実装の複雑さと統合負荷を増加させるため、問題解決の本質的な理解と設計検証のプロセスをAIに委ねることはできない。\n\n・受け入れテストで仕様を明確に定義し、デプロイメントパイプラインで品質基準を一貫して適用することで、AIアシスタントの出力を制御し、予期しない方向への逸脱を防ぐことができる。",
+      "category": "senior-engineer",
+      "source": "Modern Software Engineering",
+      "source_type": "youtube"
+    },
+    {
+      "title": "The impact of war on the hardware industry",
+      "url": "https://www.youtube.com/watch?v=hffvbBd5pJk",
+      "summary": "・ウクライナにおけるドローンの日々の更新と3Dプリンティングの活用に見られるように、軍事技術はAIの進展に伴い急速に変化しており、民生用エレクトロニクスの変化速度を上回っている。\n\n・国防に関わるサプライチェーンの独立性確保と国内製造基盤の再構築が、地政学的リスクへの対応として重要課題として指摘されている。\n\n・原材料処理から大規模製造に至るまでの産業能力の再獲得は、将来の予期せぬ事態への対応において戦略的な必要性があるとされている。",
+      "category": "podcast",
+      "source": "Lenny's Podcast",
+      "source_type": "youtube"
+    },
+    {
+      "title": "He Rejected 1 Million Dollars Right Before His Website Tanked",
+      "url": "https://www.youtube.com/watch?v=lEN3eApdPnA",
+      "summary": "・Retro Dodの運営者は100万ドルの買収オファーを拒否した。理由は前回売却したサイトが買い手によって過度な最適化と広告挿入で劣化させられた経験からであった。\n・拒否決定の数週間後にGoogleのアルゴリズム更新が発生し、同サイトのトラフィックは約85%低下した。\n・Google のガイドラインに準拠していたにもかかわらずトラフィックが回復せず、検索からのアクセス喪失が続いている。",
+      "category": "marketing",
+      "source": "Ahrefs",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
+      "url": "https://arps18.github.io/posts/claude-code-mastery/",
+      "summary": "・Claude Codeを自律的エージェントとして扱う際の核心は、検証可能性を組み込むことで2～3倍の品質向上が実現されること、また計画モードの活用やファイル参照の正確性がプロンプトの精度を大きく左右する。\n\n・プロジェクトスコープの.claude/ディレクトリとグローバルスコープの~/.claude/ディレクトリによる階層的設定、短く保たれたCLAUDE.mdへのルール自己記述、skills/フォルダによるスラッシュコマンド実装がエージェント運用の効率化を促進する。\n\n・subagentの分離実行、プラグインマーケットプレイス(code-review、feature-dev等)、MCPサーバーによる外部ツール統合(Linear、Postgres、Figma、Sentry等)により、Claude Codeはファイル操作だけでなくシステム全体との連携が可能になる。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    }
+  ]
+}
