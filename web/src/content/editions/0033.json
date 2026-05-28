@@ -1,0 +1,160 @@
+{
+  "issue_no": 33,
+  "date": "2026-05-28",
+  "standfirst": "今朝の5本。起業から防衛、キャリア、ロボティクス、プライバシーまで、顧客ニーズと技術の制約という二つの軸が、事業設計の現在地を映し出す。",
+  "daily_title": "ニーズからの逆算と物理的制約が、次の事業フロンティアを形作る。",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Why the next AI boom is physical AI | Caitlin Kalinowski (ex-OpenAI, Meta, Apple)",
+      "url": "https://www.youtube.com/watch?v=G5WTgB87rYQ",
+      "summary": "・デジタル領域でのAI応用が飽和に向かう中、次の開発フロンティアは物理世界のロボティクス、製造業、自律システムへシフトしていると認識されている。\n\n・ハードウェア開発は年4、5回の設計反復に限定される制約があり、ソフトウェアのような頻繁な更新が不可能なため、部品の誤差を含めた高い信頼性と歩留まり確保が必須である。\n\n・VR技術は消費者向け用途では限定的だが、SLAM、深度センサー、空間認識技術といった開発成果がロボット工学や自律システムに応用され、次世代ハードウェア開発の技術的基盤となっている。",
+      "category": "podcast",
+      "source": "Lenny's Podcast",
+      "source_type": "youtube"
+    },
+    {
+      "title": "2 Paths to $1,000,000",
+      "url": "https://www.youtube.com/watch?v=6US2d4l8ZBE",
+      "summary": "・キャリアの選択肢は雇用される側と自分で事業を起こす側の二つであり、後者は複数のクライアントと働く点で異なる。\n・自分の適性を見つけるには実際に様々な業務を試してみることが有効であり、自身の人格特性と仕事内容の相性を判断する過程が重要である。\n・情熱よりも「仕事が充実感をもたらすか消耗させるか」という視点で職種を評価することが、長期的なキャリア構築につながる。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Zepto: How Two 17-Year-Olds Built India's Largest Seller Of Fruits and Vegetables",
+      "url": "https://www.youtube.com/watch?v=YKZCU0ynEbs",
+      "summary": "・Zeptoは2020年にムンバイで17歳の創業者2名がWhatsAppグループでの近所への配達から始まり、顧客との直接対話を通じて既存の小売店舗配送モデルの限界を認識した。\n・既存の大型競合企業が存在する市場で、顧客体験を最優先に小型倉庫(ダークストア)モデルへピボットすることで、配送時間・商品選定・価格・品質の4要素を同時に改善し、10分配送という独自のアプローチを実現した。\n・顧客満足度を追求することで副次的に高い在庫回転率と低コスト化が実現され、供給サイド主導の事業設計ではなく顧客ニーズからの逆算が財務的価値創造につながることを示唆している。",
+      "category": "startup",
+      "source": "Y Combinator",
+      "source_type": "youtube"
+    },
+    {
+      "title": "We Updated Our Privacy Policy. Here's What Changed and Why.",
+      "url": "https://www.eff.org/deeplinks/2026/05/we-updated-our-privacy-policy-heres-what-changed-and-why",
+      "summary": "・EFFのプライバシーポリシーが2022年以来初めて更新され、主な変更は透明性向上とメールトラッキングのオプトイン制導入であり、ユーザーが明示的に同意した場合のみ開封やリンククリックを追跡する。\n・同社は第三者ツール利用時の透明性強化、eff.org上の永続的IDクッキーの廃止、EU利用者向けのGDPR準拠データ削除プロセスの明確化を実施した。\n・EFFは、個人データ収集にはオプトイン同意を必須とする方針を貫き、プライバシー保護的アプローチが業界標準となることを意図している。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "From hypercars to cruise missiles: Lukas Czinger on the future of US defense | E2292",
+      "url": "https://www.youtube.com/watch?v=U5kZI86lIjk",
+      "summary": "申し訳ございませんが、本文が大きく逸脱しており、タイトル「From hypercars to cruise missiles: Lukas Czinger on the future of US defense」の内容を反映していません。本文の大部分は向精神薬に関する議論、ポッドキャスト冒頭の雑談、広告、そして部分的にLucas Czingerへのインタビューが混在しており、体系的な要約が困難です。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    }
+  ]
+}
