@@ -1,0 +1,160 @@
+{
+  "issue_no": 34,
+  "date": "2026-05-29",
+  "standfirst": "今朝の5本。ハードウェアから採用、プロダクト開発、AI経済まで、技術と組織の境界が流動化する様が映る。",
+  "daily_title": "技術が組織の形を問い直す朝。",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "if you’re applying for jobs, watch this",
+      "url": "https://www.youtube.com/watch?v=Z9iksIAXcbk",
+      "summary": "・採用担当者は企業内の混乱と多くの課題を抱えており、求人は採用者の痛みを軽減するための感情的ニーズから生じるため、応募者は職務経歴書の要件を過度に厳格に受け取るべきではない。\n・求人市場では応募者が職より大幅に多いため、標準的な応募フォームへの大量投稿ではなく、特定の企業5社に対して綿密な調査と人脈を通じた「第三の戸」アプローチが有効である。\n・応募時の追加質問への詳細な回答や、カスタム動画やLoom動画による自己紹介など、他の応募者より際立つ努力をすることで、採用担当者との関係構築を強化できる。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "The Craziest Handheld?",
+      "url": "https://www.youtube.com/watch?v=OqQjPIDhgCw",
+      "summary": "・静電容量式アナログスティック、2段階トリガー、トラックパッドを備え、AMD RDNA Halo チップと64GB 共有メモリ、外部GPU接続機能により計算資源を集約している。\n・1080p 120Hz 500nits ディスプレイと mini SSD スロットを搭載し、外部バッテリの接続により重量を軽減する設計となっている。\n・外部バッテリとの接続時に入力ジャックがないため、バッテリ交換時には barrel drive への接続を維持する必要がある制約がある。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "AI makes great PMs more powerful",
+      "url": "https://www.youtube.com/watch?v=Gfe0qFmEamo",
+      "summary": "・プロダクトマネージャーがAIコーディングツール（Cursorなど）を習熟することで、限定的な技術知識でも実装能力が大幅に拡張され、開発チームの編成を必要とせず独立して機能を実装できるようになる。\n・ユーザーフィードバックの収集と分析から次の開発方針の策定までをPM自身が主導できるようになり、組織的なハンドオフを削減しながら市場への対応速度が向上する。\n・技術的基礎を持つPMがAI開発ツールを効果的に活用できれば、プロダクト感覚と技術的実装力の結合により、チーム全体の生産性向上が期待できる。",
+      "category": "podcast",
+      "source": "Lenny's Podcast",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Real-time LLM Inference on Standard GPUs: 3k tokens/s per request",
+      "url": "https://blog.kog.ai/real-time-llm-inference-on-standard-gpus-3-000-tokens-s-per-request/",
+      "summary": "・Kog AIが公開するKog Inference Engine(KIE)は、8×AMD MI300X GPUで3000トークン/秒、8×NVIDIA H200でFP16 2100トークン/秒の単一リクエスト推論速度を実現し、標準的なデータセンターGPUのメモリ帯域幅上限に接近している。\n・単一リクエストのトークン生成はメモリ帯域幅最大化が主要課題(FLOPS利用率ではなく)であり、既存推論スタックはカーネル起動オーバーヘッド、CPU側スケジューリング、フレームワーク抽象化により数百マイクロ秒単位の遅延を積み重ねることで帯域幅利用を阻害している。\n・Kogはモノカーネル実行時システム、カスタム通信ライブラリ(KCCL)、Laneformerアーキテクチャ(Delayed Tensor Parallelism採用)により、モデルアーキテクチャ・ランタイム・GPUコードを共設計することで理論上限に迫る速度を実現している。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "The AI jobpocalypse isn't real",
+      "url": "https://www.youtube.com/watch?v=vtjH6LF0ky8",
+      "summary": "・AIモデルの新しいリリースは過去の人間的スキルを低コスト化し急速に採用されるが、デフォルト使用では同質化して商品化されるという傾向が観察されている。\n・大量失業の予測は過度であり、企業の再編成は過剰採用と業績悪化による側面が大きく、AIはその名目として機能している側面があると指摘されている。\n・人間は標準化されたAI出力を基盤として、新規性と差別化を生み出す方向へ創造的な作業をシフトさせることになる。",
+      "category": "podcast",
+      "source": "Lenny's Podcast",
+      "source_type": "youtube"
+    }
+  ]
+}
