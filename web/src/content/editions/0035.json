@@ -1,0 +1,160 @@
+{
+  "issue_no": 35,
+  "date": "2026-05-30",
+  "standfirst": "今朝の5本。技術から起業、ゲーム、創作、そして規制まで、デジタル社会の多面的な現在地を映す。",
+  "daily_title": "技術・事業・規制の交差点で問い直される価値と代償",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "This looks better than the game - Old School RuneScape Prebuilt PC",
+      "url": "https://www.youtube.com/watch?v=5VSMJcxd_H8",
+      "summary": "・APNX V2F ケースは標準的なPC部品を採用し、360mm AIOクーラーマウント対応、前後左右に複数のファン取り付けスロット（最大12個以上）と背面ラジエーターマウント対応により、冷却拡張性に優れた設計となっている。\n・ケースは前面にUVプリント印刷された耐久性のあるアート、磁気式ダストフィルター、背面へのケーブル管理用スペース、ドライブケージなど多機能な構成を備えており、内部配線も整理されている。\n・搭載されたハードウェア構成はRyzen 7800X3D、RTX 5070、32GB DDR5 6000メモリ、750W電源で、Old School RuneScapeを240FPS以上で動作させる十分な性能を提供する。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "How To Build A Production Ready API - Auth, JWT, API Keys",
+      "url": "https://www.youtube.com/watch?v=U_D14T5TYuk",
+      "summary": "・Hono を使用した型安全な本番対応 API の構築方法として、メールパスワード認証、JSON Web Token、ハッシュ化された API キーの実装が紹介されている。\n・REST API の基本的な CRUD 操作（GET、POST、PUT、DELETE）をモジュール化されたルート構造で実装し、動的パラメータの型安全性を Hono が自動で提供する方法が解説されている。\n・Zod を用いた入力値検証と Hono/standard validator の組み合わせにより、JSON ボディのスキーマ定義と自動バリデーションを実装する開発フローが示されている。",
+      "category": "tech",
+      "source": "Web Dev Simplified",
+      "source_type": "youtube"
+    },
+    {
+      "title": "If You Want to Make Money From YouTube, Do This (Case Study)",
+      "url": "https://www.youtube.com/watch?v=LLjpnubsOWc",
+      "summary": "・Google勤務の傍ら始めたYouTubeチャネルで、Jeff Sueは初年度98ドルから数年で年間835,000ドルの収益を達成し、事業開始初期には明確な金銭目的を持たず教育コンテンツの配信意欲が主動力であったことが示唆される。\n\n・Gumroadで無料のPDF履歴書テンプレートを公開した際、視聴者からの自発的寄付で月1,000ドルの収益が発生した経験から、価値提供第一の姿勢が有機的な製品展開と顧客獲得につながる可能性を示している。\n\n・金銭獲得を主目的としてYouTubeチャネルを開始した事例で成功した者を特定しにくく、初期段階では教育や創作の価値提供を優先する方が長期的な事業構築に適している傾向が考察されている。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Age Verification is a Privacy Nightmare",
+      "url": "https://www.eff.org/deeplinks/2026/05/age-verification-privacy-nightmare",
+      "summary": "・オンラインの年齢認証制度は、ユーザーが機密性の高い個人情報を第三者に提供することを強制し、その集約されたデータが流出やハッキング、悪用の対象となるため、プライバシーとセキュリティのリスクをもたらす。\n・年齢制限は若年層の保護という名目で、政府主導の検閲と監視拡大を正当化するために利用される懸念がある。\n・EFFは世界各地で提案される年齢認証制度に対抗するため、立法者との協力や公教育、政策改善を行っている。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "Why Two IIT Engineers Turned Down $550K Jobs To Build A Startup",
+      "url": "https://www.youtube.com/watch?v=2Ap1dnv-GXA",
+      "summary": "・IIT出身の2人の起業家が550万ドルの高給オファーを断りYCombinatorに参加し、当初のエドテック構想をピボットしてAIカスタマーサービスエージェント事業へ転換した。\n・カスタマーサポートの自動化において、従来型の10-15%から60-70%の対応率改善を実現する技術を開発し、Zeptoを初期顧客として獲得した後DoorDashなど大手企業との契約に至った。\n・AI エージェント事業の本質は、顧客ビジネスのKPI改善に向けて段階的に改善可能なプロンプト設計にあり、カスタマーサポートから内部対応やコンプライアンス領域へと拡張可能な原理を示唆している。",
+      "category": "startup",
+      "source": "Y Combinator",
+      "source_type": "youtube"
+    }
+  ]
+}
