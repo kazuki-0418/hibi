@@ -1,0 +1,160 @@
+{
+  "issue_no": 36,
+  "date": "2026-05-31",
+  "standfirst": "今朝の5本。組織とプロダクトの現場で、自動化と検証の仕組みが問い直されている。",
+  "daily_title": "AIの自動化と、それを制御する仕組みの模索",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Your board can't deal with AI-first",
+      "url": "https://www.youtube.com/watch?v=X6erxt5FL9k",
+      "summary": "・AI企業の経営では、短期的な収益成長を求める後期段階の投資家と創業者の目標が対立し、取締役会がこの矛盾を解消できない構造的課題が生じる。\n・初期投資家は長期的な戦略転換を許容できるが、後期段階の投資家は既存の投資リターンを前提とした四半期ごとの数字成長を要求するため、方向性の調整が困難になる。\n・この対立を解決するには取締役会から撤退するか、保有株を割引価格で買い戻すか、経営権を譲渡するしかないと指摘されている。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Backpressure is all you need",
+      "url": "https://www.lucasfcosta.com/blog/backpressure-is-all-you-need",
+      "summary": "・LLMコーディングエージェントの実用的な運用には、完全自動化と人手による逐一レビューの中間に位置する第三のアプローチ、すなわち自動検証メカニズムを通じてエージェント自身が作業品質を検証する「バックプレッシャー」の導入が有効である。\n\n・バックプレッシャーは下流コンポーネントが上流に受け入れ不可を通知する仕組みであり、自動テスト、型チェック、リント、ベンチマークなどの自動化ガードレールをLLMの作業ループに組み込むことで、人間がレビューする前に問題を検出させることができる。\n\n・実装においてはテストとリントを各反復で実行させ、マニュアルテストやベンチマークは段階的に統合し、エージェントが品質基準を満たすまで次のステップに進まないよう明示的な条件をプロンプトに記述する構造が有効である。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "We Must Not Normalize Digital Surveillance Abuses. EFF’s New Guide Underlines Concrete Steps to Fight Back.",
+      "url": "https://www.eff.org/deeplinks/2026/05/we-must-not-normalize-digital-surveillance-abuses-effs-new-guide-underlines",
+      "summary": "・EFFは米州における恒意的なデジタル監視濫用に対抗するため、人権法に基づいた法的枠組みと制度的措置を実装するための具体的ガイダンスを提供する新文書を発表した。\n・このガイドは監視権限の定義、司法事前承認の要件、独立した市民監視機構の設置、被害者への救済措置など8つの重要な法的要件を列挙している。\n・米州各国は米州人権条約の批准国として国際人権法上の義務を負っており、これらの勧告の実装は単なる遵守にとどまらず権利尊重型のセキュリティアーキテクチャの構築をもたらすと指摘している。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "Inside YC's AI Playbook",
+      "url": "https://www.youtube.com/watch?v=B246K_G7mHU",
+      "summary": "・YCが開発した内部AI基盤は、単一のPostgresデータベースに集約された組織全体のコンテキストへのエージェントアクセスを可能にすることで、複雑なビジネス質問への回答速度を大幅に向上させた。\n\n・SQLクエリ実行と読み取り権限をエージェントに提供することで、従来のBIツールやデータサイエンスチームへの依頼プロセスを迂回し、質問の頻度と複雑性が劇的に増加した。\n\n・組織規模でのエージェント活用には、共有コンテキスト層と内部ツールレジストリという基盤インフラが必須であり、単一スキーマ上での統一されたデータ構造がエージェント効率を大幅に向上させることが実装の鍵となる。",
+      "category": "startup",
+      "source": "Y Combinator",
+      "source_type": "youtube"
+    },
+    {
+      "title": "The AV2 Video Standard Has Released (Final v1.0 Specification)",
+      "url": "https://av2.aomedia.org",
+      "summary": "・Alliance for Open MediaがAV2の最終仕様v1.0をリリースし、AV1を基盤としながらAR/VRやスクリーンコンテンツ対応など拡張機能を備えた次世代動画符号化標準として定義した。\n・仕様書はPDF版、構文ブラウザ、C言語ヘッダファイル形式の参照テーブルなど複数フォーマットで提供され、実装者が各ニーズに応じて技術仕様を参照できるようにしている。\n・公式の参照実装ソフトウェアAVM v1.0.0が同時提供され、ビットストリーム構文、デコード処理の仕様に準拠した実装の基準となる。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    }
+  ]
+}
