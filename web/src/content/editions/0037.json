@@ -1,0 +1,160 @@
+{
+  "issue_no": 37,
+  "date": "2026-06-01",
+  "standfirst": "今朝の5本。AIの実装段階から監視技術の拡大、レガシーシステムの再検証まで、技術の限界と根底にある原則が問い直されている。",
+  "daily_title": "技術の本質が問われる朝。",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "I’m done with the AI hype",
+      "url": "https://www.youtube.com/watch?v=H9KeR9i3iMk",
+      "summary": "・ソフトウェア開発において、AIが担当する範囲はコード記述に限定されるが、実際の開発業務では設計・アーキテクチャ・テスト・ステークホルダー対応など多くの要素があり、これらをコード記述と同等以上に重視する必要がある。\n\n・大規模企業におけるソフトウェア開発と小規模スタートアップでは求める価値が異なり、リスク最小化を優先する環境ではAIによる高速配信が適切でないことに加え、開発者は自らの判断で責任を取るべき立場にあるため完全な自動化は不可能である。\n\n・ソフトウェア開発の基礎となる設計原則（凝集度・結合度・抽象化）の理解こそが優れた開発者に必要な能力であり、チャネルではAIハイプではなくこれら根本的な設計原理の教育を継続する。",
+      "category": "senior-engineer",
+      "source": "ArjanCodes",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Flipper Zero Zig Template",
+      "url": "https://github.com/NishantJoshi00/flipper-template",
+      "summary": "・Zig言語でFlipper Zeroアプリケーションを開発するためのテンプレートであり、Zig 0.15.1以上とUFBTを組み合わせてARM Cortex-M4向けのクロスコンパイルとSDK統合を自動化している。\n\n・二段階ビルドプロセスを採用し、Zigソースコードをオブジェクトファイルに変換した後、UFBTで公式SDKとリンクして.fap形式の配置可能なパッケージを生成する。\n\n・ARM AAPCS呼び出し規約の厳密な遵守、SDKヘッダのC言語相互運用性への対応、スタックオーバーフロー時のapplication.famでのスタックサイズ調整など、実装時の具体的なトラブルシューティング手法を提供している。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "A rational conversation on where AI is actually going | Benedict Evans",
+      "url": "https://www.youtube.com/watch?v=BD3vLtWhT5A",
+      "summary": "・AIは技術の歴史における根本的な変化であり、インターネットやモバイルと同程度の規模の転換をもたらすと考えられる。\n・現在は1997年のインターネト初期段階に相当し、ソフトウェア開発などの特定分野では大きな影響が見えている一方で、他の専門職では採用と活用方法の試行錯誤が続いている。\n・AIの内部ワークフロー再設計の需要により、大手AI企業がコンサルティング企業や専門サービス企業への投資を増やしており、これは業務の自動化を支援するための専門人材の必要性を示唆している。",
+      "category": "podcast",
+      "source": "Lenny's Podcast",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Sysadmining Like It's 2009",
+      "url": "https://lambdacreate.com/posts/sysadmining-like-its-2009",
+      "summary": "・Legacy Labsは2ヶ月間の期間でレトロコンピューティングやパーマコンピューティングのテーマを自由に選択して深掘りする個人的な学習イベントであり、旧来の一週間の制約型チャレンジから柔軟性を重視した形式へ転換している。\n\n・開催者はWindows Server 2008 R2とVista環境をIncus上に構築し、Active Directoryサーバー、ファイルサーバー、DHCPサーバー、Hyper-Vサーバー、Sytelineクライアントといったレガシーシステムの小規模事業インフラを実装する予定である。\n\n・セットアップ過程ではIncusでのレガシーOSイメージ作成、Mikrotikデバイス設定、Salt系ツールの実装例の文書化が想定されており、参加者は個々の関心に応じた角度でレトロコンピューティングを探究することが推奨されている。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "More License Plate Reader Mission Creep: School Residency Verification, Background Checks, and Noise Complaints",
+      "url": "https://www.eff.org/deeplinks/2026/05/more-license-plate-reader-mission-creep-school-residency-verification-background",
+      "summary": "・EFF調査により、令状要件の不在がライセンスプレートリーダー(ALPR)データベースへの無制限アクセスをもたらし、学校の居住地確認、雇用背景調査、騒音苦情など犯罪捜査の範囲外での検索が多数確認された。\n\n・ジョージア州Buford City Schoolsでは2025年1月から2026年3月にかけて375件の居住地確認関連検索が実施され、一部の検索は全国5,800以上のネットワークにアクセスし、家族の医療、礼拝、外出パターンなど捜査対象外の個人情報が露出した。\n\n・26の法執行機関が騒音苦情を理由にALPR検索を実施し、一部は6,500以上のカメラネットワークを対象とした検索を行っており、司法的監視を伴わない位置情報追跡が広範に展開されている。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    }
+  ]
+}
