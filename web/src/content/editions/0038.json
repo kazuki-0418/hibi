@@ -1,0 +1,160 @@
+{
+  "issue_no": 38,
+  "date": "2026-06-02",
+  "standfirst": "今朝の5本。組織からコード開発まで、AI と自動化が既存の構造を再編成する過程が観察される。",
+  "daily_title": "AI が既存の構造を再構成する朝",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "I cannot stop typing on this  - NDNH SF60 keyboard",
+      "url": "https://www.youtube.com/watch?v=9RelXl5hzOM",
+      "summary": "・NDNH SF60はホールエフェクト8kHzポーリングレートを備えたアルミニウム製60%キーボードであり、プリセット済みのWS Flux Hスイッチを搭載している。\n・専用ソフトウェアはWebアプリケーション形式で、トリガーポイントやデッドゾーン、ラピッドトリガーなどのアナログ設定、複数ユーザープロファイル、マクロ機能に対応している。\n・実装上の特徴として入力遅延は計測した中で最小レベル、トレランスは極めてタイトであり、価格は179.99ドルという設定である。",
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Why Janet? (2023)",
+      "url": "https://ianthehenry.com/posts/why-janet/",
+      "summary": "・Janet は八つの基本命令と小規模な標準ライブラリで構成されたシンプルな Lisp 方言で、コンパイル時に bytecode を C ファイルに埋め込んで単一の実行バイナリとして配布できる。\n\n・構文解析には正規表現の代わりに parsing expression grammars を採用し、テキストやバイナリフォーマットの解析に優れており、パイプやリダイレクトを直接 Janet で表現できるサードパーティライブラリが存在する。\n\n・コンパイル時のコード実行により任意の Janet 値をシリアライズして実行時に復元でき、マクロのような高度なメタプログラミング機能や compile-time の副作用を活用した資源の埋め込みが可能である。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Agentic Workflows Have Changed EVERYTHING in 2026 (DEATH Of The Senior Dev?)",
+      "url": "https://www.youtube.com/watch?v=utBeUmDPApk",
+      "summary": "・アgentic AIツールの性能向上により、ソフトウェア開発における従来のコーディングスキルの価値が急速に低下しており、開発者は複雑性管理と学習最適化へのシフトを余儀なくされている。\n・効果的なagentic workflowの実装には、プロンプトエンジニアリングではなくプロジェクト固有のガイドとセンサーを備えた「harness engineering」が重要であり、テストを含む強固な基盤が必要である。\n・大規模言語モデルの指数関数的な改善により、コード読み書きなどの特定スキルの必要性は不確実だが、アーキテクチャ設計と要件理解などの高次スキルは当面の間、継続的に価値を保つ傾向が見られる。",
+      "category": "senior-engineer",
+      "source": "Modern Software Engineering",
+      "source_type": "youtube"
+    },
+    {
+      "title": "How to Build a Self-Improving Company with AI",
+      "url": "https://www.youtube.com/watch?v=X_JsIHUfUjc",
+      "summary": "・企業の階層的組織構造をAIネイティブな自己改善ループに再構想することで、人間を情報伝達の中継点から解放し、トークン効率で駆動する運営が可能になる。\n・組織全体のデータ(メール、Slackメッセージ、音声記録など)を記録・整理してAIに可読化し、それを文脈として供給することで、モニタリングエージェントが検出した失敗を自動的に改善するサイクルが機能する。\n・人間はエッジ(営業対話、倫理的判断、高リスク状況)に配置され、中間管理職は不要となり、全員がIC(個別貢献者)兼ビルダーとして直接責任を持つ組織設計が実装可能である。",
+      "category": "startup",
+      "source": "Y Combinator",
+      "source_type": "youtube"
+    },
+    {
+      "title": "A Radical Approach to Long Term Software",
+      "url": "https://www.youtube.com/watch?v=qZPxU_pUy3M",
+      "summary": "・低需要化したサービスの保守を専門とするマルチサービスチームが、従来の集中管理型や兼任型の保守モデルの問題を解決し、容量拡張、コスト削減、信頼性維持、機能開発継続、職員満足度を同時に実現できる。\n・このモデルは単一プロダクト領域内でサービスを管理することで認知負荷を低減し、デリバリーチームから段階的に低需要サービスを移行させることで柔軟性を確保する。\n・実装には低需要の明確な定義、チームへのミッションベースの命名、デリバリーチーム間のサービス移行基準の文書化という三つのガードレールが必要である。",
+      "category": "senior-engineer",
+      "source": "Modern Software Engineering",
+      "source_type": "youtube"
+    }
+  ]
+}
