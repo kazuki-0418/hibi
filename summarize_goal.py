@@ -22,13 +22,20 @@ def build_summarize_prompt(
     voice_rule: str,
     content_char_limit: int,
     goal_context: str,
+    target_project_label: str = "",
 ) -> str:
     goal_block = ""
     if goal_context.strip():
         goal_block = f"""
-読者の現在のプロジェクト焦点（要約の歪め禁止・注釈の根拠のみに使用）:
+対象プロジェクトの conditioning（要約の歪め禁止・適用注記の根拠のみ）:
 {goal_context[:4000]}
 """
+    project_hint = ""
+    if target_project_label:
+        project_hint = (
+            f"- 「---関連---」ブロックは必ず「→ {target_project_label}:」で始める。"
+            "そのプロジェクトへの適用を1〜2行で述べる（事実要約は変更しない）。\n"
+        )
 
     return f"""{voice_rule}
 {goal_block}
@@ -37,7 +44,7 @@ def build_summarize_prompt(
 
 重要:
 - 「---要約---」ブロックは出典に忠実な3行要約のみ。推測・補完・謝罪は禁止。困難なら要約ブロックを空にする。
-- 「---関連---」ブロックは上記プロジェクト焦点との関連を1〜2行で述べる（本旨を変えない注釈）。焦点が空、または関連が薄い場合は関連ブロックを空にする。
+{project_hint}- 「---関連---」ブロックが不要な場合は空にする。
 - 各行は1文で「・」で始める。
 
 タイトル: {title}

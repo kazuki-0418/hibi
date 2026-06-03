@@ -1,6 +1,11 @@
 """Tests for goal/click centroid ranking helpers (KAZ-202)."""
 
-from daily_news_ranking import build_digest_plan, resolve_ranking_centroid
+from daily_news_ranking import (
+    NOVELTY_SIM_THRESHOLD,
+    build_digest_plan,
+    build_digest_plan_v2,
+    resolve_ranking_centroid,
+)
 from ranking import blend_centroids, cosine_similarity
 
 
@@ -40,3 +45,20 @@ def test_build_digest_plan_includes_challenge_slot() -> None:
     assert slots == {"goal", "challenge"}
     challenge = next(p for p in plan if p["digest_slot"] == "challenge")
     assert challenge["content_id"] == "b"
+
+
+def test_novelty_threshold_constant() -> None:
+    assert NOVELTY_SIM_THRESHOLD == 0.28
+
+
+def test_build_digest_plan_v2_reserves_project_slots() -> None:
+    ranked = [
+        {
+            "content_id": "m",
+            "target_project": "monogatari",
+            "project_sim": 0.6,
+            "score": 1.0,
+        },
+    ]
+    plan, _ = build_digest_plan_v2(ranked, max_stories=2)
+    assert plan[0]["digest_slot"] == "project"

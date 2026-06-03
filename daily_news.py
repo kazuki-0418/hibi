@@ -31,8 +31,10 @@ from db import (
 )
 from daily_news_ranking import (
     build_digest_plan,
+    build_digest_plan_v2,
     resolve_ranking_centroid,
     score_candidates,
+    score_candidates_multi_project,
 )
 from fetchers import rss as rss_fetcher
 from fetchers import youtube as youtube_fetcher
@@ -41,7 +43,13 @@ from english_practice import (
     generate_english_practice,
     pick_english_anchor,
 )
-from goals import load_goal_focus
+from goals import (
+    embed_subject_centroids,
+    load_goal_focus,
+    load_subject_catalog,
+    write_novelty_inbox_item,
+    write_raw_capture,
+)
 from mailer import build_html as build_hibi_html
 from observability import init_sentry_from_env
 from ranking import compute_interest_centroid, count_recent_clicks
@@ -211,14 +219,17 @@ def summarize(
     title: str,
     content: str,
     goal_context: str = "",
+    *,
+    target_project_label: str = "",
 ) -> SummaryResult:
-    """Return faithful summary + optional goal-relevance note (KAZ-202)."""
+    """Return faithful summary + optional goal-relevance note (KAZ-202 / KAZ-204)."""
     prompt = build_summarize_prompt(
         title,
         content,
         voice_rule=_VOICE_RULE,
         content_char_limit=CONTENT_CHAR_LIMIT,
         goal_context=goal_context[:GOAL_CONTEXT_PROMPT_LIMIT],
+        target_project_label=target_project_label,
     )
 
     response = client.messages.create(
@@ -448,6 +459,24 @@ def _redirect_url(article_id: str | None, original_url: str) -> str:
 # ============================================================
 # Build HTML email (Hibi design-system; see `mailer.build_html`)
 # ============================================================
+def _delivered_to_articles(delivered_items: list[dict]) -> list[dict]:
+    """Flatten digest plan order into mailer articles (KAZ-204)."""
+    articles: list[dict] = []
+    for item in delivered_items:
+        articles.append(
+            {
+                "title": item["title"],
+                "url": _redirect_url(item.get("article_id"), item["url"]),
+                "summary": item["summary"],
+                "source": item.get("source_name", ""),
+                "category": item.get("display_category") or item.get("category"),
+                "source_type": item.get("source_type"),
+                "learning": item.get("goal_note") or "",
+            }
+        )
+    return articles
+
+
 def _sections_to_articles(sections: list[dict]) -> list[dict]:
     """Flatten `sections` (grouped by source) into the flat `articles` shape
     `mailer.build_html` expects, applying the click-tracking redirect to
@@ -550,6 +579,46 @@ def rank_candidates(
     return candidates
 
 
+def rank_candidates_subject_v2(
+    candidates: list[dict],
+    openai_client,
+    project_centroids: dict[str, list[float]],
+) -> list[dict]:
+    """Rank by per-project centroids only (KAZ-204; no goal/click blend)."""
+    if not project_centroids:
+        random.shuffle(candidates)
+        return candidates
+
+    texts = [
+        f"{c.get('title', '')}\n\n{(c.get('description') or '')[:RANKING_DESC_CHAR_LIMIT]}"
+        for c in candidates
+    ]
+    vectors = embed_batch(openai_client, texts)
+    score_candidates_multi_project(
+        candidates,
+        vectors,
+        project_centroids,
+        ranking_weight=1.0,
+        sim_base=SIM_BASE,
+        jitter_base=JITTER_BASE,
+    )
+    candidates.sort(key=lambda x: x["score"], reverse=True)
+
+    print(
+        f"\n📊 Ranked {len(candidates)} candidates "
+        f"(signal=subject-v2, projects={', '.join(project_centroids.keys())})"
+    )
+    for i, c in enumerate(candidates[:RANKING_TOP_LOG], 1):
+        title = (c.get("title") or "")[:60]
+        proj = c.get("target_project") or "—"
+        sim = c.get("project_sim", c.get("sim", 0.0))
+        print(
+            f"  [rank {i:2d}] project={proj} sim={sim:.2f}  "
+            f"{c.get('source_name', '?')} / {title}"
+        )
+    return candidates
+
+
 # ============================================================
 # Gmail send
 # ============================================================
@@ -634,18 +703,57 @@ def main():
     else:
         print("🎯 Goal context: (empty — optional vault or no active projects)")
 
-    goal_centroid = embed_goal_centroid(openai_client, goal_focus.text)
+    subject_catalog = load_subject_catalog()
+    project_centroids = embed_subject_centroids(
+        openai_client,
+        subject_catalog,
+        embed_batch=embed_batch,
+        embedding_model=EMBEDDING_MODEL,
+    )
+    use_subject_v2 = bool(project_centroids)
 
-    # Stage B: goal + click centroid ranking, then digest plan with challenge slots.
-    ranked = rank_candidates(
-        candidates, DEFAULT_USER_ID, openai_client, goal_centroid=goal_centroid
-    )
-    digest_plan = build_digest_plan(
-        ranked[:MAX_ATTEMPTS],
-        MAX_VIDEOS_PER_RUN,
-        challenge_min=CHALLENGE_SLOTS_MIN,
-        challenge_max=CHALLENGE_SLOTS_MAX,
-    )
+    if use_subject_v2:
+        for project in subject_catalog.projects:
+            if project.slug in project_centroids:
+                print(
+                    f"🎯 Subject centroid: {project.display_name} "
+                    f"({project.file_count} conditioning file(s))"
+                )
+            elif not project.conditioning_text.strip():
+                print(
+                    f"🎯 Subject centroid: {project.display_name} "
+                    "(empty conditioning — skipped)"
+                )
+        ranked = rank_candidates_subject_v2(
+            candidates, openai_client, project_centroids
+        )
+        digest_plan, inbox_overflow = build_digest_plan_v2(
+            ranked[:MAX_ATTEMPTS],
+            max_stories=MAX_VIDEOS_PER_RUN,
+            challenge_min=CHALLENGE_SLOTS_MIN,
+            challenge_max=CHALLENGE_SLOTS_MAX,
+        )
+        for overflow in inbox_overflow:
+            path = write_novelty_inbox_item(
+                title=overflow["title"],
+                url=overflow["url"],
+                reason="below project similarity threshold; digest full",
+            )
+            if path:
+                print(f"📥 Novelty inbox: {path.name}")
+    else:
+        goal_centroid = embed_goal_centroid(openai_client, goal_focus.text)
+        ranked = rank_candidates(
+            candidates, DEFAULT_USER_ID, openai_client, goal_centroid=goal_centroid
+        )
+        digest_plan = build_digest_plan(
+            ranked[:MAX_ATTEMPTS],
+            MAX_VIDEOS_PER_RUN,
+            challenge_min=CHALLENGE_SLOTS_MIN,
+            challenge_max=CHALLENGE_SLOTS_MAX,
+        )
+        inbox_overflow = []
+
     plan_ids = {c["content_id"] for c in digest_plan}
     attempt_pool = digest_plan + [
         c for c in ranked[:MAX_ATTEMPTS] if c["content_id"] not in plan_ids
@@ -688,11 +796,19 @@ def main():
                     f"{char_count} chars)"
                 )
         else:
+            target_slug = item.get("target_project") or ""
+            if use_subject_v2 and target_slug:
+                goal_ctx = subject_catalog.conditioning_for(target_slug)
+                project_label = subject_catalog.display_name(target_slug)
+            else:
+                goal_ctx = goal_focus.text
+                project_label = ""
             parsed = summarize(
                 claude,
                 item["title"],
                 content or "",
-                goal_context=goal_focus.text,
+                goal_context=goal_ctx,
+                target_project_label=project_label,
             )
             summary = parsed.summary
             goal_note = parsed.goal_note
@@ -709,12 +825,16 @@ def main():
             label = "link-only"
         elif slot == "challenge":
             label = "challenge"
+        elif slot == "novelty":
+            label = "novelty"
+        elif slot == "project":
+            label = "project"
         else:
             label = "summarized"
         print(f"  ✅ {label} ({summarized_count}/{MAX_VIDEOS_PER_RUN})")
 
-        display_category = item.get("category")
-        if slot == "challenge":
+        display_category = item.get("display_category") or item.get("category")
+        if slot == "challenge" and not item.get("display_category"):
             display_category = "Challenge"
 
         embedding = embed_article(
@@ -743,10 +863,22 @@ def main():
             "article_id": article_id,
             "display_category": display_category,
             "source_type": item.get("source_type"),
+            "source_name": item["source_name"],
             "digest_slot": slot,
+            "target_project": item.get("target_project"),
         }
         processed_by_source.setdefault(item["source_name"], []).append(row)
         delivered_items.append(row)
+
+        capture_path = write_raw_capture(
+            title=item["title"],
+            url=item["url"],
+            target_project=item.get("target_project"),
+            summary=summary,
+            goal_note=goal_note or None,
+        )
+        if capture_path:
+            print(f"  📎 Capture: {capture_path.name}")
 
         if summarized_count >= MAX_VIDEOS_PER_RUN:
             break
@@ -758,19 +890,20 @@ def main():
             "Likely cause: content blocking or low candidate pool."
         )
 
-    # sources.yaml の順序で section を組み立てる
-    sections = [
-        {"source_name": s["name"], "items": processed_by_source[s["name"]]}
-        for s in sources
-        if s["name"] in processed_by_source
-    ]
-
-    if not sections:
+    if not delivered_items:
         print("\n⚠️  No content to send today.")
         return
 
     date_str = datetime.now(timezone.utc).strftime("%Y.%m.%d")
-    articles = _sections_to_articles(sections)
+    if use_subject_v2:
+        articles = _delivered_to_articles(delivered_items)
+    else:
+        sections = [
+            {"source_name": s["name"], "items": processed_by_source[s["name"]]}
+            for s in sources
+            if s["name"] in processed_by_source
+        ]
+        articles = _sections_to_articles(sections)
 
     # Stage D: edition meta (standfirst + daily_title) を Claude で生成し、
     # editions テーブルに書き戻す (Issue #53)。Claude 失敗時はフォールバック値
