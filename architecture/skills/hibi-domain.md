@@ -15,6 +15,8 @@ Hibi の現行ドメイン事実を固定するスキル。
 - ranking 反映は **次回バッチ実行時**。クリックは即座に centroid を更新しない
 - embedding 対象は `title + summary`。本文ではない
 - cold start: `clicks_in_30d < 5` では Obsidian active project の **goal centroid** でランキング（KAZ-202）。goal も無いときのみ純ランダム
+- digest v2 (KAZ-204): allowlist は `monogatari` / `roamlore` のみ（`hibi` 自身は対象外）。conditioning は各 `10_projects/<slug>/` の `decisions.md` + `strategy.md` + `status.md` を `goals.loader.read_active_note` で読む（`status: active` / `hibi-active: true` 必須、見出し完全一致セクションのみ、ファイル mtime 降順 + 8000字 cap）。**プロジェクト別 centroid**（クリック blend なし）。類似度 `< 0.28` は novelty レーン。有用記事は `30_raw/hibi/capture/`、digest 満杯時の novelty は `30_raw/hibi/inbox/`（1 件/日）。centroid は vault `.hibi/goal_centroid_cache.json` または `HIBI_GOAL_CACHE_DIR`
+- `goals.loader`（KAZ-202 fallback）も同一 allowlist + frontmatter + 見出し規約。6000字 cap 前にノート mtime 降順
 - score 式: `sim × 0.7 × weight + rand() × (1 − 0.4 × weight)`、weight = `min(1, clicks_in_30d / 30)`
 - 現行の事実は以下のダイアグラムから確認する:
   - `architecture/diagrams/pipeline-flow.mmd`
@@ -28,7 +30,7 @@ Hibi の現行ドメイン事実を固定するスキル。
 - Stage A は **メタデータのみ** 取得する。transcript / 本文取得を Stage A に混ぜない
 - Stage B のフィルタ条件は `published_at >= now() - 14 days` AND `is_sent = false`
 - Stage B は ranking で上位 N 件を抽出。N の現行値は 5（旧 10 から変更済み）
-- Stage C: RSS は本文 + 要約 + Neon 保存（robots disallow / 本文未取得時は link-only）。YouTube はメタデータのみ（リンク行、要約なし）。要約は `---要約---`（DB）と `---関連---`（メール `learning` 行）を分離。challenge 枠 1–2 件常設
+- Stage C: RSS は本文 + 要約 + Neon 保存（robots disallow / 本文未取得時は link-only）。YouTube はメタデータのみ（リンク行、要約なし）。要約は `---要約---`（DB）と `---関連---`（メール `learning` 行）を分離。challenge 枠 1–2 件常設。v2 時は `---関連---` を `→ {Monogatari|RoamLore}:` で始める適用注記。メール並びは digest plan 順（v2）または `sources.yaml` 順（v1 fallback）
 - 英語産出 v0 (KAZ-203): digest に 1 区画だけ英語プロンプト + Claude 貼り付け依頼文（返信ループ・自動採点は非スコープ）
 - 各 Stage は前段の出力に対してのみ動作する。Stage C が Stage A の生メタデータを直接読まない
 - workflow timeout は 10 分以内。Stage B の N を増やすときは Stage C のランタイムを試算する

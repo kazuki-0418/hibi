@@ -1,17 +1,15 @@
-"""Load minimal goal focus text from Obsidian ``10_projects/`` active notes.
+"""Load goal focus / conditioning text from Obsidian ``10_projects/`` notes.
 
-Active-project convention (KAZ-202):
-- Vault root: ``OBSIDIAN_VAULT_ROOT`` (same as idea-mining).
-- Scan ``10_projects/<project>/`` — one directory depth under ``10_projects/``.
-- A project is **active** when any ``*.md`` in that folder has YAML frontmatter
-  with ``hibi-active: true`` or ``status: active`` (case-insensitive).
-- Abandoned paths are skipped: ``archive``, ``done``, ``abandoned``, ``.trash``.
-- Only these sections are extracted (heading match, case-insensitive):
-  Goal / ゴール / Focus / 焦点 / 進捗 / 決定 / Progress / Decision.
-- Concatenated focus text is capped at ``GOAL_FOCUS_CHAR_LIMIT`` for API privacy.
+Conventions (KAZ-202 / KAZ-204):
+- Vault root: ``OBSIDIAN_VAULT_ROOT``.
+- Subject allowlist (growth targets): ``monogatari``, ``roamlore`` — not ``hibi``.
+- A note is **active** only with YAML frontmatter ``hibi-active: true`` or
+  ``status: active`` (case-insensitive). Notes without frontmatter are skipped.
+- Section extraction uses **exact** ``##`` heading match (case-insensitive).
+- Notes are merged newest-first (mtime desc) before the char cap.
+- Abandoned path segments are skipped: ``archive``, ``done``, ``abandoned``, ``.trash``.
 
-Tests may set ``HIBI_GOALS_OPTIONAL=1`` (empty focus, no error) or
-``HIBI_GOAL_CONTEXT_OVERRIDE`` (synthetic profile for demos).
+Tests may set ``HIBI_GOALS_OPTIONAL=1`` or ``HIBI_GOAL_CONTEXT_OVERRIDE``.
 """
 from __future__ import annotations
 
@@ -26,6 +24,14 @@ OPTIONAL_ENV: Final[str] = "HIBI_GOALS_OPTIONAL"
 OVERRIDE_ENV: Final[str] = "HIBI_GOAL_CONTEXT_OVERRIDE"
 PROJECTS_SUBPATH: Final[str] = "10_projects"
 GOAL_FOCUS_CHAR_LIMIT: Final[int] = 6000
+
+SUBJECT_ALLOWLIST: Final[tuple[str, ...]] = ("monogatari", "roamlore")
+CONDITIONING_FILES: Final[tuple[str, ...]] = (
+    "decisions.md",
+    "strategy.md",
+    "status.md",
+)
+
 _EXCLUDED_PATH_PARTS: Final[frozenset[str]] = frozenset(
     {"archive", "done", "abandoned", ".trash", "_templates"}
 )
@@ -41,6 +47,15 @@ _SECTION_NAMES: Final[frozenset[str]] = frozenset(
         "決定",
         "progress",
         "decision",
+        "戦略",
+        "strategy",
+        "vision",
+        "ビジョン",
+        "positioning",
+        "ポジショニング",
+        "現状",
+        "現在のフェーズ",
+        "status",
     }
 )
 _FRONTMATTER_RE = re.compile(r"\A---\s*\r?\n(.*?)\r?\n---\s*\r?\n", re.DOTALL)
@@ -92,7 +107,8 @@ def _extract_focus_sections(body: str) -> str:
     return "\n\n".join(parts)
 
 
-def _note_focus(path: Path) -> str:
+def read_active_note(path: Path) -> str:
+    """Return extracted focus text for an active note, or empty if inactive."""
     raw = path.read_text(encoding="utf-8")
     body = raw
     fm_match = _FRONTMATTER_RE.match(raw)
@@ -101,7 +117,6 @@ def _note_focus(path: Path) -> str:
             return ""
         body = raw[fm_match.end() :]
     elif not _optional_enabled():
-        # Without frontmatter, non-optional runs ignore the file (not marked active).
         return ""
 
     return _extract_focus_sections(body)
@@ -111,8 +126,21 @@ def _path_excluded(path: Path) -> bool:
     return any(part in _EXCLUDED_PATH_PARTS for part in path.parts)
 
 
+def _notes_newest_first(project_dir: Path) -> list[str]:
+    """Collect active note excerpts sorted by mtime descending."""
+    dated: list[tuple[float, str]] = []
+    for md_path in project_dir.rglob("*.md"):
+        if _path_excluded(md_path):
+            continue
+        focus = read_active_note(md_path)
+        if focus:
+            dated.append((md_path.stat().st_mtime, focus))
+    dated.sort(key=lambda row: row[0], reverse=True)
+    return [text for _, text in dated]
+
+
 def load_goal_focus() -> GoalFocus:
-    """Load capped goal focus text from active project notes under ``10_projects/``."""
+    """Load capped goal focus from allowlisted active project notes."""
     override = os.environ.get(OVERRIDE_ENV, "").strip()
     if override:
         return GoalFocus(text=override[:GOAL_FOCUS_CHAR_LIMIT], project_slugs=("override",))
@@ -135,17 +163,11 @@ def load_goal_focus() -> GoalFocus:
 
     chunks: list[str] = []
     slugs: list[str] = []
-    for project_dir in sorted(projects_root.iterdir()):
-        if not project_dir.is_dir() or project_dir.name.startswith("."):
+    for slug in SUBJECT_ALLOWLIST:
+        project_dir = projects_root / slug
+        if not project_dir.is_dir():
             continue
-        slug = project_dir.name
-        project_parts: list[str] = []
-        for md_path in sorted(project_dir.rglob("*.md")):
-            if _path_excluded(md_path):
-                continue
-            focus = _note_focus(md_path)
-            if focus:
-                project_parts.append(focus)
+        project_parts = _notes_newest_first(project_dir)
         if not project_parts:
             continue
         slugs.append(slug)
