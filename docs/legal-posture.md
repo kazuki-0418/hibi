@@ -4,7 +4,7 @@ Hibi の現在の法的状態と、進行中の Perplexity 訴訟 (2025-08 提�
 
 将来の AI セッション (Manager / `/triage-issue` / 個別 dev エージェント) がこのファイルを読んで「auth・multi-tenant 化・本文取得拡張・新規メディア追加」を提案する前に、ここでの判断を尊重できるよう書いてある。Markdown 1 ファイルが SSoT。
 
-最終更新: 2026-05-14
+最終更新: 2026-06-03
 
 ---
 
@@ -34,14 +34,16 @@ Hibi の現在の法的状態と、進行中の Perplexity 訴訟 (2025-08 提�
 
 | 訴訟の争点 | Hibi での該当箇所 | 影響度 |
 |---|---|---|
-| robots.txt 無視 | `fetchers/rss.py` の `trafilatura.fetch_url()` は robots.txt を **見ていない** (README の「robots.txt 尊重」は誤記、後述) | 🔴 直撃 |
+| robots.txt 無視 | `fetchers/rss.py` は `urllib.robotparser` で disallow を確認してから `trafilatura.fetch_url()`（明示 User-Agent）。robots.txt 取得失敗時は **fetch しない** (fail closed)。KAZ-201 (2026-06) | 🟡 緩和 (単一ユーザー・非商用のまま) |
 | 記事本文のサーバ複製・保存 | `trafilatura.extract()` で本文取得 + `articles.summary` として Neon に保存 | 🔴 直撃 |
 | paywall 突破 | フィードに paywall 記事 URL が混入した場合、追加判定なく fetch する | 🟡 潜在 (現状の sources.yaml では未確認だが、構造上ガードがない) |
 | 媒体名を冠した不正確情報 | `articles.source_name` をメール本文 / archive にそのまま表示、AI の summary は hallucination リスクあり | 🔴 直撃 |
 
-### README の誤記について
+### robots.txt / 要約抑止 (KAZ-201, 2026-06)
 
-`README.md` のフロー説明に「trafilatura（本文抽出 + robots.txt 尊重）」と記載があるが、現行 `fetchers/rss.py` は robots.txt を見ていない。本ドキュメント作成時点では「**判決を待ってから対応**」方針のため README の表現はこの doc とセットで読む。文言修正は商用化判断再開時にまとめて行う(README で「尊重」と書いて実装してない方が問題が大きいので、必要なら短期で README 側を「robots.txt は現状未尊重(#124 関連で保留中)」に直す選択肢もある)。
+- **#125 相当**: `fetchers/rss.py` が robots.txt を尊重。取得不能時は当該 origin の記事本文を fetch しない。
+- **#128 相当**: RSS で本文未取得・不確実時は Claude 要約を呼ばず link-only（`summary = NULL`、メールはタイトル + Source リンク）。YouTube も KAZ-200 以降同様。
+- README の「robots.txt 尊重」表記は上記実装と一致する。
 
 ## 4. 防衛 PR の位置づけ
 
@@ -49,10 +51,10 @@ epic #124 で 5 件の防衛 issue を起こした(2026-05-14、Hibi 着手前)�
 
 | issue | テーマ | 判断 |
 |---|---|---|
-| #125 | `trafilatura` を robots.txt 尊重モードに変更 + User-Agent 明示 | **保留** (Manager triage で `robots.txt 取得失敗時の fallback` が judgment call として未決のまま停止。判決後に再判断) |
+| #125 | `trafilatura` を robots.txt 尊重モードに変更 + User-Agent 明示 | **実装済** (KAZ-201: fail closed on robots fetch failure) |
 | #126 | paywall 記事 URL の自動検出と除外 | **保留** (paywall detection の精度トレードオフが未検証) |
 | #127 | `/copyright` ページ (出典ポリシー + 削除依頼窓口) | **保留** (公開ページ追加は商用化判断と紐づくため) |
-| #128 | 本文未取得 / 不確実時の AI 要約抑止 | **保留** (現状 1 人運用なので影響対象が kazuki 自身のみ) |
+| #128 | 本文未取得 / 不確実時の AI 要約抑止 | **実装済** (KAZ-201: RSS link-only; YouTube は KAZ-200) |
 | #129 | **本ドキュメント** | ← これ |
 
 #124 と #125-#128 は **2026-05-14 に close**。実装着手は本ドキュメントが固まり、商用化判断が再開された時点で **新規 issue として再起票** する。
