@@ -29,12 +29,23 @@ from db import (
     update_edition_meta,
     update_edition_sources_scanned,
 )
+from daily_news_ranking import (
+    build_digest_plan,
+    resolve_ranking_centroid,
+    score_candidates,
+)
 from fetchers import rss as rss_fetcher
 from fetchers import youtube as youtube_fetcher
+from goals import load_goal_focus
 from mailer import build_html as build_hibi_html
 from observability import init_sentry_from_env
-from ranking import compute_interest_centroid, cosine_similarity, count_recent_clicks
+from ranking import compute_interest_centroid, count_recent_clicks
 from send_mail import format_subject
+from summarize_goal import (
+    SummaryResult,
+    build_summarize_prompt,
+    parse_summarize_response,
+)
 from voice import check_voice_violations
 
 log = logging.getLogger(__name__)
@@ -68,6 +79,9 @@ JITTER_BASE = 0.3
 # cost を抑える（1候補 ≒ 600 tokens になるのが目安）
 RANKING_DESC_CHAR_LIMIT = 500
 RANKING_TOP_LOG = 10
+CHALLENGE_SLOTS_MIN = 1
+CHALLENGE_SLOTS_MAX = 2
+GOAL_CONTEXT_PROMPT_LIMIT = 4000
 
 REQUIRED_ENV_VARS = [
     "YOUTUBE_API_KEY",
@@ -178,11 +192,7 @@ def embed_batch(openai_client, texts: list[str]) -> list[list[float] | None]:
 # ============================================================
 # Claude summarize
 # ============================================================
-def summarize(client: Anthropic, title: str, content: str) -> str:
-    # design-system/README.md "Content fundamentals → Voice" 由来。
-    # 具体的な禁止ワード列挙ではなく原則だけを 5-7 行で示し、
-    # post-processing (`check_voice_violations`) で観測する設計。
-    voice_rule = """あなたは新聞 Hibi の編集者として要約を書きます。文体ルール:
+_VOICE_RULE = """あなたは新聞 Hibi の編集者として要約を書きます。文体ルール:
 - 三人称・観察的・宣言的に書く。新聞は報告するのであって売り込まない。
 - 一人称(「私」「僕」)も二人称呼びかけ(「あなた」「読者の皆様」)も使わない。
 - 賞賛は抑制する。「すごい」「最高」より「興味深い」「注目」。
@@ -190,39 +200,47 @@ def summarize(client: Anthropic, title: str, content: str) -> str:
 - マーケティング的な煽り(「今すぐ」「お見逃しなく」「驚愕」「衝撃」)を避ける。
 - 句点「。」で終える事実の記述を基本とする。"""
 
-    prompt = f"""{voice_rule}
 
-以下の記事/動画を日本語で3行に要約してください。
-技術的な要点、実装のヒント、開発者にとっての示唆を優先してください。
-各行は1文で、「・」で始めてください。
-
-重要: 本文が断片的・不十分・要約困難な場合でも、謝罪文・「情報が不足」等の注釈・推測による補完は絶対に禁止。その場合は何も出力せず空文字列のみ返してください。
-
-タイトル: {title}
-
-本文:
-{content[:CONTENT_CHAR_LIMIT]}
-
-出力形式:
-・(1行目)
-・(2行目)
-・(3行目)"""
+def summarize(
+    client: Anthropic,
+    title: str,
+    content: str,
+    goal_context: str = "",
+) -> SummaryResult:
+    """Return faithful summary + optional goal-relevance note (KAZ-202)."""
+    prompt = build_summarize_prompt(
+        title,
+        content,
+        voice_rule=_VOICE_RULE,
+        content_char_limit=CONTENT_CHAR_LIMIT,
+        goal_context=goal_context[:GOAL_CONTEXT_PROMPT_LIMIT],
+    )
 
     response = client.messages.create(
         model=CLAUDE_MODEL,
-        max_tokens=500,
+        max_tokens=600,
         messages=[{"role": "user", "content": prompt}],
     )
-    summary = response.content[0].text.strip()
+    parsed = parse_summarize_response(response.content[0].text.strip())
 
-    # design-system voice & tone への準拠を観測する。違反があっても配信は
-    # 止めず warning ログのみ。意図は voice.py module docstring を参照。
-    if summary:
-        violations = check_voice_violations(summary)
-        if violations:
-            log.warning("voice violations in summary: %s", violations)
+    for block_name, text in (("summary", parsed.summary), ("goal_note", parsed.goal_note)):
+        if text:
+            violations = check_voice_violations(text)
+            if violations:
+                log.warning("voice violations in %s: %s", block_name, violations)
 
-    return summary
+    return parsed
+
+
+def embed_goal_centroid(
+    openai_client,
+    goal_focus_text: str,
+) -> list[float] | None:
+    """Embed minimal goal focus text for ranking (single OpenAI call)."""
+    if openai_client is None or not goal_focus_text.strip():
+        return None
+    vectors = embed_batch(openai_client, [goal_focus_text])
+    return vectors[0] if vectors else None
 
 
 # ============================================================
@@ -439,9 +457,9 @@ def _sections_to_articles(sections: list[dict]) -> list[dict]:
                 "url": _redirect_url(item.get("article_id"), item["url"]),
                 "summary": item["summary"],
                 "source": source_name,
-                # category / source_type / learning / practical_application:
-                # not surfaced by daily_news pipeline yet; `_story_html`
-                # handles their absence gracefully.
+                "category": item.get("display_category") or item.get("category"),
+                "source_type": item.get("source_type"),
+                "learning": item.get("goal_note") or "",
             })
     return articles
 
@@ -453,56 +471,62 @@ def rank_candidates(
     candidates: list[dict],
     user_id: str,
     openai_client,
+    goal_centroid: list[float] | None = None,
 ) -> list[dict]:
-    """候補を click-history ベースの similarity + jitter で並べ替える。
-
-    - 履歴 < COLD_START_CLICKS or centroid None → 完全ランダム（従来挙動）
-    - 5 ≦ clicks < 30 → centroid を linearly interpolate（clicks/30）
-    - clicks ≥ FULL_WEIGHT_CLICKS → full weight で centroid を使う
-
-    Returns 元の list と同じ件数、score 降順。各候補に 'sim' / 'score' が
-    書き込まれる。side effect で top-N を stdout にログ出力する。
-    """
+    """Rank by goal centroid (KAZ-202) with optional click-history blend + jitter."""
     with get_conn() as conn:
         click_count = count_recent_clicks(conn, user_id, RANKING_WINDOW_DAYS)
-        centroid = (
+        click_centroid = (
             compute_interest_centroid(conn, user_id, RANKING_WINDOW_DAYS)
             if click_count >= COLD_START_CLICKS
             else None
         )
 
+    centroid = resolve_ranking_centroid(
+        click_centroid,
+        goal_centroid,
+        click_count,
+        cold_start_clicks=COLD_START_CLICKS,
+        full_weight_clicks=FULL_WEIGHT_CLICKS,
+    )
+
     if centroid is None:
         print(
-            f"🎲 Cold start ({click_count} recent clicks, threshold={COLD_START_CLICKS}) "
-            "— using random ranking"
+            f"🎲 No ranking centroid (clicks={click_count}, goal={'yes' if goal_centroid else 'no'}) "
+            "— random order"
         )
         random.shuffle(candidates)
         return candidates
 
-    # 候補を1回の OpenAI 呼び出しでまとめて埋め込む
     texts = [
         f"{c.get('title', '')}\n\n{(c.get('description') or '')[:RANKING_DESC_CHAR_LIMIT]}"
         for c in candidates
     ]
     vectors = embed_batch(openai_client, texts)
 
-    weight = min(1.0, click_count / FULL_WEIGHT_CLICKS)
-    for c, vec in zip(candidates, vectors):
-        if vec is None:
-            c["sim"] = 0.0
-        else:
-            c["sim"] = cosine_similarity(vec, centroid)
-        # sim を信じる度合いは weight に比例。weight=1 で 0.7*sim + 0.3*rand、
-        # weight=0 で 1.0*rand に縮退する（= ほぼランダム）
-        c["score"] = c["sim"] * SIM_BASE * weight + random.random() * (
-            1.0 - (SIM_BASE - JITTER_BASE) * weight
-        )
+    if goal_centroid is not None and click_count < COLD_START_CLICKS:
+        ranking_weight = 1.0
+    else:
+        ranking_weight = min(1.0, click_count / FULL_WEIGHT_CLICKS)
 
+    score_candidates(
+        candidates,
+        vectors,
+        centroid,
+        ranking_weight=ranking_weight,
+        sim_base=SIM_BASE,
+        jitter_base=JITTER_BASE,
+    )
     candidates.sort(key=lambda x: x["score"], reverse=True)
 
+    signal = "goal"
+    if goal_centroid is not None and click_centroid is not None:
+        signal = "goal+click"
+    elif click_centroid is not None:
+        signal = "click"
     print(
         f"\n📊 Ranked {len(candidates)} candidates "
-        f"(click_count={click_count}, weight={weight:.2f})"
+        f"(signal={signal}, clicks={click_count}, weight={ranking_weight:.2f})"
     )
     for i, c in enumerate(candidates[:RANKING_TOP_LOG], 1):
         title = (c.get("title") or "")[:60]
@@ -513,7 +537,10 @@ def rank_candidates(
             f"{c.get('source_name', '?')} / {title}"
         )
     if len(candidates) > RANKING_TOP_LOG:
-        print(f"  [skipped pool] {len(candidates) - RANKING_TOP_LOG} candidates below rank {RANKING_TOP_LOG}")
+        print(
+            f"  [skipped pool] {len(candidates) - RANKING_TOP_LOG} "
+            f"candidates below rank {RANKING_TOP_LOG}"
+        )
 
     return candidates
 
@@ -593,10 +620,31 @@ def main():
 
     print(f"\n📊 Total unsent candidates: {len(candidates)}")
 
-    # Stage B: personalization ranking + attempt_pool 抽出（#28）。
-    # rank_candidates は cold start 時に random.shuffle にフォールバックする。
-    ranked = rank_candidates(candidates, DEFAULT_USER_ID, openai_client)
-    attempt_pool = ranked[:MAX_ATTEMPTS]
+    goal_focus = load_goal_focus()
+    if goal_focus.text:
+        print(
+            f"🎯 Goal context: {len(goal_focus.text)} chars "
+            f"from projects {', '.join(goal_focus.project_slugs) or '(none)'}"
+        )
+    else:
+        print("🎯 Goal context: (empty — optional vault or no active projects)")
+
+    goal_centroid = embed_goal_centroid(openai_client, goal_focus.text)
+
+    # Stage B: goal + click centroid ranking, then digest plan with challenge slots.
+    ranked = rank_candidates(
+        candidates, DEFAULT_USER_ID, openai_client, goal_centroid=goal_centroid
+    )
+    digest_plan = build_digest_plan(
+        ranked[:MAX_ATTEMPTS],
+        MAX_VIDEOS_PER_RUN,
+        challenge_min=CHALLENGE_SLOTS_MIN,
+        challenge_max=CHALLENGE_SLOTS_MAX,
+    )
+    plan_ids = {c["content_id"] for c in digest_plan}
+    attempt_pool = digest_plan + [
+        c for c in ranked[:MAX_ATTEMPTS] if c["content_id"] not in plan_ids
+    ]
     print(
         f"🎲 Attempt pool: {len(attempt_pool)} items "
         f"(target: {MAX_VIDEOS_PER_RUN} summaries, cap: {MAX_ATTEMPTS} attempts)"
@@ -620,6 +668,7 @@ def main():
 
         content = _fetch_content(item)
         link_only = _is_link_only_item(item, content)
+        goal_note = ""
         if link_only:
             summary = LINK_ONLY_SUMMARY
             if item.get("source_type") == "youtube":
@@ -633,7 +682,14 @@ def main():
                     f"{char_count} chars)"
                 )
         else:
-            summary = summarize(claude, item["title"], content)
+            parsed = summarize(
+                claude,
+                item["title"],
+                content or "",
+                goal_context=goal_focus.text,
+            )
+            summary = parsed.summary
+            goal_note = parsed.goal_note
             if not summary or len(summary) < MIN_SUMMARY_CHARS:
                 print(
                     "  → skip (summary empty: Claude defended against insufficient content)"
@@ -642,11 +698,19 @@ def main():
                 continue
 
         summarized_count += 1
-        label = "link-only" if link_only else "summarized"
+        slot = item.get("digest_slot", "goal")
+        if link_only:
+            label = "link-only"
+        elif slot == "challenge":
+            label = "challenge"
+        else:
+            label = "summarized"
         print(f"  ✅ {label} ({summarized_count}/{MAX_VIDEOS_PER_RUN})")
 
-        # 送信失敗時に再送できるよう、保存は送信前に行う。
-        # article_id はクリック追跡 URL (/r/{id}) の生成に使う。
+        display_category = item.get("category")
+        if slot == "challenge":
+            display_category = "Challenge"
+
         embedding = embed_article(
             openai_client, item["title"], summary or ""
         )
@@ -669,8 +733,11 @@ def main():
             {
                 "title": item["title"],
                 "summary": summary,
+                "goal_note": goal_note,
                 "url": item["url"],
                 "article_id": article_id,
+                "display_category": display_category,
+                "source_type": item.get("source_type"),
             }
         )
 
