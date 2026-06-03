@@ -1,15 +1,19 @@
 """RSS fetcher — feedparser for metadata, trafilatura for article body.
 
 Respects robots.txt per-origin (cached for the duration of the run).
+When robots.txt cannot be fetched, the origin is treated as disallowed (fail closed).
 """
 
+from configparser import ConfigParser
 from datetime import datetime, timezone
 from time import mktime, struct_time
 from urllib.parse import urlparse
+from urllib.request import Request, urlopen
 from urllib.robotparser import RobotFileParser
 
 import feedparser
 import trafilatura
+from trafilatura.settings import use_config
 
 
 USER_AGENT = (
@@ -17,7 +21,24 @@ USER_AGENT = (
     "(+https://github.com/kazuki-0418/Personal-Daily-News)"
 )
 
+ROBOTS_FETCH_TIMEOUT_SEC = 10
+
 _robots_cache: dict[str, RobotFileParser | None] = {}
+_cached_trafilatura_config: ConfigParser | None = None
+
+
+def clear_robots_cache() -> None:
+    """Reset per-run robots cache (for tests)."""
+    _robots_cache.clear()
+
+
+def _trafilatura_config() -> ConfigParser:
+    global _cached_trafilatura_config
+    if _cached_trafilatura_config is None:
+        config = use_config()
+        config.set("DEFAULT", "USER_AGENT", USER_AGENT)
+        _cached_trafilatura_config = config
+    return _cached_trafilatura_config
 
 
 def _iso_from_struct_time(t: struct_time | None) -> str:
@@ -57,27 +78,37 @@ def fetch_recent_items(source: dict, max_results: int) -> list[dict]:
     return items
 
 
+def _load_robots_parser(origin: str) -> RobotFileParser | None:
+    """Fetch and parse robots.txt for ``origin``. ``None`` on any failure."""
+    robots_url = f"{origin}/robots.txt"
+    rp = RobotFileParser()
+    rp.set_url(robots_url)
+    req = Request(robots_url, headers={"User-Agent": USER_AGENT})
+    try:
+        with urlopen(req, timeout=ROBOTS_FETCH_TIMEOUT_SEC) as resp:
+            body = resp.read().decode("utf-8", errors="replace")
+        rp.parse(body.splitlines())
+        return rp
+    except Exception:
+        return None
+
+
 def _robots_allows(url: str) -> bool:
-    """Check robots.txt for ``url``. Fails open on fetch errors."""
+    """Return whether ``USER_AGENT`` may fetch ``url`` per robots.txt.
+
+    Disallows when robots.txt fetch/parse fails (fail closed).
+    """
     parsed = urlparse(url)
     if not parsed.scheme or not parsed.netloc:
         return False
     origin = f"{parsed.scheme}://{parsed.netloc}"
 
     if origin not in _robots_cache:
-        rp = RobotFileParser()
-        rp.set_url(f"{origin}/robots.txt")
-        try:
-            rp.read()
-            _robots_cache[origin] = rp
-        except Exception:
-            # robots.txt unreachable — fail open so a single broken robots
-            # endpoint doesn't silently drop every article.
-            _robots_cache[origin] = None
+        _robots_cache[origin] = _load_robots_parser(origin)
 
     rp = _robots_cache[origin]
     if rp is None:
-        return True
+        return False
     return rp.can_fetch(USER_AGENT, url)
 
 
@@ -88,7 +119,7 @@ def get_content_text(item: dict) -> str | None:
         print(f"    [skip] robots.txt disallows: {url}")
         return None
 
-    downloaded = trafilatura.fetch_url(url)
+    downloaded = trafilatura.fetch_url(url, config=_trafilatura_config())
     if not downloaded:
         print(f"    [skip] download failed: {url}")
         return None

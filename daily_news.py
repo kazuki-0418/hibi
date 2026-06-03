@@ -48,7 +48,7 @@ MAX_VIDEOS_PER_RUN = 5  # 1回の配信で要約・送信する最大本数（�
 MAX_ATTEMPTS = 30  # 1回の実行で試行する最大候補数（無限試行防止）
 MIN_CONTENT_CHARS = 500  # RSS 記事本文がこれ未満なら要約対象外
 MIN_SUMMARY_CHARS = 10  # Claude が防御プロンプトに従って空を返したケースを弾く閾値
-# YouTube はメタデータのみ: AI 要約せずタイトル + リンクで digest に載せる (KAZ-200)
+# 本文未取得時は AI 要約せずタイトル + リンクのみ (KAZ-200 YouTube / KAZ-201 RSS)
 LINK_ONLY_SUMMARY: str | None = None
 CLAUDE_MODEL = "claude-haiku-4-5-20251001"
 CONTENT_CHAR_LIMIT = 15000  # Claude に渡す本文の上限（コスト制御）
@@ -113,13 +113,18 @@ def _fetch_items(
     return []
 
 
-def _is_link_only_item(item: dict) -> bool:
-    """YouTube uploads appear in the digest as title + link only (no transcript)."""
-    return item.get("source_type") == "youtube"
+def _is_link_only_item(item: dict, content: str | None) -> bool:
+    """Items without a summarizable body ship as title + link only (no AI summary)."""
+    stype = item.get("source_type")
+    if stype == "youtube":
+        return True
+    if stype == "rss":
+        return not content or len(content) < MIN_CONTENT_CHARS
+    return False
 
 
 def _fetch_content(item: dict) -> str | None:
-    if _is_link_only_item(item):
+    if item.get("source_type") == "youtube":
         return None
     if item.get("source_type") == "rss":
         return rss_fetcher.get_content_text(item)
@@ -613,18 +618,20 @@ def main():
             f"{item['title'][:70]}"
         )
 
-        link_only = _is_link_only_item(item)
         content = _fetch_content(item)
+        link_only = _is_link_only_item(item, content)
         if link_only:
             summary = LINK_ONLY_SUMMARY
-            print("  → link-only (YouTube metadata; no transcript / AI summary)")
-        elif not content or len(content) < MIN_CONTENT_CHARS:
-            char_count = len(content) if content else 0
-            print(
-                f"  → skip (content unavailable or too short: {char_count} chars)"
-            )
-            skipped_count += 1
-            continue
+            if item.get("source_type") == "youtube":
+                print(
+                    "  → link-only (YouTube metadata; no transcript / AI summary)"
+                )
+            else:
+                char_count = len(content) if content else 0
+                print(
+                    "  → link-only (RSS body unavailable; AI summary suppressed, "
+                    f"{char_count} chars)"
+                )
         else:
             summary = summarize(claude, item["title"], content)
             if not summary or len(summary) < MIN_SUMMARY_CHARS:
@@ -640,7 +647,9 @@ def main():
 
         # 送信失敗時に再送できるよう、保存は送信前に行う。
         # article_id はクリック追跡 URL (/r/{id}) の生成に使う。
-        embedding = embed_article(openai_client, item["title"], summary)
+        embedding = embed_article(
+            openai_client, item["title"], summary or ""
+        )
         article_id = save_article(
             {
                 "source_type": item["source_type"],
