@@ -48,6 +48,8 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           HIBI_RELEASE: ${{ github.sha }}
           HIBI_ENV: production
+          # Goal-conditioned ranking (KAZ-202): skip vault when unset in CI.
+          HIBI_GOALS_OPTIONAL: "1"
 
       # Dump editions from Neon → JSON files Astro reads at build time.
       # Idempotent overwrite; no-op if no editions changed.

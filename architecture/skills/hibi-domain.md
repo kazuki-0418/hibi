@@ -14,7 +14,7 @@ Hibi の現行ドメイン事実を固定するスキル。
 - pipeline は 3-stage + ranking 構成。各 Stage は前段の出力にのみ依存
 - ranking 反映は **次回バッチ実行時**。クリックは即座に centroid を更新しない
 - embedding 対象は `title + summary`。本文ではない
-- cold start: `clicks_in_30d < 5` で純ランダム、30 件で full weight
+- cold start: `clicks_in_30d < 5` では Obsidian active project の **goal centroid** でランキング（KAZ-202）。goal も無いときのみ純ランダム
 - score 式: `sim × 0.7 × weight + rand() × (1 − 0.4 × weight)`、weight = `min(1, clicks_in_30d / 30)`
 - 現行の事実は以下のダイアグラムから確認する:
   - `architecture/diagrams/pipeline-flow.mmd`
@@ -28,7 +28,7 @@ Hibi の現行ドメイン事実を固定するスキル。
 - Stage A は **メタデータのみ** 取得する。transcript / 本文取得を Stage A に混ぜない
 - Stage B のフィルタ条件は `published_at >= now() - 14 days` AND `is_sent = false`
 - Stage B は ranking で上位 N 件を抽出。N の現行値は 5（旧 10 から変更済み）
-- Stage C: RSS は本文 + 要約 + Neon 保存（robots disallow / 本文未取得時は link-only）。YouTube はメタデータのみ（リンク行、要約なし）
+- Stage C: RSS は本文 + 要約 + Neon 保存（robots disallow / 本文未取得時は link-only）。YouTube はメタデータのみ（リンク行、要約なし）。要約は `---要約---`（DB）と `---関連---`（メール `learning` 行）を分離。challenge 枠 1–2 件常設
 - 各 Stage は前段の出力に対してのみ動作する。Stage C が Stage A の生メタデータを直接読まない
 - workflow timeout は 10 分以内。Stage B の N を増やすときは Stage C のランタイムを試算する
 

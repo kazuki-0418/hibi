@@ -125,7 +125,7 @@ def test_summarize_logs_warning_on_voice_violation(
         result = daily_news.summarize(fake, title="t", content="c" * 600)
 
     # 配信は通す (= 戻り値はそのまま返される)
-    assert result == dirty_summary
+    assert result.summary == dirty_summary
 
     # warning が出ている & 検出語が含まれている
     warning_records = [r for r in caplog.records if r.levelno == logging.WARNING]
@@ -146,7 +146,7 @@ def test_summarize_no_warning_for_clean_output(
     with caplog.at_level(logging.WARNING, logger=daily_news.log.name):
         result = daily_news.summarize(fake, title="t", content="c" * 600)
 
-    assert result == clean
+    assert result.summary == clean
     assert [r for r in caplog.records if r.levelno == logging.WARNING] == []
 
 
@@ -164,5 +164,5 @@ def test_summarize_skips_check_on_empty_output(
     with caplog.at_level(logging.WARNING, logger=daily_news.log.name):
         result = daily_news.summarize(fake, title="t", content="c" * 600)
 
-    assert result == ""
+    assert result.summary == ""
     assert [r for r in caplog.records if r.levelno == logging.WARNING] == []
