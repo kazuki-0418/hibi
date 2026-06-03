@@ -18,8 +18,6 @@ from urllib.parse import quote
 import sentry_sdk
 import yaml
 from googleapiclient.discovery import build
-from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api.proxies import WebshareProxyConfig
 from anthropic import Anthropic
 
 import email_sender
@@ -48,8 +46,10 @@ METADATA_PER_SOURCE = 15  # Stage A で各ソースから取得するメタデ�
 MAX_LOOKBACK_DAYS = 14  # 2週間より古いアイテムは配信対象外
 MAX_VIDEOS_PER_RUN = 5  # 1回の配信で要約・送信する最大本数（目標値）
 MAX_ATTEMPTS = 30  # 1回の実行で試行する最大候補数（無限試行防止）
-MIN_CONTENT_CHARS = 500  # transcript/記事本文がこれ未満なら失敗扱い
+MIN_CONTENT_CHARS = 500  # RSS 記事本文がこれ未満なら要約対象外
 MIN_SUMMARY_CHARS = 10  # Claude が防御プロンプトに従って空を返したケースを弾く閾値
+# YouTube はメタデータのみ: AI 要約せずタイトル + リンクで digest に載せる (KAZ-200)
+LINK_ONLY_SUMMARY: str | None = None
 CLAUDE_MODEL = "claude-haiku-4-5-20251001"
 CONTENT_CHAR_LIMIT = 15000  # Claude に渡す本文の上限（コスト制御）
 EMBEDDING_MODEL = "text-embedding-3-small"  # OpenAI; 1536 dim。差し替える時は 003 migration も見直す
@@ -70,8 +70,6 @@ RANKING_DESC_CHAR_LIMIT = 500
 RANKING_TOP_LOG = 10
 
 REQUIRED_ENV_VARS = [
-    "WEBSHARE_USERNAME",
-    "WEBSHARE_PASSWORD",
     "YOUTUBE_API_KEY",
     "ANTHROPIC_API_KEY",
     "GMAIL_CLIENT_ID",
@@ -115,11 +113,15 @@ def _fetch_items(
     return []
 
 
-def _fetch_content(item: dict, ytt_api: YouTubeTranscriptApi) -> str | None:
-    stype = item["source_type"]
-    if stype == "youtube":
-        return youtube_fetcher.get_content_text(ytt_api, item)
-    if stype == "rss":
+def _is_link_only_item(item: dict) -> bool:
+    """YouTube uploads appear in the digest as title + link only (no transcript)."""
+    return item.get("source_type") == "youtube"
+
+
+def _fetch_content(item: dict) -> str | None:
+    if _is_link_only_item(item):
+        return None
+    if item.get("source_type") == "rss":
         return rss_fetcher.get_content_text(item)
     return None
 
@@ -538,13 +540,6 @@ def main():
     openai_client = _get_openai_client()
     if openai_client is None:
         print("⚠️  OPENAI_API_KEY not set — saving articles without embeddings")
-    ytt_api = YouTubeTranscriptApi(
-        proxy_config=WebshareProxyConfig(
-            proxy_username=os.environ["WEBSHARE_USERNAME"],
-            proxy_password=os.environ["WEBSHARE_PASSWORD"],
-        )
-    )
-
     # 今朝の edition 行を確保。articles.edition_id が NOT NULL (migration 005)
     # なので save_article 呼び出し前に必ず取る。再実行された場合は同じ
     # issue_no を再利用する (editions.date UNIQUE)。
@@ -618,25 +613,30 @@ def main():
             f"{item['title'][:70]}"
         )
 
-        content = _fetch_content(item, ytt_api)
-        if not content or len(content) < MIN_CONTENT_CHARS:
+        link_only = _is_link_only_item(item)
+        content = _fetch_content(item)
+        if link_only:
+            summary = LINK_ONLY_SUMMARY
+            print("  → link-only (YouTube metadata; no transcript / AI summary)")
+        elif not content or len(content) < MIN_CONTENT_CHARS:
             char_count = len(content) if content else 0
             print(
                 f"  → skip (content unavailable or too short: {char_count} chars)"
             )
             skipped_count += 1
             continue
-
-        summary = summarize(claude, item["title"], content)
-        if not summary or len(summary) < MIN_SUMMARY_CHARS:
-            print(
-                "  → skip (summary empty: Claude defended against insufficient content)"
-            )
-            skipped_count += 1
-            continue
+        else:
+            summary = summarize(claude, item["title"], content)
+            if not summary or len(summary) < MIN_SUMMARY_CHARS:
+                print(
+                    "  → skip (summary empty: Claude defended against insufficient content)"
+                )
+                skipped_count += 1
+                continue
 
         summarized_count += 1
-        print(f"  ✅ summarized ({summarized_count}/{MAX_VIDEOS_PER_RUN})")
+        label = "link-only" if link_only else "summarized"
+        print(f"  ✅ {label} ({summarized_count}/{MAX_VIDEOS_PER_RUN})")
 
         # 送信失敗時に再送できるよう、保存は送信前に行う。
         # article_id はクリック追跡 URL (/r/{id}) の生成に使う。

@@ -1,10 +1,9 @@
 """Source-specific fetchers for the Personal AI Newspaper pipeline.
 
-Every fetcher exposes the same two functions:
+Every fetcher exposes ``fetch_recent_items`` for Stage A metadata.
 
-- ``fetch_recent_items(source, max_results)`` — returns a list of items.
-- ``get_content_text(item, ...)`` — returns the body text used for summarization,
-  or ``None`` if the content is unavailable.
+RSS also exposes ``get_content_text`` for Stage C article bodies. YouTube is
+metadata-only (link rows in the digest; no transcript).
 
 Unified item shape:
 

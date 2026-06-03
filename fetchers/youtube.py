@@ -1,6 +1,6 @@
-"""YouTube fetcher — uploads playlist metadata + transcript via WebShare proxy."""
+"""YouTube fetcher — uploads playlist metadata only (no transcript)."""
 
-from youtube_transcript_api import YouTubeTranscriptApi
+from datetime import datetime, timezone
 
 
 def fetch_recent_items(
@@ -31,6 +31,12 @@ def fetch_recent_items(
     items = []
     for entry in pl.get("items", []):
         video_id = entry["contentDetails"]["videoId"]
+        published_raw = entry["contentDetails"].get("videoPublishedAt")
+        if published_raw:
+            published_at = published_raw
+        else:
+            published_at = datetime.now(timezone.utc).isoformat()
+
         items.append(
             {
                 "source_type": "youtube",
@@ -39,20 +45,8 @@ def fetch_recent_items(
                 "content_id": video_id,
                 "title": entry["snippet"]["title"],
                 "url": f"https://www.youtube.com/watch?v={video_id}",
-                "published_at": entry["contentDetails"]["videoPublishedAt"],
+                "published_at": published_at,
                 "description": entry["snippet"].get("description", ""),
             }
         )
     return items
-
-
-def get_content_text(
-    ytt_api: YouTubeTranscriptApi, item: dict
-) -> str | None:
-    """Return transcript text, or ``None`` if unavailable."""
-    try:
-        fetched = ytt_api.fetch(item["content_id"], languages=["en", "ja"])
-        return " ".join(snippet.text for snippet in fetched.snippets)
-    except Exception as e:
-        print(f"    [skip] transcript unavailable: {type(e).__name__}: {e}")
-        return None
