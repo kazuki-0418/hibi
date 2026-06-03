@@ -1,0 +1,160 @@
+{
+  "issue_no": 39,
+  "date": "2026-06-03",
+  "standfirst": "今朝の5本。技術進化と経済の再編により、起業から自由、そして制約へと向かう人間の選択が可視化されている。",
+  "daily_title": "起業障壁は低下、自由は通貨へ、メモリは高騰",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "A 90s startup cost $3M before you shipped anything. Now you can vibe code it in a weekend.",
+      "url": "https://www.youtube.com/watch?v=2IIlooUzRjQ",
+      "summary": "・1990年代のスタートアップは市場投入まで20～30人と300～500万ドルを要したが、クラウド時代には3人と3万ドル程度で実行可能になった。\n・現在ではプロトタイプコーディングから初期顧客獲得までの期間が数週間、あるいは週末程度にまで短縮されている。\n・アイデアから初期的な市場適合の検証までの時間短縮が、スタートアップの起業障壁を大幅に低下させている。",
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Freedom is your new currency",
+      "url": "https://www.youtube.com/watch?v=L7xvwsg7WA8",
+      "summary": "・自由を最大化することは初期段階のキャリアにおいて有用だが、自由を獲得した後はそれを意味のある目標や関係性に投資する通貨として機能することが明らかになっている。\n\n・経済的自由や時間的自由によって制約から解放されても、無制限の自由そのものは長期的には充足感をもたらさず、やがて個人は自由を制限する選択肢（結婚、育児、組織的なビジネス運営など）に価値を見出すようになる。\n\n・自分の人生をコントロールする手段（事業やプラットフォーム構築など）を確保した後、そのコントロール力を自分が重視する事柄に配分することで、自由の量は減少しても充足度は向上する傾向がある。",
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "SaaS is actually here to stay",
+      "url": "https://www.youtube.com/watch?v=qJdfjuwZ97o",
+      "summary": "・AIエージェントの普及により、SaaS製品の利用ユーザー数と利用量が増加する傾向が観察されている。\n・エージェント導入企業においてもSaaS支出が年間ベースで増加しており、AIツールとSaaSの共存が進行している。\n・大規模なエージェント利用に伴うインフラストラクチャ負荷と料金体系の見直しが、SaaS企業の重要な課題として浮上している。",
+      "category": "podcast",
+      "source": "Lenny's Podcast",
+      "source_type": "youtube"
+    },
+    {
+      "title": "How This \"Boring\" YouTube Channel Gets 16M Views a Month",
+      "url": "https://www.youtube.com/watch?v=-_g6Qobe2bI",
+      "summary": "・チャンネルはYouTubeアルゴリズムではなくGoogle検索で上位表示される戦略により月1600万ビューを獲得しており、ユーザーがGoogle検索で問題を入力した際に動画が表示される仕組みになっている。\n・チュートリアル形式の動画は検索需要が継続するため単発のバイラルヒットと異なり継続的な成長をもたらし、日々のアクセスが蓄積される。\n・Google検索とYouTube検索の両方でランク付けされる実用的なコンテンツは長期的な収益源となり、クリックベイトや衝撃的な演出に依存しない持続可能なビジネスモデルである。",
+      "category": "marketing",
+      "source": "Ahrefs",
+      "source_type": "youtube"
+    },
+    {
+      "title": "32GB of DDR5 now costs $375 – AI shortage continues to squeeze PC building",
+      "url": "https://www.tomshardware.com/pc-components/ddr5/32gb-of-ddr5-now-costs-usd375-minimum-ai-shortage-continues-to-squeeze-pc-building",
+      "summary": "・AI産業による製造能力の独占により、32GB DDR5メモリの最安値が375ドルに達し、1年前の100ドル以下から3倍以上の価格上昇が発生している。\n\n・SK hynixが2030年まで製造制約が継続すると警告しており、64GB メモリは680ドル、SSDなども同様に急騰するなど、PC構成全体での価格圧力が深刻化している。\n\n・AMDとIntelは旧世代の製品投入で価格低下を図っているが、ベンダーが価格発表を延期する背景には、発表後さらなる値上げの可能性を懸念する動きがあると指摘されている。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    }
+  ]
+}
