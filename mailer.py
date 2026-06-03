@@ -59,6 +59,50 @@ SOURCE_KIND_STYLE = (
     "text-align:right;"
 )
 
+EN_SECTION_STYLE = (
+    "padding:28px 48px;border-top:1px solid #1A1A1A;border-bottom:1px solid #E8E6E1;"
+    "background:#FAFAF7;"
+)
+EN_LABEL_STYLE = (
+    f"font-family:{FONT_EN};font-size:10px;letter-spacing:0.25em;"
+    "text-transform:uppercase;color:#9B9894;margin-bottom:12px;"
+)
+EN_PROMPT_STYLE = (
+    f"font-family:{FONT_EN};font-size:15px;line-height:1.7;color:#1A1A1A;"
+    "margin:0 0 16px;"
+)
+EN_PASTE_STYLE = (
+    f"font-family:{FONT_EN};font-size:12px;line-height:1.6;color:#5C5A57;"
+    "margin:0;white-space:pre-wrap;"
+)
+EN_PASTE_BOX_STYLE = (
+    "margin-top:8px;padding:14px 16px;border:1px solid #E8E6E1;background:#FFFFFF;"
+)
+
+
+def _english_practice_html(practice: dict | None) -> str:
+    """Render the single English output exercise block (KAZ-203)."""
+    if not practice:
+        return ""
+
+    prompt_line = html.escape(practice.get("prompt_line", ""))
+    paste_request = html.escape(practice.get("paste_request", ""))
+    article_title = html.escape(practice.get("article_title", ""))
+
+    return (
+        f'<section class="hb-english" style="{EN_SECTION_STYLE}">'
+        f'<div style="{EN_LABEL_STYLE}">English output · 1 prompt</div>'
+        f'<p style="{EN_PROMPT_STYLE}">{prompt_line}</p>'
+        f'<div style="{EN_LABEL_STYLE}">Paste into Claude</div>'
+        f'<p style="font-family:{FONT_EN};font-size:11px;color:#9B9894;margin:0 0 8px;">'
+        f"Re: {article_title}"
+        "</p>"
+        f'<div style="{EN_PASTE_BOX_STYLE}">'
+        f'<pre style="{EN_PASTE_STYLE}">{paste_request}</pre>'
+        "</div>"
+        "</section>"
+    )
+
 
 def _story_html(index: int, article: dict, is_last: bool) -> str:
     """Render a single Story row matching design-system/ui_kits/email.
@@ -165,6 +209,7 @@ def build_html(
     date: str,
     skipped_count: int = 0,
     standfirst: str = "",
+    english_practice: dict | None = None,
 ) -> str:
     """Build the daily email HTML from enriched article dicts.
 
@@ -181,6 +226,10 @@ def build_html(
     な朝の読みもの。" placeholder. Empty string (default) keeps the legacy
     static standfirst so callers that do not opt-in stay byte-compatible
     behavior-wise.
+
+    ``english_practice`` is an optional dict with ``prompt_line``,
+    ``paste_request``, and ``article_title`` (KAZ-203). Rendered as one
+    section after stories, before sources.
     """
     with open(TEMPLATE_PATH, encoding="utf-8") as f:
         template = Template(f.read())
@@ -225,10 +274,13 @@ def build_html(
             f"</em>静かな朝の読みもの。"
         )
 
+    english_practice_html = _english_practice_html(english_practice)
+
     return template.safe_substitute(
         date=date,
         article_count=len(articles),
         articles_html=articles_html,
+        english_practice_html=english_practice_html,
         sources_html=sources_html,
         source_count=source_count,
         skipped_html=skipped_html,
