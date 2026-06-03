@@ -29,6 +29,7 @@ Hibi の現行ドメイン事実を固定するスキル。
 - Stage B のフィルタ条件は `published_at >= now() - 14 days` AND `is_sent = false`
 - Stage B は ranking で上位 N 件を抽出。N の現行値は 5（旧 10 から変更済み）
 - Stage C: RSS は本文 + 要約 + Neon 保存（robots disallow / 本文未取得時は link-only）。YouTube はメタデータのみ（リンク行、要約なし）。要約は `---要約---`（DB）と `---関連---`（メール `learning` 行）を分離。challenge 枠 1–2 件常設
+- 英語産出 v0 (KAZ-203): digest に 1 区画だけ英語プロンプト + Claude 貼り付け依頼文（返信ループ・自動採点は非スコープ）
 - 各 Stage は前段の出力に対してのみ動作する。Stage C が Stage A の生メタデータを直接読まない
 - workflow timeout は 10 分以内。Stage B の N を増やすときは Stage C のランタイムを試算する
 

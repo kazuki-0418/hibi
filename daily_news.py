@@ -36,6 +36,11 @@ from daily_news_ranking import (
 )
 from fetchers import rss as rss_fetcher
 from fetchers import youtube as youtube_fetcher
+from english_practice import (
+    EnglishPractice,
+    generate_english_practice,
+    pick_english_anchor,
+)
 from goals import load_goal_focus
 from mailer import build_html as build_hibi_html
 from observability import init_sentry_from_env
@@ -656,6 +661,7 @@ def main():
 
     # Stage C: 試行プールを順に処理。MAX_VIDEOS_PER_RUN 本揃ったら break
     processed_by_source: dict[str, list[dict]] = {}
+    delivered_items: list[dict] = []
     summarized_count = 0
     skipped_count = 0
 
@@ -729,17 +735,18 @@ def main():
             edition_id=edition_issue_no,
         )
 
-        processed_by_source.setdefault(item["source_name"], []).append(
-            {
-                "title": item["title"],
-                "summary": summary,
-                "goal_note": goal_note,
-                "url": item["url"],
-                "article_id": article_id,
-                "display_category": display_category,
-                "source_type": item.get("source_type"),
-            }
-        )
+        row = {
+            "title": item["title"],
+            "summary": summary,
+            "goal_note": goal_note,
+            "url": item["url"],
+            "article_id": article_id,
+            "display_category": display_category,
+            "source_type": item.get("source_type"),
+            "digest_slot": slot,
+        }
+        processed_by_source.setdefault(item["source_name"], []).append(row)
+        delivered_items.append(row)
 
         if summarized_count >= MAX_VIDEOS_PER_RUN:
             break
@@ -780,13 +787,34 @@ def main():
         # DB 書き込み失敗はメール配信を止めない (best effort)。
         log.warning("update_edition_meta failed: %s", exc)
 
-    # スキップ件数を footer で透明性表示する (#12 Phase 1)。
-    # 字幕不足 / Claude による短文 reject の合計。詳細区別は今回はしない。
+    english_practice_block: EnglishPractice | None = None
+    anchor = pick_english_anchor(delivered_items)
+    if anchor is not None:
+        try:
+            english_practice_block = generate_english_practice(
+                claude,
+                anchor,
+                goal_focus.text,
+                goal_focus.project_slugs,
+            )
+            print(f"🗣️  English practice: {english_practice_block.prompt_line[:80]}...")
+        except Exception as exc:
+            log.warning("english practice generation failed: %s", exc)
+
+    english_for_email: dict | None = None
+    if english_practice_block is not None:
+        english_for_email = {
+            "prompt_line": english_practice_block.prompt_line,
+            "paste_request": english_practice_block.paste_request,
+            "article_title": english_practice_block.article_title,
+        }
+
     html = build_hibi_html(
         articles,
         date_str,
         skipped_count=skipped_count,
         standfirst=standfirst,
+        english_practice=english_for_email,
     )
     send_email(
         subject=format_subject(date_str, count=len(articles)),
