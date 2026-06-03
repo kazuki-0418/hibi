@@ -240,6 +240,78 @@ sources:
     why: テック業界のリアルタイム話題集約。
     url: https://news.ycombinator.com
 
+  - name: Lenny's Newsletter
+    type: rss
+    enabled: true
+    category: marketing
+    feed_url: https://www.lennysnewsletter.com/feed
+    why: プロダクト・グロースの定番ニュースレター。
+    url: https://www.lennysnewsletter.com
+
+  - name: Marketing Examples
+    type: rss
+    enabled: true
+    category: marketing
+    feed_url: https://marketingexamples.substack.com/feed
+    why: マーケティング施策の具体例と分解。
+    url: https://marketingexamples.com
+
+  - name: Demand Curve
+    type: rss
+    enabled: true
+    category: marketing
+    feed_url: https://www.demandcurve.com/blog/rss.xml
+    why: グロース・マーケの実践ノウハウ。
+    url: https://www.demandcurve.com/blog
+
+  - name: Indie Hackers (posts)
+    type: rss
+    enabled: true
+    category: startup
+    feed_url: https://feed.indiehackers.world/posts.rss
+    why: インディー開発者の投稿と議論（非公式 RSS ミラー）。
+    url: https://www.indiehackers.com
+
+  - name: OnStartups (Rob Walling)
+    type: rss
+    enabled: true
+    category: startup
+    feed_url: https://feeds.feedburner.com/OnStartups
+    why: スタートアップ運営・MicroConf 周辺の文章コンテンツ。
+    url: https://www.onstartups.com
+
+  - name: Rob Fitzpatrick
+    type: rss
+    enabled: true
+    category: startup
+    feed_url: https://robfitz.com/feed.xml
+    why: 顧客開発（The Mom Test）の一次執筆。
+    url: https://robfitz.com
+
+  - name: Product Talk (Teresa Torres)
+    type: rss
+    enabled: true
+    category: startup
+    feed_url: https://www.producttalk.org/feed/
+    why: 継続的顧客開発とプロダクトディスカバリー。
+    url: https://www.producttalk.org
+
+  - name: April Dunford
+    type: rss
+    enabled: true
+    category: startup
+    feed_url: https://aprildunford.substack.com/feed
+    why: ポジショニングと B2B プロダクト戦略。
+    url: https://aprildunford.substack.com
+
+  - name: Lobsters
+    type: rss
+    enabled: true
+    category: tech
+    feed_url: https://lobste.rs/rss
+    why: 実用テックのキュレーションと議論。
+    url: https://lobste.rs
+
 # ============================================================
 # apple_apps — Apple iTunes RSS (★1-4 customer reviews → voices)
 #

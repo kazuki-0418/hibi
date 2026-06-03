@@ -11,10 +11,10 @@ GitHub Actions（毎朝 UTC 13:00 = Vancouver 6:00 AM PDT）
        │    ├─ YouTube: YouTube Data API v3 → playlistItems.list（2 units/channel）
        │    └─ RSS: feedparser
        ├─ 候補をシャッフル → 先頭 MAX_ATTEMPTS 本を試行プール化
-       ├─ 本文取得
-       │    ├─ YouTube: youtube-transcript-api（WebShare proxy 経由）
-       │    └─ RSS: trafilatura（本文抽出 + robots.txt 尊重）
-       ├─ Claude Haiku 4.5（日本語3行要約、要約不能時は空文字返却）
+       ├─ 本文取得・配信
+       │    ├─ YouTube: メタデータのみ（新着動画はタイトル + リンク、要約なし）
+       │    └─ RSS: trafilatura（本文抽出 + robots.txt 尊重）→ Claude 要約
+       ├─ Claude Haiku 4.5（RSS 本文の日本語3行要約、要約不能時は空文字返却）
        └─ Gmail API（OAuth2）→ 受信トレイへ配信（目標 5 本）
 ```
 
