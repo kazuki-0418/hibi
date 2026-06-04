@@ -78,6 +78,17 @@ EN_PASTE_STYLE = (
 EN_PASTE_BOX_STYLE = (
     "margin-top:8px;padding:14px 16px;border:1px solid #E8E6E1;background:#FFFFFF;"
 )
+LINK_ONLY_LABEL = "新着動画"
+LINK_LEAD_STYLE = (
+    f"font-family:{FONT_JP};font-size:14px;line-height:1.6;color:#5C5A57;margin:0 0 14px;"
+)
+
+
+def _is_link_only_article(article: dict) -> bool:
+    """True when digest has no summary body (KAZ-200 YouTube / KAZ-201 RSS)."""
+    if article.get("link_only"):
+        return True
+    return article.get("summary") is None
 
 
 def _english_practice_html(practice: dict | None) -> str:
@@ -112,31 +123,46 @@ def _story_html(index: int, article: dict, is_last: bool) -> str:
     containing `&`, `<`, `>`, or a stray `"` can't corrupt the rendered Gmail
     body or break the anchor `href`. URLs go through `quote=True` so quotes
     inside an href are neutralized.
+
+    Link-only articles (``summary is None``) render without summary blocks
+    (KAZ-205).
     """
-    title = html.escape(article.get("title", ""))
-    url = html.escape(article.get("url", "#"), quote=True)
-    summary = html.escape(article.get("summary", ""))
-    learning = html.escape(article.get("learning", ""))
-    practical = html.escape(article.get("practical_application", ""))
-    category = html.escape(article.get("category") or "News")
+    title = html.escape(article.get("title") or "")
+    url = html.escape(article.get("url") or "#", quote=True)
     source_name = html.escape(article.get("source") or article.get("source_name") or "")
     source_type = html.escape(article.get("source_type") or "")
 
-    # Meta line: CATEGORY · SOURCE_TYPE (caps), no emoji, no pill backgrounds.
+    if _is_link_only_article(article):
+        category = html.escape(LINK_ONLY_LABEL)
+    else:
+        category = html.escape(article.get("category") or "News")
+
     meta_parts: list[str] = [f'<span style="{META_CAT_STYLE}">{category}</span>']
     if source_type:
         meta_parts.append(f'<span style="{META_SEP_STYLE}">·</span>')
         meta_parts.append(f"<span>{source_type}</span>")
     meta_html = "".join(meta_parts)
 
-    body_parts: list[str] = []
-    if summary:
-        body_parts.append(f'<p class="hb-story-p" style="{P_STYLE}">{summary}</p>')
-    if learning:
-        body_parts.append(f'<p class="hb-story-p" style="{P_STYLE}">{learning}</p>')
-    if practical:
-        body_parts.append(f'<p class="hb-story-p" style="{P_STYLE}">{practical}</p>')
-    body_html = "".join(body_parts)
+    if _is_link_only_article(article):
+        src_label = source_name or "Source"
+        body_html = (
+            f'<p class="hb-story-link-lead" style="{LINK_LEAD_STYLE}">'
+            f'要約なし。<a href="{url}" style="{SRC_LINK_STYLE}">{src_label}</a>'
+            "で視聴・閲覧できる。"
+            "</p>"
+        )
+    else:
+        summary = html.escape(article.get("summary") or "")
+        learning = html.escape(article.get("learning") or "")
+        practical = html.escape(article.get("practical_application") or "")
+        body_parts: list[str] = []
+        if summary:
+            body_parts.append(f'<p class="hb-story-p" style="{P_STYLE}">{summary}</p>')
+        if learning:
+            body_parts.append(f'<p class="hb-story-p" style="{P_STYLE}">{learning}</p>')
+        if practical:
+            body_parts.append(f'<p class="hb-story-p" style="{P_STYLE}">{practical}</p>')
+        body_html = "".join(body_parts)
 
     src_label = source_name or "Source"
     src_html = (
