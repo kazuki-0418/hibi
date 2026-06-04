@@ -20,12 +20,51 @@ def test_build_paste_request_includes_naturalness_instruction() -> None:
         "In English: react to the story. （まず声に出してから書く。）",
         article_title="Test Article",
         article_summary="要約本文。",
-        goal_snippet="Project: hibi",
     )
     assert "natural English" in paste
     assert "not grammar nitpicking" in paste
     assert "spoke my thoughts aloud" in paste
     assert "Test Article" in paste
+
+
+def test_build_paste_request_excludes_goal_context() -> None:
+    paste = ep.build_paste_request(
+        "In English: react. （まず声に出してから書く。）",
+        article_title="Test Article",
+        article_summary="要約本文。",
+    )
+    assert "My current project focus" not in paste
+    assert "Gemini / GPT-4o-mini" not in paste
+
+
+def test_generate_english_practice_paste_omits_internal_goal_text(
+    monkeypatch,
+) -> None:
+    class FakeBlock:
+        def __init__(self, text: str) -> None:
+            self.text = text
+
+    class FakeResponse:
+        def __init__(self, text: str) -> None:
+            self.content = [FakeBlock(text)]
+
+    class FakeMessages:
+        def create(self, **_kwargs):
+            return FakeResponse("{}")
+
+    class FakeClient:
+        messages = FakeMessages()
+
+    secret = "INTERNAL: China API vendor lock-in decision must not leak"
+    anchor = {"title": "Story", "summary": "・要点。"}
+    result = ep.generate_english_practice(
+        FakeClient(),
+        anchor,
+        goal_focus_text=secret,
+        project_slugs=("monogatari",),
+    )
+    assert secret not in result.paste_request
+    assert "My current project focus" not in result.paste_request
 
 
 def test_generate_english_practice_uses_claude_json(monkeypatch) -> None:

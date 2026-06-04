@@ -44,17 +44,18 @@ def build_paste_request(
     *,
     article_title: str,
     article_summary: str | None,
-    goal_snippet: str,
 ) -> str:
-    """Deterministic Claude paste block (naturalness > grammar, speak-first)."""
+    """Deterministic Claude paste block (naturalness > grammar, speak-first).
+
+    Intentionally excludes Obsidian goal / conditioning text (KAZ-209). The
+    visible email paste block must not leak decisions/strategy/status; goal
+    context is for internal prompt_line generation only.
+    """
     summary_text = (article_summary or "").strip()
     if not summary_text:
         summary_text = "(No summary — react to the title and your own take.)"
     else:
         summary_text = summary_text[:PASTE_SUMMARY_LIMIT]
-
-    goal_text = goal_snippet.strip() or "(No project focus loaded today.)"
-    goal_text = goal_text[:GOAL_SNIPPET_LIMIT]
 
     return (
         "Please help me write a short response in natural English.\n"
@@ -67,10 +68,7 @@ def build_paste_request(
         "---\n"
         f"Article title: {article_title}\n\n"
         "Digest context (may be Japanese):\n"
-        f"{summary_text}\n\n"
-        "---\n"
-        "My current project focus (for relevance only):\n"
-        f"{goal_text}\n"
+        f"{summary_text}\n"
     )
 
 
@@ -136,7 +134,6 @@ Return ONLY JSON:
         prompt_line,
         article_title=title,
         article_summary=summary,
-        goal_snippet=goal_snippet,
     )
     return EnglishPractice(
         prompt_line=prompt_line,
