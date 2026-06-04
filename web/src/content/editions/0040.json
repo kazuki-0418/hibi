@@ -1,8 +1,8 @@
 {
   "issue_no": 40,
   "date": "2026-06-04",
-  "standfirst": "今朝の5本。AI が専門職の役割を細分化し、人間の判断が各層で問われている。",
-  "daily_title": "AI と専門性、その共存の形",
+  "standfirst": "今朝の5本。デジタル領域で専門性と実装が問われる局面が続く。",
+  "daily_title": "専門家登用、AI開発の実践、収益化の課題が並ぶ",
   "sources_scanned": [
     {
       "kind": "YouTube",
@@ -240,6 +240,46 @@
       "category": "indie-hacker",
       "source": "MicroConf",
       "source_type": "youtube"
+    },
+    {
+      "title": "🧠 Community Wisdom: Best AI cold outreach app, advice for college students interested in PM, the state of AI in design, the relevance of QA in 2026, and more",
+      "url": "https://www.lennysnewsletter.com/p/community-wisdom-best-ai-cold-outreach",
+      "summary": null,
+      "category": "marketing",
+      "source": "Lenny's Newsletter",
+      "source_type": "rss"
+    },
+    {
+      "title": "Summer of CCNA - 90 Minute - Session 2",
+      "url": "https://www.youtube.com/watch?v=GVlq6lATZ2M",
+      "summary": null,
+      "category": "tech",
+      "source": "NetworkChuck",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Welcome New EFF Executive Director Nicole Ozer",
+      "url": "https://www.eff.org/deeplinks/2026/05/welcome-new-eff-executive-director-nicole-ozer",
+      "summary": "・電子フロンティア財団（EFF）の新しいエグゼクティブディレクターとしてニコール・オゼル氏が就任した。\n・オゼル氏はプライバシー・監視・AI・デジタル言論の法律専門家で、カリフォルニアの電子通信プライバシー法やリーダープライバシー法の制定に尽力し、監視システムの民主的監視モデル法を創出して全米25州の法制に影響を与えた実績を持つ。\n・前任のシンディ・コーン氏は25年以上EFFに携わったが、今月退任し政府を訴える弁護活動に戻る予定である。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "Building an iPhone app with zero technical skills | Bryce Rattner Keithley",
+      "url": "https://www.lennysnewsletter.com/p/building-an-iphone-app-with-zero",
+      "summary": "・非開発者がReplit・Claude・Geminiを組み合わせ、AIビデオ生成フィットネスアプリ「Daily Hundred」をAppStoreに出荷した事例を紹介。\n・Claude をアーキテクト、Claude Code をエンジニア役として活用し、プロンプトの「超字句的正確性」と初心者マインドセットが AI ツール活用の効率性を高めることを実証。\n・Replit での開発、静止画から動画への段階的な技術移行、App Store 審査フィードバック対応、ユーザーフィードバック活用の実装フロー。",
+      "category": "marketing",
+      "source": "Lenny's Newsletter",
+      "source_type": "rss"
+    },
+    {
+      "title": "40 Days After Launch: 200+ Daily Active Users, But $0 Revenue",
+      "url": "https://feed.indiehackers.world/post/2346836236",
+      "summary": "・AI ゲーム制作プラットフォーム SoonLab は 40日で 200 DAU を達成したが、収益化実績はゼロ。\n・ユーザー活動と支払い意思は別問題であり、最初のペイウォールは「好奇心」ではなく「実用的な出力」（公開・エクスポート・保存など）に紐付けるべきと複数の実務家が指摘。\n・根本的には、単発ゲーム遊技者と継続的にゲーム構築・共有する創作者セグメントを分離し、後者に対してのみ有料機能をテストすることが先決。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
     }
   ]
 }
