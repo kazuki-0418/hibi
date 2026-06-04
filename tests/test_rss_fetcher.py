@@ -48,3 +48,23 @@ def test_trafilatura_config_sets_user_agent() -> None:
     rss._cached_trafilatura_config = None
     config = rss._trafilatura_config()
     assert config.get("DEFAULT", "USER_AGENT") == rss.USER_AGENT
+
+
+def test_parse_feed_uses_pipeline_user_agent() -> None:
+    mock_feed = MagicMock()
+    mock_feed.bozo = False
+    mock_feed.entries = []
+    with patch.object(rss.feedparser, "parse", return_value=mock_feed) as mock_parse:
+        rss.parse_feed("https://example.com/feed")
+    mock_parse.assert_called_once_with(
+        "https://example.com/feed",
+        agent=rss.USER_AGENT,
+    )
+
+
+def test_fetch_recent_items_uses_parse_feed() -> None:
+    source = {"name": "Test", "feed_url": "https://example.com/feed"}
+    with patch.object(rss, "parse_feed") as mock_parse:
+        mock_parse.return_value = MagicMock(bozo=False, entries=[])
+        rss.fetch_recent_items(source, 3)
+    mock_parse.assert_called_once_with("https://example.com/feed")

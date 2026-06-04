@@ -9,9 +9,15 @@
 """
 
 import sys
+from pathlib import Path
 
-import feedparser
 import yaml
+
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+
+from fetchers.rss import parse_feed
 
 
 def verify_feeds(yaml_path: str) -> int:
@@ -30,7 +36,7 @@ def verify_feeds(yaml_path: str) -> int:
             failures += 1
             continue
 
-        feed = feedparser.parse(feed_url)
+        feed = parse_feed(feed_url)
         entry_count = len(feed.entries) if feed.entries else 0
         if feed.bozo and not feed.entries:
             exc = getattr(feed, "bozo_exception", "parse error")

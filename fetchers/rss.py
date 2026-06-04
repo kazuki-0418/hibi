@@ -47,9 +47,19 @@ def _iso_from_struct_time(t: struct_time | None) -> str:
     return datetime.fromtimestamp(mktime(t), tz=timezone.utc).isoformat()
 
 
+def parse_feed(feed_url: str):
+    """Parse an RSS/Atom feed with the pipeline User-Agent (KAZ-207).
+
+    Substack and Cloudflare often return 403 + HTML to the default
+    ``Python-urllib/*`` agent feedparser would use, which surfaces as
+    ``not well-formed (invalid token)`` XML parse errors.
+    """
+    return feedparser.parse(feed_url, agent=USER_AGENT)
+
+
 def fetch_recent_items(source: dict, max_results: int) -> list[dict]:
     """Return the latest entries for an RSS source."""
-    feed = feedparser.parse(source["feed_url"])
+    feed = parse_feed(source["feed_url"])
     if feed.bozo and not feed.entries:
         reason = getattr(feed, "bozo_exception", "unknown")
         print(f"  ⚠️  Failed to parse feed {source['feed_url']}: {reason}")
