@@ -20,12 +20,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Goal conditioning (KAZ-202 / KAZ-204 / KAZ-206): sparse clone of the private
+      # Obsidian vault. Requires OBSIDIAN_VAULT_PAT (read-only) in repo secrets.
+      # See docs/obsidian-vault-ci.md.
+      - name: Checkout Obsidian vault (sparse)
+        uses: actions/checkout@v4
+        with:
+          repository: kazuki-0418/Obsidan-workspace
+          token: ${{ secrets.OBSIDIAN_VAULT_PAT }}
+          path: obsidian-vault
+          sparse-checkout: |
+            10_projects/monogatari
+            10_projects/roamlore
+            30_raw/hibi
+          sparse-checkout-cone-mode: true
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: "pip"
 
       - run: pip install -r requirements.txt
+
+      - name: Verify vault goal-conditioning paths
+        run: python scripts/verify_vault_goal_paths.py
+        env:
+          OBSIDIAN_VAULT_ROOT: ${{ github.workspace }}/obsidian-vault
 
       - run: python daily_news.py
         env:
@@ -48,8 +68,8 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           HIBI_RELEASE: ${{ github.sha }}
           HIBI_ENV: production
-          # Goal-conditioned ranking (KAZ-202): skip vault when unset in CI.
-          HIBI_GOALS_OPTIONAL: "1"
+          # Obsidian vault for goal / subject conditioning (KAZ-206).
+          OBSIDIAN_VAULT_ROOT: ${{ github.workspace }}/obsidian-vault
 
       # Dump editions from Neon → JSON files Astro reads at build time.
       # Idempotent overwrite; no-op if no editions changed.
