@@ -1,0 +1,205 @@
+{
+  "issue_no": 40,
+  "date": "2026-06-04",
+  "standfirst": "今朝の5本。AI が自律実行、手書き文字データの可視化、技術職での活用スキルが浮上する中、人間の役割は指示から監視へ変わりつつある。",
+  "daily_title": "AI 自律化とデータ可視化が映す人間の役割の再定義",
+  "sources_scanned": [
+    {
+      "kind": "YouTube",
+      "name": "NetworkChuck",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Web Dev Simplified",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Y Combinator",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "This Week in Startups",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Jack Herrington",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Hussein Nasser",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ahrefs",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Mayuko",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Engineering with Utsav",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Modern Software Engineering",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ArjanCodes",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Dave2D",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "ShortCircuit",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "MicroConf",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Rob Walling",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Marc Lou",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Ali Abdaal",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Thomas Frank",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lex Fridman",
+      "fetched_count": 15
+    },
+    {
+      "kind": "YouTube",
+      "name": "Lenny's Podcast",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "The Codex feature that works while you sleep",
+      "url": "https://www.lennysnewsletter.com/p/the-codex-feature-that-works-while",
+      "summary": "・Codex の /goal コマンドは AI を単発の質問応答から複数ステップの自律実行タスクへ変換し、ユーザーが継続的なプロンプト入力なしに数時間の処理を委譲できる機能である。\n・効果的な Goal は測定可能な成果、検証方法、制約条件を含む6要素で構成され、エラーログの大量削除、メール整理、プロジェクト管理のタスク統合など技術・非技術領域で実証されている。\n・Goal は従来の「モデルに指示を与え続ける」ワークフローから「自律エージェントを監視・管理する」モデルへの根本的な転換を示唆し、ユースケースに応じて活用と不適用の判断が必要とされる。",
+      "category": "marketing",
+      "source": "Lenny's Newsletter",
+      "source_type": "rss"
+    },
+    {
+      "title": "Mean Hand",
+      "url": "https://portfolio.anna-zhang.com/projects/mean-hand",
+      "summary": "・Mean Hand は 1990 年代に米国勢調査局が国勢調査票自動処理用に収集した 814,255 件の手書き文字サンプルから構築されたフォントである。\n・複数のサンプルを積層し閾値を設定することで文字を生成する仕組みで、閾値の高さによって字重が変わり、極端な設定ではいずれも読みにくくなる。\n・EMNIST データセット（手書き認識システムの学習・評価ベンチマーク）が合法性の基準を定義することで、誰の筆跡が認識されるかを形作る効果が、可視化されたフォントとして公開された。",
+      "category": "tech",
+      "source": "Lobsters",
+      "source_type": "rss"
+    },
+    {
+      "title": "Imagine paying only $0.20 per delivery. This company wants to accomplish this!",
+      "url": "https://www.youtube.com/watch?v=htd6GDh5vJ4",
+      "summary": null,
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
+    },
+    {
+      "title": "Why Claude Skills Are Becoming Important for Tech Careers",
+      "url": "https://feed.indiehackers.world/post/9c531f1f66",
+      "summary": "・AI ツール Claude は技術職における生産性向上（ドキュメント読解・コード確認・技術文書作成）の手段として業界で採用が進み、企業は Claude 活用スキルを求める人材を評価している。\n・Claude の有効性は「プロンプト設計・出力検証・結果の適切な応用」という利用者側のスキルに依存し、AI が人間の技術知識を置き換えるのではなく補完する立場にある。\n・開発者・クラウド技術者・セキュリティ学習者は Claude によるコード説明・概念の簡潔化・学習計画の構造化に活用しており、認証試験対策では AI による「なぜ」の説明と従来の練習問題による「方法」の習得を組み合わせることが効果的である。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "The Intention Paradox",
+      "url": "https://www.youtube.com/watch?v=QMAYW0jSYjY",
+      "summary": null,
+      "category": "productivity",
+      "source": "Ali Abdaal",
+      "source_type": "youtube"
+    }
+  ]
+}

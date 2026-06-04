@@ -1,8 +1,8 @@
 {
   "issue_no": 39,
   "date": "2026-06-03",
-  "standfirst": "今朝の5本。技術進化と経済の再編により、起業から自由、そして制約へと向かう人間の選択が可視化されている。",
-  "daily_title": "起業障壁は低下、自由は通貨へ、メモリは高騰",
+  "standfirst": "今朝の5本。AIツールの選別が進み、技術がもたらす孤立と地域への問い直しが静かに広がっている。",
+  "daily_title": "AIの実用化と技術への問い直しが並行している",
   "sources_scanned": [
     {
       "kind": "YouTube",
@@ -113,6 +113,51 @@
       "kind": "RSS",
       "name": "Hacker News (Front Page)",
       "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
     }
   ],
   "articles": [
@@ -155,6 +200,46 @@
       "category": "tech-news",
       "source": "Hacker News (Front Page)",
       "source_type": "rss"
+    },
+    {
+      "title": "Which AI agents do you still use every week, and which ones faded out?",
+      "url": "https://feed.indiehackers.world/post/69e6bccd5b",
+      "summary": "・開発者のAIツール利用は数ヶ月で大きく変わり、Claudeは長文や構造的な作業、ChatGPTは迅速な思考や日常業務で定着している一方、多くのツールは習慣化せずに使用から消えている。\n・ツールの継続利用を決める要因はベンチマークではなく、既存ワークフローへの組み込みの容易さであり、新たな習慣を要求するツールは長続きしない。\n・EvoLinkの提案する課題は単一API経由のモデルアクセスではなく、タスクの種類に応じてどのモデルを使うべきかを判断する「ルーティング」層の提供にある。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Is Technology Good? - All Things Product Podcast with Teresa Torres & Petra Wille",
+      "url": "https://www.producttalk.org/is-technology-good-all-things-product-podcast-with-teresa-torres-petra-wille/",
+      "summary": "・テクノロジー業界の従事者らが、インターネット、ソーシャルメディア、AIの開発が社会にもたらした負の側面について検証し、営利追求が人間関係の孤立化をもたらしたと指摘している。\n・技術者のエコーチェンバーから抜け出し、業界外の視点を取り入れることの重要性と、シェアホルダーではなくコミュニティに奉仕する「ママ&パパテック」というハイパーローカルなアプローチの可能性を提示している。\n・プロダクト開発における個人の選択と責任が未来を左右する要素であり、人間的なつながりと地域コミュニティは自動化できない価値として存続することを示唆している。",
+      "category": "startup",
+      "source": "Product Talk (Teresa Torres)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Gemini Omni: Clone yourself with AI in under 15 minutes",
+      "url": "https://www.lennysnewsletter.com/p/gemini-omni-clone-yourself-with-ai",
+      "summary": "・Google FlowとGemini Omniを用いて、顔スキャンから一分間の完成動画まで約15分で自身のAIアバター生成プロセスを実施した。\n・AIアバターの作成、複数シーンの生成、キャラクター一貫性の維持、ブラウザベースのエディタでの編集といった技術的ワークフローを段階的に解説している。\n・感情表現や物理演算の不正確さなど、現在のAI動画生成モデルの限界と実用的な課題が報告されている。",
+      "category": "marketing",
+      "source": "Lenny's Newsletter",
+      "source_type": "rss"
+    },
+    {
+      "title": "I documented my SaaS journey to $20K MRR",
+      "url": "https://www.youtube.com/watch?v=UTjU_30SHIo",
+      "summary": null,
+      "category": "indie-hacker",
+      "source": "Marc Lou",
+      "source_type": "youtube"
+    },
+    {
+      "title": "You were always on your own.",
+      "url": "https://www.youtube.com/watch?v=MjHS-yjlIh0",
+      "summary": null,
+      "category": "startup",
+      "source": "This Week in Startups",
+      "source_type": "youtube"
     }
   ]
 }
