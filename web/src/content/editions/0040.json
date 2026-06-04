@@ -1,8 +1,8 @@
 {
   "issue_no": 40,
   "date": "2026-06-04",
-  "standfirst": "今朝の5本。AI が自律実行、手書き文字データの可視化、技術職での活用スキルが浮上する中、人間の役割は指示から監視へ変わりつつある。",
-  "daily_title": "AI 自律化とデータ可視化が映す人間の役割の再定義",
+  "standfirst": "今朝の5本。AI が専門職の役割を細分化し、人間の判断が各層で問われている。",
+  "daily_title": "AI と専門性、その共存の形",
   "sources_scanned": [
     {
       "kind": "YouTube",
@@ -199,6 +199,46 @@
       "summary": null,
       "category": "productivity",
       "source": "Ali Abdaal",
+      "source_type": "youtube"
+    },
+    {
+      "title": "🎙️ How I AI: Codex Goals explained & Claude Opus 4.8 review & Building an iPhone app with zero technical skills",
+      "url": "https://www.lennysnewsletter.com/p/how-i-ai-codex-goals-explained-and",
+      "summary": "・非技術背景の開発者がClaude・Replit・Geminiを組み合わせてiOSアプリをApp Store公開した事例から、AIが「建築家・エンジニア・実行者」の三層役割分担を実現し、スクリーンショットと反復がデバッグの鍵となることが示された。\n・Codexの/goal機能は数時間の自律実行を可能にし、プロンプトではなく「望ましい状態の記述」として機能することで、メールクリーニングやエラー修正など非技術タスクでも効果を発揮する。\n・Claude Opus 4.8はグリーンフィールドプロトタイプと設計に優れ字句効率が高い一方、既存コードベースへの統合・戦略分析・複雑なデバッグで幻覚と方向感覚の欠落を示し、本番運用では慎重な検証が必須である。",
+      "category": "marketing",
+      "source": "Lenny's Newsletter",
+      "source_type": "rss"
+    },
+    {
+      "title": "A Man Who Reads Books for a Living (One Every Two Days)",
+      "url": "https://lithub.com/the-man-who-reads-books-for-a-living-one-every-two-days/",
+      "summary": "・Clarke Speicher は専門職の書籍評論家で、映画化適性を判断するため週6冊のペースで読書し、制作会社に「カバレッジ」と呼ぶ詳細な評価レポートを提供している。\n・適応可能性の判断基準は、書籍の核となる「フック」（一文で要約可能な本質的アイデア）の有無、視覚的に動的に描写できる登場人物、そして映画化時に画面で機能するストーリー要素の存在である。\n・文学的価値の高さと映画化の成功は必ずしも相関せず、厳密な原作への忠実性よりも独立した作品として成立することが重要であり、成功した映画化は原作から自由な改変をしばしば伴う。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Embryos shape their limbs: a key discovery of \"genetic brakes\"",
+      "url": "https://nouvelles.umontreal.ca/en/article/2026/06/02/how-embryos-shape-their-limbs-a-key-discovery-of-genetic-brakes",
+      "summary": "・カナダの研究チームが、胚の四肢形成を制御する「遺伝的ブレーキ」となるPolycomb複合体（PRC1・PRC2）の役割を解明した。\n・初期段階で活性化した遺伝子は、次の発生段階へ移行するため迅速に消去される必要があり、この二つのタンパク質グループがその沈黙化を協調制御する。\n・マウス実験で、いずれかのシステムの破損でも遺伝子発現異常が生じ、両者が同時に機能しなくなると初期遺伝子が活性のままとなり四肢形成が著しく阻害される。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "I shipped three fixes to my product in seven days. All three came from readers.",
+      "url": "https://feed.indiehackers.world/post/3aa25a9e0b",
+      "summary": "・著者が自社の検証ツール MonetScope を自らのツールで検証した結果「PIVOT 68%」という判定を得た後、読者からの3つの異なるフィードバック（WTP測定方式の改善、ユーザーが結果後に行動できない UX 問題、ランディングページが 2 つのモード中 1 つのみ表示）に基づいて 7 日間で 3 つの修正をリリースした。\n・最初の修正は WTP 検出ロジックに 23 の代替フレーズを追加し、再検証で信頼度が 68% から 75% に上昇。2 番目の修正はレポートをメール配信する機能を追加し、タブクローズ後も ユーザーが Playbook にアクセス可能にした。3 番目の修正はランディングページの表現を「opportunities」から「validated pain signals」に統一し、Monitor モード（30 日間トラッキング）を明示的に商品化した。\n・3 つの修正後も PIVOT は 75% のままで、根本的な市場真実（WTP 密度）は変わらず、修正はポジショニング・方法論・UX レイヤーに留まった。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Zero-Click Marketing: How Founders Win When Google, Social & LLMs Stop Sending Traffic",
+      "url": "https://www.youtube.com/watch?v=W5A0xcy0KXg",
+      "summary": null,
+      "category": "indie-hacker",
+      "source": "MicroConf",
       "source_type": "youtube"
     }
   ]
