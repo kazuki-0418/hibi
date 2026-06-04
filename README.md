@@ -45,6 +45,8 @@ pip install -r requirements.txt
 | `GMAIL_REFRESH_TOKEN` | Gmail 送信用 refresh token |
 | `RECIPIENT_EMAIL` | 配信先メールアドレス |
 | `DATABASE_URL` | Neon PostgreSQL の pooled connection string |
+| `OPENAI_API_KEY` | Goal / subject embedding ranking（任意だが本番推奨） |
+| `OBSIDIAN_VAULT_PAT` | **Actions のみ** — private vault `Obsidan-workspace` の read-only PAT（[docs/obsidian-vault-ci.md](docs/obsidian-vault-ci.md)） |
 
 > **Gmail OAuth2 の取得:** Google Cloud Console で Gmail API を有効化し、OAuth2 認証フローで refresh_token を取得。
 
@@ -57,8 +59,8 @@ python daily_news.py
 
 ### 4. GitHub Actions による自動化
 
-1. リポジトリの **Settings → Secrets and variables → Actions** に上記6変数を登録
-2. `.github/workflows/daily_news.yml` が毎朝 UTC 13:00 に自動実行
+1. リポジトリの **Settings → Secrets and variables → Actions** に上記変数を登録（`OBSIDIAN_VAULT_PAT` 含む）
+2. `.github/workflows/daily-news.yml` が毎朝 UTC 13:17 に自動実行
 3. **Actions タブ → Daily News → Run workflow** で手動実行も可能
 
 ## Neon PostgreSQL セットアップ

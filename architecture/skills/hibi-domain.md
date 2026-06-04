@@ -17,6 +17,7 @@ Hibi の現行ドメイン事実を固定するスキル。
 - cold start: `clicks_in_30d < 5` では Obsidian active project の **goal centroid** でランキング（KAZ-202）。goal も無いときのみ純ランダム
 - digest v2 (KAZ-204): allowlist は `monogatari` / `roamlore` のみ（`hibi` 自身は対象外）。conditioning は各 `10_projects/<slug>/` の `decisions.md` + `strategy.md` + `status.md` を `goals.loader.read_active_note` で読む（`status: active` / `hibi-active: true` 必須、見出し完全一致セクションのみ、ファイル mtime 降順 + 8000字 cap）。**プロジェクト別 centroid**（クリック blend なし）。類似度 `< 0.28` は novelty レーン。有用記事は `30_raw/hibi/capture/`、digest 満杯時の novelty は `30_raw/hibi/inbox/`（1 件/日）。centroid は vault `.hibi/goal_centroid_cache.json` または `HIBI_GOAL_CACHE_DIR`
 - `goals.loader`（KAZ-202 fallback）も同一 allowlist + frontmatter + 見出し規約。6000字 cap 前にノート mtime 降順
+- 本番 Actions は `Obsidan-workspace` を sparse-checkout し `OBSIDIAN_VAULT_ROOT` を渡す（`OBSIDIAN_VAULT_PAT` secret）。`HIBI_GOALS_OPTIONAL=1` は本番 daily-news では使わない（[docs/obsidian-vault-ci.md](../../docs/obsidian-vault-ci.md)）
 - score 式: `sim × 0.7 × weight + rand() × (1 − 0.4 × weight)`、weight = `min(1, clicks_in_30d / 30)`
 - 現行の事実は以下のダイアグラムから確認する:
   - `architecture/diagrams/pipeline-flow.mmd`
