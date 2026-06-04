@@ -1,8 +1,8 @@
-import feedparser
+from fetchers.rss import parse_feed
 
 
 def fetch(feed_url: str, top_n: int, source_name: str) -> list[dict]:
-    feed = feedparser.parse(feed_url)
+    feed = parse_feed(feed_url)
     articles = []
     for entry in feed.entries[:top_n]:
         articles.append({
