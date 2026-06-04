@@ -866,6 +866,7 @@ def main():
             "source_name": item["source_name"],
             "digest_slot": slot,
             "target_project": item.get("target_project"),
+            "link_only": link_only,
         }
         processed_by_source.setdefault(item["source_name"], []).append(row)
         delivered_items.append(row)
