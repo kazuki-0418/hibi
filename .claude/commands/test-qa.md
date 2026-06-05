@@ -79,7 +79,7 @@
 
 変更が触っていない既存フローへの間接影響を挙げる:
 
-- 共有 fetcher（`fetchers/youtube.py` / `fetchers/rss.py`）を利用する他経路
+- 共有 fetcher（`fetchers/rss.py`）を利用する他経路
 - `db.py` の関数を共有する Stage 間
 - `sources.yaml` の構造変更が全 fetcher に波及するか
 - `articles` スキーマ変更が click endpoint と batch 両方に波及するか
@@ -118,5 +118,5 @@
 
 - 各項目は 1〜2 行
 - 該当しないセクションは省略する
-- 既存テストのパスを示せる場合は示す（例: `tests/fetchers/test_youtube.py`）
+- 既存テストのパスを示せる場合は示す（例: `tests/test_rss_fetcher.py`）
 - `Recommendation` はモードに応じて選ぶ（pre なら ready/needs、post なら ready/add）

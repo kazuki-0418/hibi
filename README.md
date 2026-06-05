@@ -1,26 +1,22 @@
 # Personal AI Newspaper
 
-毎朝 YouTube の技術チャンネルと RSS フィードから最新コンテンツを取得し、Claude が日本語で要約して Gmail に配信するパーソナルニュースレター。
+毎朝 RSS フィードから最新記事を取得し、Claude が日本語で要約して Gmail に配信するパーソナルニュースレター。
 
 ## フロー
 
 ```
-GitHub Actions（毎朝 UTC 13:00 = Vancouver 6:00 AM PDT）
+GitHub Actions（毎朝 UTC 13:17 = Vancouver 6:17 AM PDT）
   └─ daily_news.py
-       ├─ sources.yaml で定義した全ソースから並列にメタデータを取得
-       │    ├─ YouTube: YouTube Data API v3 → playlistItems.list（2 units/channel）
-       │    └─ RSS: feedparser
-       ├─ 候補をシャッフル → 先頭 MAX_ATTEMPTS 本を試行プール化
-       ├─ 本文取得・配信
-       │    ├─ YouTube: メタデータのみ（新着動画はタイトル + リンク、要約なし）
-       │    └─ RSS: trafilatura（本文抽出 + robots.txt 尊重）→ Claude 要約
-       ├─ Claude Haiku 4.5（RSS 本文の日本語3行要約、要約不能時は空文字返却）
+       ├─ sources.yaml で定義した RSS ソースからメタデータを取得（feedparser）
+       ├─ 候補をランキング → digest plan → 試行プール化
+       ├─ 本文取得（trafilatura + robots.txt 尊重）→ Claude 要約
+       ├─ 本文不足時は link-only（要約なし）
        └─ Gmail API（OAuth2）→ 受信トレイへ配信（目標 5 本）
 ```
 
 ## ソース設定
 
-`sources.yaml` でソースを追加・削除できます。`type: youtube` と `type: rss` の 2 種類をサポート。
+`sources.yaml` で `type: rss` ソースを追加・削除できます。新規 feed は `scripts/verify_feeds.py` で検証してください。
 
 ## セットアップ
 
@@ -34,12 +30,11 @@ pip install -r requirements.txt
 
 ### 2. 環境変数の設定
 
-以下の6つを `.env`（ローカル実行時）または GitHub Secrets（Actions 実行時）に設定：
+以下を `.env`（ローカル実行時）または GitHub Secrets（Actions 実行時）に設定：
 
 | 変数名 | 説明 |
 |---|---|
 | `ANTHROPIC_API_KEY` | Anthropic API キー |
-| `YOUTUBE_API_KEY` | YouTube Data API v3 キー |
 | `GMAIL_CLIENT_ID` | Google OAuth2 クライアント ID |
 | `GMAIL_CLIENT_SECRET` | Google OAuth2 クライアントシークレット |
 | `GMAIL_REFRESH_TOKEN` | Gmail 送信用 refresh token |
@@ -84,8 +79,7 @@ python scripts/test_neon_connection.py
 
 | サービス | コスト |
 |---|---|
-| Claude Haiku 4.5 | 約 $0.02 / 日（9動画 × 15,000 chars。Sonnet 比 約 1/3）|
-| YouTube Data API v3 | 無料枠内（約 60 units / 日、上限 10,000） |
+| Claude Haiku 4.5 | 約 $0.02 / 日（5 本 × RSS 本文上限） |
 | Gmail API | 無料 |
 
 ## Idea mining
@@ -94,4 +88,4 @@ python scripts/test_neon_connection.py
 
 ## 法的ポジショニング
 
-Hibi は **kazuki 単独購読の private newspaper** として運用中。Perplexity 訴訟 (2025-08 提訴、東京地裁係属中) の含意で **商用化 / 第三者配信 / OSS 配布は保留**。判決後に再評価する。詳細と再開シグナルは [`docs/legal-posture.md`](docs/legal-posture.md) を参照。
+[`docs/legal-posture.md`](docs/legal-posture.md) を参照。

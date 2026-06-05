@@ -26,10 +26,8 @@ OUTPUT_PATH = REPO_ROOT / "web" / "src" / "data" / "sources.json"
 
 
 def _kind_of(source: dict) -> str:
-    """sources.yaml の `type` (youtube/rss) を UI 表示用の "YouTube" / "RSS" に正規化。"""
+    """sources.yaml の `type` を UI 表示用ラベルに正規化（digest は RSS-only）。"""
     raw = str(source.get("type", "")).lower()
-    if raw == "youtube":
-        return "YouTube"
     if raw == "rss":
         return "RSS"
     return raw.upper() or "Other"
@@ -62,10 +60,9 @@ def main() -> int:
 
     payload = [_to_payload_entry(s) for s in enabled]
 
-    youtube_count = sum(1 for p in payload if p["kind"] == "YouTube")
     rss_count = sum(1 for p in payload if p["kind"] == "RSS")
 
-    print(f"Sources (enabled): {len(payload)}  (YouTube={youtube_count}, RSS={rss_count})")
+    print(f"Sources (enabled): {len(payload)}  (RSS={rss_count})")
     print(f"Output path:       {OUTPUT_PATH}")
 
     if args.dry_run:

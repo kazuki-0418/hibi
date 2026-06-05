@@ -95,7 +95,7 @@ git diff --name-only <base>...HEAD   # <base> は「Base ブランチ判定」�
 
 - Pipeline 変更なし → `### Pipeline` を `N/A`
 - Schema 変更なし → `### Schema` を `N/A`、変更あり → migration apply status を必ず記載
-- Source config 変更なし → `### Sources` を `N/A`、変更あり → `verify_channels.py` 実行ログを記載
+- Source config 変更なし → `### Sources` を `N/A`、変更あり → `verify_feeds.py` 実行ログを記載
 - Architecture 変更なし → `## Architecture / Flow Diagram` セクションを省略
 - Architecture が変わった場合 → 変更タイプに応じた Mermaid ダイアグラムを挿入
 
@@ -156,7 +156,7 @@ gh pr create \
 # Sections Filled
 - Pipeline: <summary | N/A>
 - Schema: <summary + migration apply status | N/A>
-- Sources: <summary + verify_channels.py log | N/A>
+- Sources: <summary + verify_feeds.py log | N/A>
 - Architecture: <diagram type | omitted>
 - Workflow: <summary | N/A>
 
