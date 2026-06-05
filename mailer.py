@@ -85,7 +85,7 @@ LINK_LEAD_STYLE = (
 
 
 def _is_link_only_article(article: dict) -> bool:
-    """True when digest has no summary body (KAZ-200 YouTube / KAZ-201 RSS)."""
+    """True when digest has no summary body (KAZ-201 RSS link-only)."""
     if article.get("link_only"):
         return True
     return article.get("summary") is None

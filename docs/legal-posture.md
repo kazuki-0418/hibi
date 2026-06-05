@@ -42,7 +42,7 @@ Hibi の現在の法的状態と、進行中の Perplexity 訴訟 (2025-08 提�
 ### robots.txt / 要約抑止 (KAZ-201, 2026-06)
 
 - **#125 相当**: `fetchers/rss.py` が robots.txt を尊重。取得不能時は当該 origin の記事本文を fetch しない。
-- **#128 相当**: RSS で本文未取得・不確実時は Claude 要約を呼ばず link-only（`summary = NULL`、メールはタイトル + Source リンク）。YouTube も KAZ-200 以降同様。
+- **#128 相当**: RSS で本文未取得・不確実時は Claude 要約を呼ばず link-only（`summary = NULL`、メールはタイトル + Source リンク）。
 - README の「robots.txt 尊重」表記は上記実装と一致する。
 
 ## 4. 防衛 PR の位置づけ
@@ -54,7 +54,7 @@ epic #124 で 5 件の防衛 issue を起こした(2026-05-14、Hibi 着手前)�
 | #125 | `trafilatura` を robots.txt 尊重モードに変更 + User-Agent 明示 | **実装済** (KAZ-201: fail closed on robots fetch failure) |
 | #126 | paywall 記事 URL の自動検出と除外 | **保留** (paywall detection の精度トレードオフが未検証) |
 | #127 | `/copyright` ページ (出典ポリシー + 削除依頼窓口) | **保留** (公開ページ追加は商用化判断と紐づくため) |
-| #128 | 本文未取得 / 不確実時の AI 要約抑止 | **実装済** (KAZ-201: RSS link-only; YouTube は KAZ-200) |
+| #128 | 本文未取得 / 不確実時の AI 要約抑止 | **実装済** (KAZ-201: RSS link-only) |
 | #129 | **本ドキュメント** | ← これ |
 
 #124 と #125-#128 は **2026-05-14 に close**。実装着手は本ドキュメントが固まり、商用化判断が再開された時点で **新規 issue として再起票** する。

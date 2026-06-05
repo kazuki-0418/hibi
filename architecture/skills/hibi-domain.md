@@ -9,7 +9,7 @@ Hibi の現行ドメイン事実を固定するスキル。
 
 ## Core Domain Facts
 
-- Hibi は汎用ニュースリーダーではない。YouTube/RSS aggregator + curator
+- Hibi は汎用ニュースリーダーではない。RSS aggregator + curator（KAZ-214: YouTube ソース撤去済み）
 - 学習信号は **クリックのみ**。評価UI（👍/👎、星評価）は意図的に不在
 - pipeline は 3-stage + ranking 構成。各 Stage は前段の出力にのみ依存
 - ranking 反映は **次回バッチ実行時**。クリックは即座に centroid を更新しない
@@ -31,7 +31,7 @@ Hibi の現行ドメイン事実を固定するスキル。
 - Stage A は **メタデータのみ** 取得する。transcript / 本文取得を Stage A に混ぜない
 - Stage B のフィルタ条件は `published_at >= now() - 14 days` AND `is_sent = false`
 - Stage B は ranking で上位 N 件を抽出。N の現行値は 5（旧 10 から変更済み）
-- Stage C: RSS は本文 + 要約 + Neon 保存（robots disallow / 本文未取得時は link-only）。YouTube はメタデータのみ（リンク行、要約なし）。要約は `---要約---`（DB）と `---関連---`（メール `learning` 行）を分離。challenge 枠 1–2 件常設。v2 時は `---関連---` を `→ {Monogatari|RoamLore}:` で始める適用注記。メール並びは digest plan 順（v2）または `sources.yaml` 順（v1 fallback）
+- Stage C: RSS は本文 + 要約 + Neon 保存（robots disallow / 本文未取得時は link-only）。要約は `---要約---`（DB）と `---関連---`（メール `learning` 行）を分離。challenge 枠 1–2 件常設。v2 時は `---関連---` を `→ {Monogatari|RoamLore}:` で始める適用注記。メール並びは digest plan 順（v2）または `sources.yaml` 順（v1 fallback）
 - 英語産出 v0 (KAZ-203): digest に 1 区画だけ英語プロンプト + Claude 貼り付け依頼文（返信ループ・自動採点は非スコープ）
 - 各 Stage は前段の出力に対してのみ動作する。Stage C が Stage A の生メタデータを直接読まない
 - workflow timeout は 10 分以内。Stage B の N を増やすときは Stage C のランタイムを試算する
@@ -43,8 +43,8 @@ Hibi の現行ドメイン事実を固定するスキル。
 - ソースは `sources.yaml` + git で管理。`sources` テーブルは作らない
 - ソース健全性は `source_metrics_30d` VIEW で確認。テーブル化は UI 実装時まで保留
 - `enabled: false` のソースは fetcher が除外する。コードコメントアウトで無効化しない
-- ソース追加は yaml 編集 + `scripts/verify_channels.py` での実在検証が必須
-- LLM に `channel_id` を生成させない。ハルシネーション率が高い。名前と URL のみ LLM、ID は API 検証
+- ソース追加は yaml 編集 + `scripts/verify_feeds.py` での feed 検証が必須
+- digest パイプラインは `type: rss` のみ。`YOUTUBE_API_KEY` は不要
 
 ---
 
@@ -121,4 +121,3 @@ Hibi の現行ドメイン事実を固定するスキル。
 - ORM が入っていると仮定しない。psycopg 3.x + 生 SQL のみ
 - Alembic が入っていると仮定しない。手動 migration
 - LangGraph / multi-agent が現行で動いていると仮定しない
-- search.list で動的にチャンネルを取得していると仮定しない（quota 制約で playlistItems.list のみ）

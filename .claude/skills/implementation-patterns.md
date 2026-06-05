@@ -121,7 +121,7 @@ Hibi の実装タスクの作業手順スキル。
 ソース変更時:
 
 - `sources.yaml` を編集する。コードコメントアウトで無効化しない
-- YouTube チャンネル追加時は `scripts/verify_channels.py` で実在検証
+- RSS 追加時は `scripts/verify_feeds.py` で feed 検証
 - LLM に `channel_id` を生成させない。名前と URL のみ LLM、ID は API 検証
 - `enabled: false` で論理削除。yaml から削除すると履歴が失われる
 - カテゴリは既存値を優先。新規カテゴリ追加は ranking 影響を試算する

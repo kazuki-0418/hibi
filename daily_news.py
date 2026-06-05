@@ -1,6 +1,6 @@
 """
-Personal AI Newspaper — Phase 2 multi-source edition.
-Fetches YouTube uploads + RSS articles → summarizes with Claude → sends Gmail.
+Personal AI Newspaper — RSS-only edition (KAZ-214).
+Fetches RSS articles → summarizes with Claude → sends Gmail.
 """
 
 import base64
@@ -17,7 +17,6 @@ from urllib.parse import quote
 
 import sentry_sdk
 import yaml
-from googleapiclient.discovery import build
 from anthropic import Anthropic
 
 import email_sender
@@ -37,7 +36,6 @@ from daily_news_ranking import (
     score_candidates_multi_project,
 )
 from fetchers import rss as rss_fetcher
-from fetchers import youtube as youtube_fetcher
 from english_practice import (
     EnglishPractice,
     generate_english_practice,
@@ -72,7 +70,7 @@ MAX_VIDEOS_PER_RUN = 5  # 1回の配信で要約・送信する最大本数（�
 MAX_ATTEMPTS = 30  # 1回の実行で試行する最大候補数（無限試行防止）
 MIN_CONTENT_CHARS = 500  # RSS 記事本文がこれ未満なら要約対象外
 MIN_SUMMARY_CHARS = 10  # Claude が防御プロンプトに従って空を返したケースを弾く閾値
-# 本文未取得時は AI 要約せずタイトル + リンクのみ (KAZ-200 YouTube / KAZ-201 RSS)
+# 本文未取得時は AI 要約せずタイトル + リンクのみ (KAZ-201 RSS)
 LINK_ONLY_SUMMARY: str | None = None
 CLAUDE_MODEL = "claude-haiku-4-5-20251001"
 CONTENT_CHAR_LIMIT = 15000  # Claude に渡す本文の上限（コスト制御）
@@ -97,7 +95,6 @@ CHALLENGE_SLOTS_MAX = 2
 GOAL_CONTEXT_PROMPT_LIMIT = 4000
 
 REQUIRED_ENV_VARS = [
-    "YOUTUBE_API_KEY",
     "ANTHROPIC_API_KEY",
     "GMAIL_CLIENT_ID",
     "GMAIL_CLIENT_SECRET",
@@ -126,14 +123,8 @@ def _load_sources(path: str = "sources.yaml") -> list[dict]:
     return [s for s in config["sources"] if s.get("enabled", True)]
 
 
-def _fetch_items(
-    source: dict, youtube_client, max_results: int
-) -> list[dict]:
+def _fetch_items(source: dict, max_results: int) -> list[dict]:
     stype = source["type"]
-    if stype == "youtube":
-        return youtube_fetcher.fetch_recent_items(
-            youtube_client, source, max_results
-        )
     if stype == "rss":
         return rss_fetcher.fetch_recent_items(source, max_results)
     print(f"  ⚠️  Unknown source type '{stype}' ({source['name']}), skipping")
@@ -141,18 +132,13 @@ def _fetch_items(
 
 
 def _is_link_only_item(item: dict, content: str | None) -> bool:
-    """Items without a summarizable body ship as title + link only (no AI summary)."""
-    stype = item.get("source_type")
-    if stype == "youtube":
-        return True
-    if stype == "rss":
+    """RSS items without enough body ship as title + link only (no AI summary)."""
+    if item.get("source_type") == "rss":
         return not content or len(content) < MIN_CONTENT_CHARS
     return False
 
 
 def _fetch_content(item: dict) -> str | None:
-    if item.get("source_type") == "youtube":
-        return None
     if item.get("source_type") == "rss":
         return rss_fetcher.get_content_text(item)
     return None
@@ -639,9 +625,6 @@ def main():
     sources = _load_sources()
     recipient = os.environ["RECIPIENT_EMAIL"]
 
-    youtube_client = build(
-        "youtube", "v3", developerKey=os.environ["YOUTUBE_API_KEY"]
-    )
     claude = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     openai_client = _get_openai_client()
     if openai_client is None:
@@ -661,9 +644,9 @@ def main():
     sources_scanned: list[dict] = []
     for source in sources:
         source_name = source["name"]
-        source_kind = "YouTube" if source["type"] == "youtube" else "RSS"
+        source_kind = "RSS"
         try:
-            items = _fetch_items(source, youtube_client, METADATA_PER_SOURCE)
+            items = _fetch_items(source, METADATA_PER_SOURCE)
             entry: dict = {
                 "name": source_name,
                 "kind": source_kind,
@@ -785,16 +768,11 @@ def main():
         goal_note = ""
         if link_only:
             summary = LINK_ONLY_SUMMARY
-            if item.get("source_type") == "youtube":
-                print(
-                    "  → link-only (YouTube metadata; no transcript / AI summary)"
-                )
-            else:
-                char_count = len(content) if content else 0
-                print(
-                    "  → link-only (RSS body unavailable; AI summary suppressed, "
-                    f"{char_count} chars)"
-                )
+            char_count = len(content) if content else 0
+            print(
+                "  → link-only (RSS body unavailable; AI summary suppressed, "
+                f"{char_count} chars)"
+            )
         else:
             target_slug = item.get("target_project") or ""
             if use_subject_v2 and target_slug:

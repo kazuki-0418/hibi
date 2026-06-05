@@ -97,7 +97,7 @@ Lint・フォーマット・naming は、壊れた挙動・壊れた契約・壊
 
 #### sources.yaml
 
-- ソース変更時に `scripts/verify_channels.py` 実行ログがあるか
+- ソース変更時に `scripts/verify_feeds.py` 実行ログがあるか
 - LLM 生成の `channel_id` が混入していないか
 - `enabled: false` でなく削除されていないか
 

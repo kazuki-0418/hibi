@@ -1,105 +1,5 @@
 [
   {
-    "name": "NetworkChuck",
-    "kind": "YouTube",
-    "category": "tech"
-  },
-  {
-    "name": "Web Dev Simplified",
-    "kind": "YouTube",
-    "category": "tech"
-  },
-  {
-    "name": "Y Combinator",
-    "kind": "YouTube",
-    "category": "startup"
-  },
-  {
-    "name": "This Week in Startups",
-    "kind": "YouTube",
-    "category": "startup"
-  },
-  {
-    "name": "Jack Herrington",
-    "kind": "YouTube",
-    "category": "dev-for-startup"
-  },
-  {
-    "name": "Hussein Nasser",
-    "kind": "YouTube",
-    "category": "dev-for-startup"
-  },
-  {
-    "name": "Ahrefs",
-    "kind": "YouTube",
-    "category": "marketing"
-  },
-  {
-    "name": "Mayuko",
-    "kind": "YouTube",
-    "category": "career"
-  },
-  {
-    "name": "Engineering with Utsav",
-    "kind": "YouTube",
-    "category": "career"
-  },
-  {
-    "name": "Modern Software Engineering",
-    "kind": "YouTube",
-    "category": "senior-engineer"
-  },
-  {
-    "name": "ArjanCodes",
-    "kind": "YouTube",
-    "category": "senior-engineer"
-  },
-  {
-    "name": "Dave2D",
-    "kind": "YouTube",
-    "category": "gadget"
-  },
-  {
-    "name": "ShortCircuit",
-    "kind": "YouTube",
-    "category": "gadget"
-  },
-  {
-    "name": "MicroConf",
-    "kind": "YouTube",
-    "category": "indie-hacker"
-  },
-  {
-    "name": "Rob Walling",
-    "kind": "YouTube",
-    "category": "indie-hacker"
-  },
-  {
-    "name": "Marc Lou",
-    "kind": "YouTube",
-    "category": "indie-hacker"
-  },
-  {
-    "name": "Ali Abdaal",
-    "kind": "YouTube",
-    "category": "productivity"
-  },
-  {
-    "name": "Thomas Frank",
-    "kind": "YouTube",
-    "category": "productivity"
-  },
-  {
-    "name": "Lex Fridman",
-    "kind": "YouTube",
-    "category": "podcast"
-  },
-  {
-    "name": "Lenny's Podcast",
-    "kind": "YouTube",
-    "category": "podcast"
-  },
-  {
     "name": "EFF",
     "kind": "RSS",
     "category": "tech-news"
@@ -108,5 +8,50 @@
     "name": "Hacker News (Front Page)",
     "kind": "RSS",
     "category": "tech-news"
+  },
+  {
+    "name": "Lenny's Newsletter",
+    "kind": "RSS",
+    "category": "marketing"
+  },
+  {
+    "name": "Marketing Examples",
+    "kind": "RSS",
+    "category": "marketing"
+  },
+  {
+    "name": "Demand Curve",
+    "kind": "RSS",
+    "category": "marketing"
+  },
+  {
+    "name": "Indie Hackers (posts)",
+    "kind": "RSS",
+    "category": "startup"
+  },
+  {
+    "name": "OnStartups (Rob Walling)",
+    "kind": "RSS",
+    "category": "startup"
+  },
+  {
+    "name": "Rob Fitzpatrick",
+    "kind": "RSS",
+    "category": "startup"
+  },
+  {
+    "name": "Product Talk (Teresa Torres)",
+    "kind": "RSS",
+    "category": "startup"
+  },
+  {
+    "name": "April Dunford",
+    "kind": "RSS",
+    "category": "startup"
+  },
+  {
+    "name": "Lobsters",
+    "kind": "RSS",
+    "category": "tech"
   }
 ]
