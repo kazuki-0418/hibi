@@ -1,8 +1,8 @@
 {
   "issue_no": 41,
   "date": "2026-06-05",
-  "standfirst": "今朝の5本。AI との付き合い方から日常の風景まで、技術と生活の距離が縮まっていく。",
-  "daily_title": "AI ツール選びから日々の営みへ、技術が日常に溶け込む",
+  "standfirst": "今朝の5本。個人開発者たちが、既存サービスの隙間や疲弊に向き合うプロダクトを立ち上げている。",
+  "daily_title": "個人開発者による小さなプロダクト、続々ローンチ",
   "sources_scanned": [
     {
       "kind": "YouTube",
@@ -200,6 +200,46 @@
       "category": "productivity",
       "source": "Ali Abdaal",
       "source_type": "youtube"
+    },
+    {
+      "title": "After 8 months and 2 Apple rejections, my AI finance app is finally live. Built it for my mom — here's the story.",
+      "url": "https://feed.indiehackers.world/post/845d9b3a92",
+      "summary": "・開発者が母親の金銭管理需要を起点に、8か月間のオフタイム開発でAIファイナンスコーチアプリ「CoinCoach」をiOS向けにリリースし、Apple審査2度の却下を経て承認に至った。\n・技術選択としてCapacitorを採用し、銀行連携を避けて手動入力/レシート撮影による家計管理とし、プロンプトエンジニアリングで安全性ガードレールをサーバーサイド実装して信頼性を優先した。\n・配信チャネルの課題を認識しており、コミュニティフィードバックと小規模ネットワークからの初期獲得に依存する状況下で、正直なローンチストーリーの共有と早期ユーザーからの信頼構築を重視している。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Google Listens to Your Videos",
+      "url": "https://www.youtube.com/watch?v=tG7U5s_t7FM",
+      "summary": null,
+      "category": "marketing",
+      "source": "Ahrefs",
+      "source_type": "youtube"
+    },
+    {
+      "title": "This is a better upgrade than a new GPU - Alienware at Computex 2026",
+      "url": "https://www.youtube.com/watch?v=7mYI1cDUVSM",
+      "summary": null,
+      "category": "gadget",
+      "source": "ShortCircuit",
+      "source_type": "youtube"
+    },
+    {
+      "title": "I built a travel discovery platform for uncharted India — 0 users, need brutal feedback",
+      "url": "https://feed.indiehackers.world/post/0961dafeec",
+      "summary": "・インド人ソロ創業者がAlmanacという旅行発見プラットフォームを構築し、主流メディアが取り扱わない秘境目的地（ラダック僧院遺跡、カサウリ廃墟寺院など）に特化した。\n・Next.js・Mapbox 3D・Cloudflare・GitHub OAuth・アフィリエイトモデルで実装し、既存プラットフォームの同一目的地の繰り返しに対抗する価値提案を掲げている。\n・UI信頼性、5秒での価値伝達、UX破損点、異なる収益化方策についてフィードバックを求めている。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Day 4: Why I Built a $199 Workspace Nobody Asked For",
+      "url": "https://feed.indiehackers.world/post/d0b90e532b",
+      "summary": "・エージェンシー勤務6年間でタスク・チャット・ドキュメント・デザインツールの複数購読に疲弊した著者が、4ヶ月で単一ワークスペース「Melororium」を開発し$199の買い切りモデルで販売開始した。\n・初期段階（4日目）での具体的な成果は限定的だが、購読疲弊層からの即座の共感が得られており、対象ユーザーが存在することの信号と位置づけている。\n・コメント欄では買い切りモデルの配信効果、単独ユーザーと組織への展開課題、Sketch型の更新期限付きリニューアルモデル、実際の改善施策（ランディングページの優先度付け・ユーザーセグメント計測・冷たいメール営業）などが指摘されている。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
     }
   ]
 }

@@ -1,0 +1,105 @@
+{
+  "issue_no": 42,
+  "date": "2026-06-06",
+  "standfirst": "今朝の5本。AIがもたらす技術的な加速と、それに伴う人間の役割の再定義が同時進行している。",
+  "daily_title": "AI 時代、築くことと広めることの距離。",
+  "sources_scanned": [
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Spent months building LazyEats AI. Spent 1 day realizing I have no idea how to get users.",
+      "url": "https://feed.indiehackers.world/post/5dbae4eb5e",
+      "summary": "・ソロ開発者がAI meal suggestion app「LazyEats AI」を20日間で構築し Google Play にリリースしたが、10インストール（ほぼ友人）に留まり、「建築は楽、ユーザー獲得は全く別のスキル」と認識した。\n・コミュニティフィードバックから、広告配信・長時間マーケティングではなく「特定の痛点層を絞り、既存コミュニティで継続的に有用な回答を提供してから言及する」手法が有効と指摘された。\n・初期100ユーザーは「学生向け予算食・忙しい人向け時短・フィットネス層マクロ管理」など1つのニッチに集中し、Play Store スクリーンショットで入力→出力→速度を即座に示す重要性が強調された。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "The AI paradox: More automation, more humans, more work | Dan Shipper",
+      "url": "https://www.lennysnewsletter.com/p/the-ai-paradox-dan-shipper",
+      "summary": "・Every CEO Dan Shipper は、AI 時代の職場において自動化は労働量を削減せず逆に増加させ、人間はより多くの仕事を引き受けることになると主張する。\n・SaaS は衰退せず、ユーザーが自身の AI トークンをアプリに持ち込む経済モデルへ移行し、企業マージンは実際に改善される可能性がある。\n・今後の開発の中核は Claude Code や Codex のような AI コードエディタ内で起こり、全社的な Slack インテグレーション「スーパーエージェント」が標準化され、CLI は廃れ、Forward Deployed Engineer が最重要人材になると予測される。",
+      "category": "marketing",
+      "source": "Lenny's Newsletter",
+      "source_type": "rss"
+    },
+    {
+      "title": "PolyForm Licenses",
+      "url": "https://polyformproject.org/licenses",
+      "summary": null,
+      "category": "tech",
+      "source": "Lobsters",
+      "source_type": "rss"
+    },
+    {
+      "title": "Zig Zen Update",
+      "url": "https://codeberg.org/ziglang/zig/commit/621844bde551ee1a9b8142d7d146d1fa804247a2",
+      "summary": null,
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "AI Worm",
+      "url": "https://arxiv.org/abs/2606.03811",
+      "summary": "・AI エージェントを搭載した自己複製型マルウェアが、侵害されたマシンのリソースを利用して LLM を実行し、ターゲットごとに適応的な攻撃戦略を生成する新種の脅威であることが実証された。\n・従来のワームと異なり固定された脆弱性に依存せず、リアルタイムでターゲットを推論し攻撃ロジックを合成するため、パッチング防御が本質的に限定的となる。\n・オープンウェイト LLM をオフラインで駆動するため商用 AI プラットフォームの安全制御（レート制限等）が構造的に機能せず、攻撃者の限界費用がゼロになることで防御側との経済的非対称性が加速する。",
+      "category": "tech",
+      "source": "Lobsters",
+      "source_type": "rss"
+    }
+  ]
+}
