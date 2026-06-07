@@ -1,0 +1,105 @@
+{
+  "issue_no": 43,
+  "date": "2026-06-07",
+  "standfirst": "今朝の5本。技術の発展より流通と信頼構築が優位性を決める局面が、あちこちで浮上している。",
+  "daily_title": "製品より営業が難しい、という発見の連鎖",
+  "sources_scanned": [
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "🧠 Community Wisdom: Bootstrapping vs. raising funding, building the roadmap of your vibe-coded app, AI agents and data integrity, your first project as an APM, and more",
+      "url": "https://www.lennysnewsletter.com/p/community-wisdom-bootstrapping-vs",
+      "summary": null,
+      "category": "marketing",
+      "source": "Lenny's Newsletter",
+      "source_type": "rss"
+    },
+    {
+      "title": "A rational conversation on where AI is actually going | Benedict Evans",
+      "url": "https://www.lennysnewsletter.com/p/a-rational-conversation-on-where",
+      "summary": "・Benedict Evans は AI を 1997 年のインターネット初期段階に位置づけ、インターネットやモバイルと同等の規模を持つが、それ以上ではないと主張する。\n・AI スタックにおける価値の蓄積は、ソフトウェアの構築が容易になるにつれ流通（distribution）がやがて最大の優位性（moat）となる一方で、コンサルティング・専門サービス企業での需要が予想外に急増している。\n・職業への影響は「AI ができるタスクのパーセンテージ」ではなく「それが個別タスクか職業全体か」という問い立てが本質的であり、技術適応への準備が鍵となる。",
+      "category": "marketing",
+      "source": "Lenny's Newsletter",
+      "source_type": "rss"
+    },
+    {
+      "title": "Scientists ejected from diabetes conference for distributing journal reprints",
+      "url": "https://arstechnica.com/science/2026/06/scientists-ejected-from-diabetes-conference-for-distributing-journal-reprints/",
+      "summary": "・米国糖尿病協会（ADA）の年次会議でNIH長官の講演に対抗する編集論文の印刷物を配布していた5名の著名科学者が、会議コードの違反を理由に会場から強制排除された。\n・排除された科学者らは行為の中止を求められたが応じなかったため、イベントセキュリティによって物理的に連れ出されランヤードを没収されたとADAは説明している。\n・科学者側は言論抑圧であると批判し、医学界の専門家に抵抗を促したが、ADAは不適切な行為や混乱行為は容認しないとの方針を示している。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "I built a SaaS for personal trainers in under a week. Turns out that was the easy part.",
+      "url": "https://feed.indiehackers.world/post/29c9e88209",
+      "summary": "・ソロ創業者が個人トレーナー向けSaaS「CoachDesk」を1週間で構築したが、試用登録はゼロ転換で実際の見込み客に達していない状況を報告している。\n・分布・メッセージング・信頼構築が製品開発より遥かに困難であり、特に「データセキュリティの明示」「セグメント絞り込み（10～20クライアント規模のUKトレーナー）」「ワークフロー質問ベースのウォーム化接触」が初期10ユーザー獲得に有効とコメント欄で指摘されている。\n・「最初の10顧客＝最初の10会話」という再構築と「冷たい営業ではなく相手の言葉を聞き取る」姿勢が、検証段階で製品よりも優先すべき課題として浮上している。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "I've had a working product for months. This is week 1 of actually trying to sell it.",
+      "url": "https://feed.indiehackers.world/post/47a22362fd",
+      "summary": "・製品は数ヶ月前から本番稼働していながら、ファウンダーが販売活動を避けて機能改善に没頭していた状況から、1週間で販売チャネル開拓に転換した事例報告。\n・冷メール20件（返信なし）、Reddit投稿3件、IH投稿1件など初期的な分布チャネル試験の結果、販売数はまだゼロだが初めて顧客と対話を始めたことが重要な転換点。\n・コメント欄で複数のファウンダーから「機能改善は心理的に安全だが販売は不安」という共感と、「ペイン発生時の検索意図がある場所での出現」「仮説ログ記録」「カテゴリ別ランディングページ」などの実装可能な分布施策の提案が集まった。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    }
+  ]
+}
