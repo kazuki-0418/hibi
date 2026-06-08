@@ -1,0 +1,105 @@
+{
+  "issue_no": 44,
+  "date": "2026-06-08",
+  "standfirst": "今朝の5本。企業と社会の制度設計において、初期段階での最適化と透明性の課題が浮上している。",
+  "daily_title": "成長戦略と権利保護、初期設計の重要性",
+  "sources_scanned": [
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Building a QR code SaaS against DR40+ competitors: 60 days of SEO-first growth, zero paid ads",
+      "url": "https://feed.indiehackers.world/post/fe4770df6a",
+      "summary": "・QRflows は60日間で SEO 単独戦略により QR コード SaaS 市場（DR40+ の競合多数）に参入し、GSC データで比較ページが検索順位19〜17位に到達した。\n・ドメインレーティング0からの立ち上げは構造的不利であり、新規コンテンツより高品質バックリンク獲得が SEO 効果を左右する現状を報告している。\n・比較ページが最速で成長する理由は検索意図の明確性と競合密度の相対的低さにあり、一般的 QR クエリの獲得には長期戦を要することを述べている。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "EFF Testifies to Congress on Protecting Americans’ Rights from Government AI",
+      "url": "https://www.eff.org/deeplinks/2026/06/eff-testifies-congress-protecting-americans-rights-government-ai",
+      "summary": "・EFF の政策分析官がアメリカ下院国土安全保障委員会で、政府による生成 AI の採用に際しては憲法上の権利保護のための強固な措置が必須であると証言した。\n・政府による大規模監視目的の生成 AI 利用は市民的自由の違憲侵害を増幅し、政府機関の秘密主義と民間企業の専有技術によって AI の誤りが隠蔽されていることが問題だと指摘した。\n・AI は法廷提出書類の虚偽引用から DHS 新兵の不適切な配置まで誤りの実績があり、機密指定によってより深刻な失敗が公開されない恐れがあると述べた。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "New drug 'functionally cures' many hepatitis B virus infections",
+      "url": "https://www.science.org/content/article/new-drug-functionally-cures-many-hepatitis-b-virus-infections?user_id=66c4bf745d78644b3aa57b08",
+      "summary": null,
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Algorithmic Monocultures in Hiring",
+      "url": "https://algorithmichiring.github.io/",
+      "summary": null,
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Premature Optimization is Fun Sometimes",
+      "url": "https://invlpg.com/posts/2025-06-19-premature-optimization.html",
+      "summary": null,
+      "category": "tech",
+      "source": "Lobsters",
+      "source_type": "rss"
+    }
+  ]
+}
