@@ -1,0 +1,105 @@
+{
+  "issue_no": 45,
+  "date": "2026-06-09",
+  "standfirst": "今朝の5本。製品開発から組織運営まで、AI が人間の判断を補助する場面が増している。",
+  "daily_title": "AI が人間の判断を支援する場面が広がる",
+  "sources_scanned": [
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "I built an AI that roasts landing pages for CRO — before I build more, tear the feature set apart",
+      "url": "https://feed.indiehackers.world/post/7eee0c5223",
+      "summary": "・ソロ創業者が開発する Swiplio は、AI がランディングページを分析し、マーケティング企業や代理店が顧客に提示できる CRO レポート PDF を生成するツール。\n・コミュニティからの主な指摘は、「AI スコアそのものではなく、編集可能で代理店ブランド化可能なホワイトラベルレポートが購買動機」「競合比較機能が有料フックになりうる」「スコア導出の根拠を特定行レベルで明示しなければ信頼性が損なわれる」。\n・検証段階で建設的な批判を求めた創業者は、MVP スコープを「無料の分析 → 根拠付き行レベル指摘 → 編集可能なレポート」に絞り、競合比較は実装後の安価な実験で検証する意向を示した。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Shopping with Claude: How to find quality brands, automate returns, and buy things that last 100 years | Nicole Ruiz",
+      "url": "https://www.lennysnewsletter.com/p/shopping-with-claude",
+      "summary": "・Nicole Ruiz は Claude をカスタム指示で設定し、heritage・craftsmanship・return policy に基づいてブランドを審査する shopping system を構築した。\n・Claude を用いて UX が劣悪な heritage brand website を検索・解析し、drop-shipping 偽造品と区別することで、小規模職人と century-old 製造業者が Amazon インフラに対抗できる環境を整えた。\n・Claude Cowork で email から receipt を自動抽出して refund request を起草し、budget・gift card 制約下での purchasing を AI 補助で自動化した。",
+      "category": "marketing",
+      "source": "Lenny's Newsletter",
+      "source_type": "rss"
+    },
+    {
+      "title": "What Yahoo killed when it bought Maktoob",
+      "url": "https://lr0.org/blog/p/yahoo/",
+      "summary": null,
+      "category": "tech",
+      "source": "Lobsters",
+      "source_type": "rss"
+    },
+    {
+      "title": "We built an async meeting tool. What people said in private surprised us.",
+      "url": "https://feed.indiehackers.world/post/d1fd2fb141",
+      "summary": "・開発者が同期会議の非効率性を解決するため、AIが参加者に個別・非同期にインタビューして意見を集約するツール「Noada」を構築した。\n・実装後、グループダイナミクスが除去されると参加者がより正直になり、会議では発言されなかった重要な懸念事項が表面化することを発見した。\n・Asch、Sherif、Stasserらの社会心理学研究が示唆するとおり、リアルタイムグループ討議は同調圧力と情報偏差を生み、独立した視点の先行取得が効果的であることが実証されたと報告している。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Apple Core AI Framework",
+      "url": "https://developer.apple.com/documentation/coreai/",
+      "summary": null,
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    }
+  ]
+}
