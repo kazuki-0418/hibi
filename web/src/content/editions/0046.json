@@ -1,0 +1,105 @@
+{
+  "issue_no": 46,
+  "date": "2026-06-10",
+  "standfirst": "今朝の5本。技術の実装と政策の決定が、意図と異なる結果をもたらす場面が相次ぐ。",
+  "daily_title": "実装と意図のズレが各地で顕在化",
+  "sources_scanned": [
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "I Thought the Countdown Was the Product. The First Commit Changed My Mind.",
+      "url": "https://feed.indiehackers.world/post/ce371c9610",
+      "summary": "・DevMarathon の創業者は、ユーザーが marathon を作成してもその後消えることから、「countdown 開始」ではなく「最初のコミット」が真の activation であることに気づいた。\n・GitHub 認可をユーザーが信頼決定と捉えることを理解し、Google サインインを先に許可して value を示してから permission を求める設計に変更した。\n・solo marathon と企業向け採用チャレンジの双方で、最終成果物よりも「開始の速度・一貫したプログレス・意思決定の記録」といった execution process そのものが評価対象として重要だと学んだ。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "One Step Forward, Two Steps Back: CA's AB 1856 Exempts Open Source But Expands Age-Gating",
+      "url": "https://www.eff.org/deeplinks/2026/05/one-step-forward-two-steps-back-cas-ab-1856-exempts-open-source-expands-age-gating",
+      "summary": "・カリフォルニア州 AB 1856 は AB 1043 の年齢区分制度からオープンソース OS を exemption する修正案を含むが、Assembly で可決した。\n・AB 1856 は同時に規制対象をブラウザとウェブサイトに拡大し、AB 1043 の年齢認証要件の適用範囲を広げている。\n・EFF は open-source への負担軽減を評価しつつも、拡大された年齢ゲーティング体制が利用者のプライバシー・匿名性・言論の自由を脅かすとして反対を継続する。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "Pulte Appointment Underscores Need to Reform Section 702 Spying",
+      "url": "https://www.eff.org/deeplinks/2026/06/pulte-appointment-underscores-need-reform-section-702-spying",
+      "summary": "・トランプ大統領がインテリジェンス経験なしのビル・パルテを国家情報長官代理に任命し、議会の承認を経ずに約7ヶ月間の職務継続が可能となった。\n・パルテは前職で政府が保有する機密情報を政治的な武器として使用した履歴があり、野党議員らに対して根拠のない不正疑惑を提起している。\n・外国の通信を傍受・保管する外国情報監視法702条は令状なしでアメリカ市民の通信を当局が検索できる仕組みだが、政治的動機を持つ指導者による濫用のリスクが具体化した。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "Port React Compiler to Rust",
+      "url": "https://github.com/react/react/pull/36173",
+      "summary": "・ReactコンパイラをTypeScriptからRustへ移植するWork-in-Progressプロジェクトであり、全1725フィクスチャが通過して正確性は検証済みだが、まだビルド配布物はない。\n・アーキテクチャはBabel AST（Rust表現）+ Scope InfoをInとし、HIR（High-level Intermediate Representation）・制御フローグラフ・SSAを内部に用いてTypeScript版と同じアルゴリズムで通す。\n・Babelプラグインとして3倍高速化し、AST・Scope表現の最適化およびパッチベースの戻り値返却へシフト予定で、OXC・SWC統合パートナー募集中。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Notes on DeepSeek",
+      "url": "https://twitter.com/NikoMcCarty/status/2064686557400100884",
+      "summary": null,
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    }
+  ]
+}
