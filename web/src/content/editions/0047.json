@@ -1,0 +1,105 @@
+{
+  "issue_no": 47,
+  "date": "2026-06-11",
+  "standfirst": "今朝の5本。開発ツール、プラットフォーム構築、規制、自動化、計測の各領域で、実装と検証のバランスが問い直されている。",
+  "daily_title": "実装の検証と段階投資が、技術選択の軸になる",
+  "sources_scanned": [
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Building ExpenseSpy solo, no funding — launching June 17 on iOS & Android",
+      "url": "https://feed.indiehackers.world/post/4768d8a1e4",
+      "summary": "・ Flutter と OpenAI Vision を用いた領収書スキャン＆エクスポートツール ExpenseSpy を6月17日に iOS/Android で単独開発者がローンチする予定。\n・ スレッド内の複数の指摘を通じて、機能ゲート（抽出は無料、エクスポートは有料）による段階的な価値提示と、「国際クライアント獲得直後の freelancer」という急性・反復性の課題を持つ顧客セグメント化が浮上した。\n・ 無料10件/月の数量制限よりも、実装の習慣化（初回エクスポートまでの到達）と課金ゲート設計を同時に検証する必要があること、および初期ユーザーとの直接対話による activation bug 検出の重要性が共通認識となった。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "How Much Does It Cost to Build a Website Like OnlyFans? (Possible under $1500)",
+      "url": "https://feed.indiehackers.world/post/1e9243fe65",
+      "summary": "・OnlyFans型プラットフォームの構築方法は white-label クローンスクリプト（数週間・$1,500程度）と カスタム開発（6～8ヶ月・$80,000以上）に分かれ、後者は開発前に既にユーザー検証のないリスクを負う。\n・カスタム開発では複雑性・機能数・技術スタック選択・チーム所在地・スケーラビリティ各層が コスト要因となるが、クローンスクリプトはこれらが固定化され、インストール・設定で対応される。\n・成功事例の多くは他者コード上で検証を先行させ、MVP（購読・コンテンツ・決済）で市場テストした後に機能拡張する段階的投資戦略を採用している。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "How and Why to Fight Back Against Social Media Bans",
+      "url": "https://www.eff.org/deeplinks/2026/06/how-and-why-fight-back-against-social-media-bans",
+      "summary": "・米国複数州が若年層のソーシャルメディア利用を全面禁止する法案を推進しており、年齢確認型と行動分析型の2つの年齢ゲート機構が主流となっている。\n・これらの禁止令は政府による大規模なデータ収集・監視インフラの構築、脆弱な認証技術による差別的被害、言論の自由とプライバシーの侵害、そして実際には有効でない対策という複数の危険性を孕んでいる。\n・特にLGBTQ+若年層や低所得家庭、移民家族など脆弱層が過度な被害を受け、オーストラリアの事例では禁止後も多くの若年層がアクセス可能なままであり、実効性が疑問視されている。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "I built an AI agent that opens GitHub PRs on your SaaS. Here's how it went.",
+      "url": "https://feed.indiehackers.world/post/df4c35e77e",
+      "summary": "・開発者が PostHog のファネル分析で識別した離脱ポイントを修正する作業が遅延するため、Velyr というツールを構築した。\n・Velyr は PostHog と GitHub を連携し、離脱箇所の特定から修正コードの作成・PR 作成まで自動化し、Telegram で承認を求める仕様。\n・本番環境への自動デプロイやマージは実装せず、すべての変更には明示的なユーザー承認を必須とした。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Lines of Code Got a Better Publicist",
+      "url": "https://curlewis.co.nz/posts/lines-of-code-got-a-better-publicist/",
+      "summary": "・AI企業各社が「生成コードの割合」や「コード行数増加」といった出力量指標を宣伝しており、これは測定不可能で失敗しない虚栄指標である。\n・実際の研究では組織レベルで約10%の生産性向上、個人レベルでも結果は混在しており、AIが開発効率を大幅に向上させたという証拠は確立されていない。\n・採用・解雇判断に虚栄指標を使うべきではなく、DORA指標や顧客価値といった実績基準で成果を測定すべきである。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    }
+  ]
+}
