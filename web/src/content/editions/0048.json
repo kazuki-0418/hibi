@@ -1,0 +1,105 @@
+{
+  "issue_no": 48,
+  "date": "2026-06-12",
+  "standfirst": "今朝の5本。製品の初期段階で市場からの声を求める開発者たち。",
+  "daily_title": "初期検証を求める5つのプロダクト開発の現在地",
+  "sources_scanned": [
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Built a 'Decision Layer' for Etsy sellers — feedback wanted before I build the rest",
+      "url": "https://feed.indiehackers.world/post/1e39ba5e4b",
+      "summary": "・Etsy販売者向けの「決定層」プロダクト Monday5 を構想中の開発者が、ランディングページ公開前に市場検証を求めている。\n・既存の SEO ツール（eRank、EverBee など）はデータを提供するが、販売者は「そのデータをどう使うか」の判断に困る gap が実際の痛点であると仮説を立てている。\n・フィードバックから「決定層」は技術者向けの抽象表現であり、販売者には「週5つのランク付けアクション」という具体的フォーマットで訴求すべき、また月500-3000ドル層の solo 販売者が最適セグメントである、という改善案を受け取った。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Meta Down",
+      "url": "https://news.ycombinator.com/item?id=48504034",
+      "summary": null,
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "The Unsung Hero of the Lord of the Rings",
+      "url": "https://www.theculturist.io/p/the-unsung-hero-of-the-lord-of-the",
+      "summary": "・トールキンの『ライラの指輪』に登場するトム・ボンバディルは、中つ国最古の存在であり、一つの指の支配を逃れる唯一の存在として、物語の道徳的核心を体現している。\n・ボンバディルはオランダの人形にインスピレーションを受けた1930年代の詩作に起源し、異なる民族による名称（ヤルウェイン・ベン・アダル、オラルド、フォルンなど）は彼の創造と宇宙における独特の役割を反映している。\n・妻ゴールドベリーの「彼は在る」という答えと、指を単なる玩具として扱うボンバディルの姿勢は、トールキンが示す悪への抵抗の鍵が、権力への誘惑を無視する存在的な独立性にあることを示唆している。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Kimi K2.7-Code: open-source coding model with better token efficiency",
+      "url": "https://huggingface.co/moonshotai/Kimi-K2.7-Code",
+      "summary": "・Moonshot AI が公開したKimi K2.7-Code は、コード生成タスクに特化したエージェント型モデルで、K2.6 比で思考トークン使用量を約30%削減し、トークン効率を向上させている。\n・vLLM、SGLang、KTransformers などの推論エンジンでの展開に対応し、OpenAI/Anthropic互換APIで提供され、思考モード（Thinking mode）とビデオ入力をサポートしている。\n・native INT4量子化、マルチターン相互作用での推論保持（preserve_thinking）、ツール呼び出しの組み込みにより、現実的なソフトウェアエンジニアリングワークフロー向けに設計されている。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Launching mdtidy's chrome extension!",
+      "url": "https://feed.indiehackers.world/post/0d891e9987",
+      "summary": "・mdtidy の Chrome 拡張機能が ChatGPT、Claude、Gemini 間でのコンテンツ保存・共有を可能にする機能をリリースした。\n・Product Hunt 公開前に、ランディングページの H1 欠落（検索エンジン最適化とアクセシビリティのギャップ）、および「マークダウン整形」から「複数 AI ツール間の一元ライブラリ」への明確なポジショニング転換が必須である。\n・複数ユーザーの実装経験から、正確なポジショニングはスレッド上の推測では決定すべきでなく、初期ユーザーの行動データに基づいて一つの中核機能に絞る必要があるとの指摘がある。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    }
+  ]
+}
