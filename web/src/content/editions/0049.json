@@ -1,0 +1,105 @@
+{
+  "issue_no": 49,
+  "date": "2026-06-13",
+  "standfirst": "今朝の5本。データと権力、そして人と機械の協働という、デジタル社会の基本構造が問い直されている。",
+  "daily_title": "価格差別規制、著作権局の権力集中、AI協働の実装が同時進行",
+  "sources_scanned": [
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Building LinkCover – Day 3: Payment is live. No more building, time to sell.",
+      "url": "https://feed.indiehackers.world/post/3c8118fa8e",
+      "summary": null,
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Yes to California's Bill to Ban Surveillance Pricing",
+      "url": "https://www.eff.org/deeplinks/2026/06/californias-bill-ban-surveillance-pricing",
+      "summary": "・カリフォルニア州法案S.B. 2564は、個人データに基づいて同一商品を異なる価格で販売する「監視価格設定」を禁止する。FTC報告書は、位置情報や閲覧履歴などのデータが数百社の小売業者で価格差別に使用されている実態を明らかにした。\n・監視価格設定は、プリンストン・レビューやUber、Tinder、Orbitzなど複数企業で確認されており、人種・年齢・地理的属性に基づく不公正な価格差別を生み出している。\n・EFFは本法案を支持し、個人データの最小化と「プライバシー強制売却スキーム」の禁止という一般的な規制原則の具体的適用と位置づける。法案は価格設定への限定的な使用禁止に留まり、データ収集そのものを制限しないため、イノベーション阻害の懸念は低い。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "Congress Just Rushed Through a Disastrous Copyright Office Overhaul",
+      "url": "https://www.eff.org/deeplinks/2026/06/congress-just-rushed-through-disastrous-copyright-office-overhaul",
+      "summary": "・米下院がH.R. 6028を可決し、著作権局を図書館議会から独立させ、著作権登録官を大統領任命制に変更する。\n・著作権局は過去にSOPA支持やAIと公正利用をめぐって産業界寄りの立場を示してきたため、政治的影響力の増加は公益に反する。\n・本法案は公聴会なしに急速に可決されたもので、上院は著作権法の公益的監督を強化する代わりに権限集中を招く本法案を棄却すべきである。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "Show HN: Paca – Lightweight Jira alternative for human-AI collaboration",
+      "url": "https://github.com/Paca-AI/paca",
+      "summary": "・Paca は AI エージェントと人間が Scrum チーム内で対等なメンバーとして協働するセルフホスト型プロジェクト管理プラットフォームであり、設定駆動とプラグイン（WASM サンドボックス）で完全カスタマイズ可能。\n・MCP サーバー経由で Claude や任意の MCP クライアントが Paca のプロジェクト・タスク・ドキュメントに直接構造化アクセスでき、Claude Code のスラッシュコマンドでも操作可能。\n・Docker Compose ワンコマンドで単一サーバーにデプロイ可能で、PostgreSQL・Valkey・Socket.IO リアルタイム更新、OpenHands サンドボックス AI エージェント、アクティビティ diff・revert・BDD 協働編集を備える。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "AI OSS tool repo goes archived over night after raising $7.3M Seed",
+      "url": "https://github.com/tensorzero/tensorzero",
+      "summary": "・TensorZero は LLM プロバイダへの統一 API ゲートウェイ、推論・フィードバックの可視化、評価、プロンプト・モデル最適化、A/B テストを一体化した自社ホスト型オープンソース LLMOps プラットフォーム。\n・Rust 実装で <1ms p99 レイテンシを実現し、OpenAI SDK との互換性で段階的な導入を可能とする。\n・フロンティア AI スタートアップから Fortune 10 企業まで採用され、グローバル LLM API 支出の約 1% を占める。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    }
+  ]
+}
