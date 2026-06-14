@@ -1,0 +1,105 @@
+{
+  "issue_no": 50,
+  "date": "2026-06-14",
+  "standfirst": "今朝の5本。AIの信頼構築、成長の数学、表現規制、価格検証、パッケージ防御。プラットフォーム運営の基礎が問い直される。",
+  "daily_title": "信頼と成長を支える基盤整備の一日",
+  "sources_scanned": [
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "Beyond Black Box Scores: How Musubi Trains Custom AI for Trust and Safety Teams",
+      "url": "https://www.producttalk.org/beyond-black-box-scores-how-musubi-trains-custom-ai-for-trust-and-safety-teams/",
+      "summary": "・Musubiはコンテンツプラットフォーム向けのカスタム訓練型AI審査ツールキットであり、既製スコアリングの限界を超えて各プラットフォームのポリシーに適応する。\n・従来機械学習とLLMを組み合わせ、タビュラーデータからの初期プロトタイプ訓練から始まり、AIが人間の審査者を上回る検出性能を示した場合の顧客とのコミュニケーション方法を確立した。\n・ポリシーオプティマイザーはエージェンティックワークフローにより非技術者の信頼・安全チームが独立して審査ポリシーを反復できる設計となっており、評価ツールの直接顧客提供がコア製品戦略である。",
+      "category": "startup",
+      "source": "Product Talk (Teresa Torres)",
+      "source_type": "rss"
+    },
+    {
+      "title": "How to Earn a Billion Dollars",
+      "url": "https://paulgraham.com/earn.html",
+      "summary": "・スタートアップの創業者が億万長者になる道は、詐欺ではなく指数関数的成長（月15%の成長率で5年後には収益が4384倍になる数学）で説明される。\n・成功するスタートアップは、創業者自身とその友人が「欲しい」と感じるものを無意識に探索することで生まれ、市場の深い理解を通じてユーザーが友人に勧めたくなる製品を作る。\n・億万長者になるために必要なのは搾取ではなく共感であり、成長率（ユーザー満足度による口コミ）と市場規模の2つの変数のみで決まる。",
+      "category": "tech-news",
+      "source": "Hacker News (Front Page)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Tell Congress: Just Say No to NO FAKES",
+      "url": "https://www.eff.org/deeplinks/2026/06/tell-congress-just-say-no-no-fakes",
+      "summary": "・米国上院司法委員会が審議予定の「NO FAKES法案」は、AI生成レプリカの問題に対処するため、個人の外見・声・スタイルに広範な財産権を創設しようとしている。\n・同法案はパロディや批評など憲法修正第1条で保護される表現を過度に規制し、プラットフォームに対して既存の著作権テイクダウン制度より厳格なフィルタリング義務を課す仕組みとなっている。\n・プライバシー保護ではなく財産権化により、実際にはスタジオやレコード会社がアーティストとの契約でこの権利を譲渡させる新たな搾取手段となるリスクを指摘している。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "A simple system for testing prices without chaos",
+      "url": "https://feed.indiehackers.world/post/a782e29909",
+      "summary": "・価格実験では価格変更だけでなく、チェックアウト・サポート・トラッキング・メッセージング・課金の全体を検証する必要がある。\n・Jotform + Make + OpenAI + Trello + Google Sheets + Slack を組み合わせ、単一のTest IDで全チャネルを追跡し、AIが検証チェックリストを自動生成する。\n・pre-launch checklistで段階的にゲートを設け、Slack通知で承認・ブロック判定を行い、週次レビューで実験の継続・停止を判定する。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Most Package Hacks Get in the Same Way: How I Block Common Entry Points",
+      "url": "https://www.producttalk.org/package-hacks-installer-settings/",
+      "summary": "・パッケージ侵害の大多数は同じ侵入経路（インストール時のスクリプト実行、依存パッケージの自動インストール）を経由するため、設定による防御が機能する。\n・開発者が採用すべき防御策は、7日以上前のパッケージのみインストール、インストールスクリプトの事前確認、provenance signals の確認、奇異な依存関係のフィルタリング。\n・クラウド開発環境（Cowork）でも同様のルール設定が可能だが、ローカル環境での運用にはバージョンピンニングと定期監査が追加で必要。",
+      "category": "startup",
+      "source": "Product Talk (Teresa Torres)",
+      "source_type": "rss"
+    }
+  ]
+}
