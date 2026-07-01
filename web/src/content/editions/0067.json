@@ -1,0 +1,105 @@
+{
+  "issue_no": 67,
+  "date": "2026-07-01",
+  "standfirst": "今朝の5本。創業者の手を離れても息づく製品、生活共同体としてのネットワークスクール、監視とプライバシーの緊張、そしてニッチ発見の試み。",
+  "daily_title": "製品と社会のペイン、そしてコミュニティの形態",
+  "sources_scanned": [
+    {
+      "kind": "RSS",
+      "name": "EFF",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Hacker News (Front Page)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Lenny's Newsletter",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Marketing Examples",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Demand Curve",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "Indie Hackers (posts)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "OnStartups (Rob Walling)",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Rob Fitzpatrick",
+      "fetched_count": 10
+    },
+    {
+      "kind": "RSS",
+      "name": "Product Talk (Teresa Torres)",
+      "fetched_count": 15
+    },
+    {
+      "kind": "RSS",
+      "name": "April Dunford",
+      "fetched_count": 0
+    },
+    {
+      "kind": "RSS",
+      "name": "Lobsters",
+      "fetched_count": 15
+    }
+  ],
+  "articles": [
+    {
+      "title": "I stepped away from my MVP for a month to work on another project. Here is what I learned.",
+      "url": "https://feed.indiehackers.world/post/b674643a91",
+      "summary": "・ソロ創業者が1ヶ月間別プロジェクトに専念した後、MCP Studio（OpenAPI から Model Context Protocol サーバーを生成するツール）のアナリティクスを確認したところ、ユーザーは継続して利用しており、デプロイと共有が止まっていなかった。\n・最大の学習は、ボイラープレート API 接続という「本当に辛い問題」を解く製品は、創業者の継続的な宣伝なしでも自動的に共有され続けることであり、これは問題が「好ましい」のではなく「解決なしには耐えられない」レベルのペインかどうかで決まる。\n・後続の議論では、製品が「好きだから広がる」ことと「デフォルトになるから広がる」ことの戦略的区別が重要であり、前者は UI やバイラル性に頼るため脆く、後者はインフラ化によるモートを生むため長期的な競争優位を持つことが指摘された。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "What Is Network School?",
+      "url": "https://feed.indiehackers.world/post/40836373f0",
+      "summary": "・バラジ・スリニヴァサンが創設したネットワークスクールはシンガポール近郊の島に位置し、起業家やクリエイター、リモートワーカーが共同生活しながら事業開発を行うコミュニティである。\n・プログラムは「Learn. Burn. Earn. Fun.」という哲学に基づき、学習・支出・収入・交流のバランスを重視し、ネットワークステート構想と連動している。\n・著者は実際の生活体験を通じ、参加者の属性、申請プロセス、日常生活、建設中のプロジェクト事例、コミュニティ内での人間関係と成果を記録している。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "We Can Still Stop California’s 3D Printer Surveillance Scheme",
+      "url": "https://www.eff.org/deeplinks/2026/06/we-can-still-stop-californias-3d-printer-surveillance-scheme",
+      "summary": "・カリフォルニア州議会はAB 2047法案を可決し、3Dプリンターに銃器製造防止を目的とした監視ソフトウェアの装備を義務付ける立法を進めている。\n・修正案は中古機器の転売を刑事化から除外したが、オープンソースツール利用に対する規制と曖昧な性能基準は残存し、適法な利用を阻害する危険性がある。\n・監視システムは技術的に回避困難で機能性が保証されない一方で、個人ユーザーと小規模製作者に対する監視と萎縮効果をもたらすと指摘されている。",
+      "category": "tech-news",
+      "source": "EFF",
+      "source_type": "rss"
+    },
+    {
+      "title": "I built a tool that finds niche communities where your target customers actually hang out (free demo)",
+      "url": "https://feed.indiehackers.world/post/1fac64efe5",
+      "summary": "・開発者が「ニッチコミュニティ発見ツール NicheRadar」を公開し、AI（Claude Haiku）で製品説明と理想顧客像から Reddit・Discord・フォーラムなど8つのコミュニティを自動抽出するサービスを展開している。\n・スコープは Reddit API による活動度の実時間検証、Discord・フォーラムは推定値で提供しており、ロードマップで Reddit スクレイピング（IP ブロック対応）と「この週の実投稿」表示を追加予定。\n・フィードバックから「隣接ペイン（adjacent pain points）の自動サーフェス」「非スパム的な初投稿案の生成」「コミュニティ規約の正確分類」を実装し、ユーザーが「到着後に実際に何が議論されているか」を検証できる状態を目指している。",
+      "category": "startup",
+      "source": "Indie Hackers (posts)",
+      "source_type": "rss"
+    },
+    {
+      "title": "Which GitHub features are needed in a code forge before you can migrate?",
+      "url": "https://lobste.rs/s/w01x4p/which_github_features_are_needed_code",
+      "summary": null,
+      "category": "tech",
+      "source": "Lobsters",
+      "source_type": "rss"
+    }
+  ]
+}
