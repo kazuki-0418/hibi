@@ -16,9 +16,6 @@ name: Idea Mining Digest
 #       migrations/010_create_candidates.sql, idea_mining/digest.py.
 
 on:
-  schedule:
-    # 毎週月曜 00:00 UTC (= 09:00 JST). daily-news (13:17 UTC) と離れている。
-    - cron: "0 0 * * 1"
   workflow_dispatch:
     inputs:
       dry_run:
