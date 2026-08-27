@@ -9,9 +9,6 @@ name: Idea Mining Weekly
 # 関連: Issue #136, idea_mining/fetchers/apple_rss.py, migration 008.
 
 on:
-  schedule:
-    # 毎週月曜 14:00 UTC (= JST 23:00) — daily-news (13:17 UTC) と十分離す。
-    - cron: "0 14 * * 1"
   workflow_dispatch:
 
 permissions:

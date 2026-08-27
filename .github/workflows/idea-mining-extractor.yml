@@ -14,9 +14,6 @@ name: Idea Mining Extractor
 # 関連: Issue #134 (epic), migration 009, idea_mining/extractor.py.
 
 on:
-  schedule:
-    # 火 / 木 / 土 03:00 UTC.
-    - cron: "0 3 * * 2,4,6"
   workflow_dispatch:
 
 permissions:

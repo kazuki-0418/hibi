@@ -1,8 +1,6 @@
 name: Daily News
 
 on:
-  schedule:
-    - cron: "17 13 * * *"
   workflow_dispatch:
   repository_dispatch:
     # 外部から API で叩ける
